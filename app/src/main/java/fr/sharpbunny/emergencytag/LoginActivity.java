@@ -20,9 +20,9 @@ public class LoginActivity extends Activity {
     public void Login(View v)
     {
         {
-            EditText login = (EditText) findViewById(R.id.ChampLogin);
-            EditText password = (EditText) findViewById(R.id.ChampPassword);
-            if (login.getText().toString().equals("1234") && password.getText().toString().equals("1234")) {
+            EditText ChampLogin = (EditText) findViewById(R.id.ChampLogin);
+            EditText ChampPassword = (EditText) findViewById(R.id.ChampPassword);
+            if (ChampLogin.getText().toString().equals("1234") && ChampPassword.getText().toString().equals("1234")) {
                 Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
                 Intent intent = new Intent(this, InfoList.class);
                 startActivity(intent);
