@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff66d9"
+    android:background="#CCE5FF"
     tools:context="fr.sharpbunny.emergencytag.LoginActivity">
+
 
 
     <Button
@@ -13,8 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Connexion"
-        android:textColor="#ffffff"
-        android:background="#ff66d9"
+        android:textColor="#606060"
+        android:background="#CCE5FF"
         android:layout_marginBottom="140dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
@@ -27,7 +28,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Login"
-        android:textColorHint="#ffffff"
+        android:textColorHint="#606060"
         android:layout_above="@+id/ChampPassword"
         android:layout_alignLeft="@+id/ChampPassword"
         android:layout_alignStart="@+id/ChampPassword" />
@@ -39,9 +40,17 @@
         android:ems="10"
         android:inputType="textPassword"
         android:hint="Password"
-        android:textColorHint="#ffffff"
+        android:textColorHint="#606060"
         android:layout_marginBottom="69dp"
         android:layout_above="@+id/buttonLogin"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:srcCompat="@mipmap/emergency"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
 
