@@ -11,4 +11,8 @@ public class MapActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
     }
+    //@Override
+    //protected boolean isRouteDisplayed() {
+     //   return false;
+    //}
 }
