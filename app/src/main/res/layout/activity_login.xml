@@ -4,6 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ff66d9"
     tools:context="fr.sharpbunny.emergencytag.LoginActivity">
+
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connexion"
+        android:textColor="#ffffff"
+        android:background="#ff66d9"
+        android:layout_marginBottom="140dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/ChampLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="33dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Login"
+        android:textColorHint="#ffffff"
+        android:layout_above="@+id/ChampPassword"
+        android:layout_alignLeft="@+id/ChampPassword"
+        android:layout_alignStart="@+id/ChampPassword" />
+
+    <EditText
+        android:id="@+id/ChampPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:textColorHint="#ffffff"
+        android:layout_marginBottom="69dp"
+        android:layout_above="@+id/buttonLogin"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
