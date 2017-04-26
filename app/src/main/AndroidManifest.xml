@@ -28,7 +28,7 @@
         >
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyABKk7I0KlvyYmoYsWbTS8aKrihoxW4uA" />
+            android:value="AIzaSyABKk7I0KlvyYmoYsWbTS8aKrihoxW4uA0" />
         <activity android:name=".LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
