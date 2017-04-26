@@ -16,6 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".InfoList" />
+        <activity android:name=".MapActivity" />
+        <activity android:name=".DetailsActivity" />
+        <activity android:name=".AddElement"></activity>
     </application>
 
 </manifest>
