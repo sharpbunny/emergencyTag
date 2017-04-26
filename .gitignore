@@ -20,6 +20,15 @@ out/
 
 # Gradle files
 .gradle
+
+/local.properties
+.idea/
+.idea/modules.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+
 .gradle/
 build/
 
