@@ -14,6 +14,7 @@ import android.widget.Toast;
 public class LoginActivity extends Activity {
 
     Button mybutton;
+    Button mybuttonD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,13 @@ public class LoginActivity extends Activity {
 
         mybutton = (Button) findViewById(R.id.buttonMap);
         mybutton.setOnClickListener(gotoMap);
+
+        mybuttonD = (Button) findViewById(R.id.buttonDetail);
+        mybuttonD.setOnClickListener(gotoDetail);
+
+
+
+
     }
 
     private View.OnClickListener gotoMap = new View.OnClickListener() {
@@ -29,6 +37,15 @@ public class LoginActivity extends Activity {
         @Override
         public void onClick(View v) {
             Intent intent =new Intent(LoginActivity.this,MapActivity.class);
+            startActivity(intent);
+        }
+    };
+
+    private View.OnClickListener gotoDetail = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            Intent intent =new Intent(LoginActivity.this,DetailsActivity.class);
             startActivity(intent);
         }
     };

@@ -11,14 +11,17 @@
     <LinearLayout
         android:id="@+id/firstpane"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1.25"
         android:weightSum="1">
 
-        <com.google.android.gms.maps.MapView
+        <fragment
             android:id="@+id/mapView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            tools:context=".MapsActivity"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:uiZoomControls="true" />
     </LinearLayout>
 
     <LinearLayout
