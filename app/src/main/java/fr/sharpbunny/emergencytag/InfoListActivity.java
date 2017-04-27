@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class InfoList extends Activity {
+public class InfoListActivity extends Activity {
 
     protected ListView displayList;
     String[] prenoms = new String[]{
@@ -22,7 +22,7 @@ public class InfoList extends Activity {
         setContentView(R.layout.activity_info_list);
 
         displayList = (ListView)findViewById(R.id.listElement);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(InfoList.this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(InfoListActivity.this,
                 android.R.layout.simple_list_item_1, prenoms);
         displayList.setAdapter(adapter);
     }
