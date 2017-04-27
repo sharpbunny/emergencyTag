@@ -45,10 +45,10 @@ public class CameraActivity extends AppCompatActivity {
             // Test de putextra pour l'envoyer sur la gridView de DetailsActivity.
             cameraIntent.putExtra("NouvellePhoto", gridView);
             // Test de bytearray pour l'envoyer sur l'imageview d'AddElementActivity.
-            Bitmap imageBMP;
+            Bitmap imageBMP = null;
             ByteArrayOutputStream EncodageImageEnByte = new ByteArrayOutputStream();
             imageBMP.compress(Bitmap.CompressFormat.JPEG, 50, EncodageImageEnByte);
-            cameraIntent.putExtra(("byteArray", EncodageImageEnByte.toByteArray());
+            cameraIntent.putExtra(("byteArray"), EncodageImageEnByte.toByteArray());
             startActivityForResult(cameraIntent, CAM_REQUEST);
 
 

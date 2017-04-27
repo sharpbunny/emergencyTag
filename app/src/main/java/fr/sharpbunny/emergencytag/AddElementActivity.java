@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,6 +28,14 @@ public class AddElementActivity extends Activity {
         setContentView(R.layout.activity_add_element);
         initialisation();
     }
+
+    private View.OnTouchListener agrandirImage = new View.OnTouchListener(){
+        public boolean onTouch(View v, MotionEvent event){
+            envoyerImagePourLAgrandir();
+
+            return true;
+        }
+    };
 
     /**
      * Lorsque l'utilisateur appuie sur l'image, celle-ci est envoyée à GrowPictureActivity. Elle sera
@@ -53,9 +62,11 @@ public class AddElementActivity extends Activity {
         Spinner typeElementSpinner = null;
         typeElementSpinner = (Spinner)findViewById(R.id.typeSpinner);
         Button boutonValider = (Button)findViewById(R.id.validerPhotoButton);
+        ImageView photo = (ImageView)findViewById(R.id.photoItem);
 
         insertionElementSpinner(typeElementSpinner);
         boutonValider.setOnClickListener(clickListenerValider);
+        photo.setOnTouchListener(agrandirImage);
         recuperationImage();
 
     }
