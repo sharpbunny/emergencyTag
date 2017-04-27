@@ -25,7 +25,8 @@ public class InfoElementAdapter extends ArrayAdapter<InfoElement>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.ligne_info, parent, false);
+            LayoutInflater inf = LayoutInflater.from(getContext());
+            convertView =inf.inflate(R.layout.ligne_info, parent, false);
         }
         InfoElementViewHolder viewHolder =(InfoElementViewHolder) convertView.getTag();
         if(viewHolder == null){
@@ -37,11 +38,12 @@ public class InfoElementAdapter extends ArrayAdapter<InfoElement>{
         }
         InfoElement infoElement = getItem(position);
 
-
-            viewHolder.titre.setText(infoElement != null ? infoElement.getTitre() : null);
-            viewHolder.soustext.setText(infoElement != null ? infoElement.getSoustexte() : null);
-            viewHolder.photo.setImageDrawable(new ColorDrawable(infoElement != null ? infoElement.getColor() : 0));
+        viewHolder.titre.setText(infoElement.getTitre());
+        viewHolder.soustext.setText(infoElement.getSoustexte());
+        viewHolder.photo.setImageDrawable(new ColorDrawable(infoElement.getColor()));
 
         return convertView;
     }
+
+
 }
