@@ -63,8 +63,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".AddElementActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name="PictureGrowActivity"/>
 
-        <activity android:name=".PictureGrowActivity"/>
 
     </application>
 
