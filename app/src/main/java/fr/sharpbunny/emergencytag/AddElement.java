@@ -6,13 +6,18 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+/**
+ * Permet d'ajouter un item à la base de données en inscrivant son type, sa photo et sa description
+ */
 public class AddElement extends Activity {
     Spinner typeElementSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         insertionElementSpinner(typeElementSpinner);
+
         setContentView(R.layout.activity_add_element);
     }
 
