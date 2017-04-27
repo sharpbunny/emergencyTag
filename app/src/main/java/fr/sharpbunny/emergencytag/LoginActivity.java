@@ -29,9 +29,6 @@ public class LoginActivity extends Activity {
         mybuttonD = (Button) findViewById(R.id.buttonDetail);
         mybuttonD.setOnClickListener(gotoDetail);
 
-
-
-
     }
 
     private View.OnClickListener gotoMap = new View.OnClickListener() {
@@ -60,8 +57,18 @@ public class LoginActivity extends Activity {
             Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
             Intent intent = new Intent(this, InfoList.class);
             startActivity(intent);
-        } else {
+        }
+        if ((ChampLogin.getText().toString().equals("add") && ChampPassword.getText().toString().equals("add"))) {
+            Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
+            Intent intent = new Intent(this, AddElementActivity.class);
+            startActivity(intent);}
+        else
+            {
             Toast.makeText(this, "You shall not pass !", Toast.LENGTH_SHORT).show();//incorrect password
         }
     }
+
+
+
+
 }
