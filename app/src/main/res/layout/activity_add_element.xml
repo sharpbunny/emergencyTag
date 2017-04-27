@@ -6,4 +6,34 @@
     android:layout_height="match_parent"
     tools:context="fr.sharpbunny.emergencytag.AddElement">
 
+    <LinearLayout
+        android:id = "@+id/layoutAddElement"
+        android:layout_width = "match_parent"
+        android:layout_height = "match_parent"
+        android:orientation = "vertical">
+
+        <!--Affichage de la photo -->
+        <ImageView
+            android:id="@+id/photoItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Titre -->
+        <Spinner
+            android:id="@+id/typeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></Spinner>
+
+        <!-- Commentaires -->
+        <EditText
+            android:id="@+id/textViewCommentaires"
+            android:hint = "Insérer un commentaire"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines = "4"
+            android:maxLines = "4"/>
+
+
+    </LinearLayout>
+
 </RelativeLayout>
