@@ -38,18 +38,27 @@ public class CameraActivity extends AppCompatActivity {
     /** On lance la caméra avec ce listener  pour l'envoi des photographies.**/
         boutonCamera.setOnClickListener(new View.OnClickListener(){
         @Override
-        public void onClick(View v){
+        public void onClick(View v) {
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             File file = getFile();
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+            if (imagedugriddeVonaEstClique = true) {
+
+            }
             // Test de putextra pour l'envoyer sur la gridView de DetailsActivity.
             cameraIntent.putExtra("NouvellePhoto", gridView);
-            // Test de bytearray pour l'envoyer sur l'imageview d'AddElementActivity.
-            Bitmap imageBMP = null;
-            ByteArrayOutputStream EncodageImageEnByte = new ByteArrayOutputStream();
-            imageBMP.compress(Bitmap.CompressFormat.JPEG, 50, EncodageImageEnByte);
-            cameraIntent.putExtra(("byteArray"), EncodageImageEnByte.toByteArray());
             startActivityForResult(cameraIntent, CAM_REQUEST);
+        }
+
+            if( = true) {// Test de bytearray pour l'envoyer sur l'imageview d'AddElementActivity.
+                cameraIntent.setClass(CameraActivity.this, AddElementActivity.class);
+                Bitmap imageBMP = null;
+                ByteArrayOutputStream EncodageImageEnByte = new ByteArrayOutputStream();
+                imageBMP.compress(Bitmap.CompressFormat.JPEG, 50, EncodageImageEnByte);
+                cameraIntent.putExtra(("byteArray"), EncodageImageEnByte.toByteArray());
+                startActivityForResult(cameraIntent, CAM_REQUEST);
+            }
+
 
 
         }
