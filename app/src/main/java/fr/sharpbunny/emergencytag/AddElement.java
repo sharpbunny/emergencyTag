@@ -3,7 +3,9 @@ package fr.sharpbunny.emergencytag;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 /**
@@ -11,12 +13,15 @@ import android.widget.Spinner;
  */
 public class AddElement extends Activity {
     Spinner typeElementSpinner;
+    Button boutonValider = (Button)findViewById(R.id.validerPhotoButton);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         insertionElementSpinner(typeElementSpinner);
+        boutonValider.setOnClickListener(clickListenerValider);
+
 
         setContentView(R.layout.activity_add_element);
     }
@@ -35,4 +40,16 @@ public class AddElement extends Activity {
         //Permet d'insérer les objets dans une listView
         elementSpinner.setAdapter(adapter);
     }
+
+    /**
+     * Evenement : click sur le bouton Valider
+     * Permet d'enregistrer la photo, le type de l'élement pris en photo et le
+     * commentaire associé dans la base de données
+     */
+    private View.OnClickListener clickListenerValider = new View.OnClickListener(){
+        public void onClick(View v){
+
+
+        }
+    };
 }
