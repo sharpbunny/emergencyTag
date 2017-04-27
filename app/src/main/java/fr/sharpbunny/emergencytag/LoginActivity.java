@@ -77,13 +77,15 @@ public class LoginActivity extends Activity {
             Intent intent = new Intent(this, CameraActivity.class);
             startActivity(intent);}
         /**
-         * accès a l'activity DetailsActivity avec login et mdp "detail"
-         * */
+         accès a l'activity DetailsActivity avec login et mdp "detail"
+         * */*
         else if (ChampLogin.getText().toString().equals("detail") && ChampPassword.getText().toString().equals("detail")){
             Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
             Intent intent = new Intent(this, DetailsActivity.class);
             startActivity(intent);}
-
+        /**
+         accès a l'activity DetailsActivity avec login et mdp "picture"
+         * */
         else if (ChampLogin.getText().toString().equals("picture") && ChampPassword.getText().toString().equals("picture")){
             Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
             Intent intent = new Intent(this, PictureGrowActivity.class);
