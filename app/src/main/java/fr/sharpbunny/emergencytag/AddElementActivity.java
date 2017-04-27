@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import java.io.ByteArrayOutputStream;
+
 /**
  * Permet d'ajouter un item à la base de données en inscrivant son type, sa photo et sa description
  */
@@ -27,6 +29,24 @@ public class AddElementActivity extends Activity {
 
 
         setContentView(R.layout.activity_add_element);
+    }
+
+    /**
+     * Lorsque l'utilisateur appuie sur l'image, celle-ci est envoyée à GrowPictureActivity. Elle sera
+     * alors affichée en plein écran.
+     */
+    private void envoyerImagePourLAgrandir(){
+        //Déclaration des objets
+        Intent pictureGrowIntent = new Intent(this, PictureGrowActivity.class);
+        Bitmap b = null;
+        ByteArrayOutputStream bs = new ByteArrayOutputStream(); //Tableau d'octets stocké en mémoire
+
+        //L'image est compressée puis stockée sous forme d'un tableau de données dans bs
+        b.compress(Bitmap.CompressFormat.JPEG, 50, bs);
+
+        //On envoie le tableau de byte dans l'activité pictureGrowActivity
+        pictureGrowIntent.putExtra("byteArray", bs.toByteArray());
+        startActivity(pictureGrowIntent);
     }
 
     /**
