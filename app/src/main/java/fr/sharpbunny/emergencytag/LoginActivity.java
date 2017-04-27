@@ -57,7 +57,7 @@ public class LoginActivity extends Activity {
          * */
         if (ChampLogin.getText().toString().equals("info") && ChampPassword.getText().toString().equals("info")) {
             Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
-            Intent intent = new Intent(this, InfoListActivity.class);
+            Intent intent = new Intent(this, PictureGrowActivity.class);
             startActivity(intent);
         }
         /**
@@ -65,8 +65,10 @@ public class LoginActivity extends Activity {
          * */
         else if (ChampLogin.getText().toString().equals("add") && ChampPassword.getText().toString().equals("add")){
             Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
+
             Intent intent = new Intent(this, AddElementActivity.class);
             startActivity(intent);}
+
         /**
          * accès a l'activity CameraActivity avec login et mdp "add"
          * */
@@ -81,6 +83,9 @@ public class LoginActivity extends Activity {
             Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
             Intent intent = new Intent(this, DetailsActivity.class);
             startActivity(intent);}
+
+
+
         else
             {
             Toast.makeText(this, "You shall not pass !", Toast.LENGTH_SHORT).show();//incorrect password
