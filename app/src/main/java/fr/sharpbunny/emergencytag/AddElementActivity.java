@@ -24,7 +24,7 @@ public class AddElementActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initialiseComponents();
+        initialisation();
 
 
         setContentView(R.layout.activity_add_element);
@@ -51,7 +51,7 @@ public class AddElementActivity extends Activity {
     /**
      * Initialise tous les éléments de la page
      */
-    private void initialiseComponents(){
+    private void initialisation(){
         Spinner typeElementSpinner = (Spinner)findViewById(R.id.typeSpinner);
         Button boutonValider = (Button)findViewById(R.id.validerPhotoButton);
 
