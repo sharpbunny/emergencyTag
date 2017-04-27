@@ -22,7 +22,7 @@ public class InfoList extends Activity {
         setContentView(R.layout.activity_info_list);
 
         displayList = (ListView)findViewById(R.id.listElement);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(InfoList.this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(InfoElement.InfoList.this,
                 android.R.layout.simple_list_item_1, prenoms);
         displayList.setAdapter(adapter);
     }
