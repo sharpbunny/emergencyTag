@@ -41,7 +41,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CameraActivity"/>
+        <activity android:name=".CameraActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".MapActivity"
@@ -54,7 +55,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".AddElementActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".PictureGrowActivity"/>
+        <activity android:name=".PictureGrowActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 
