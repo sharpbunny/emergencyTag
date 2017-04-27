@@ -84,8 +84,6 @@ public class LoginActivity extends Activity {
             Intent intent = new Intent(this, DetailsActivity.class);
             startActivity(intent);}
 
-
-
         else
             {
             Toast.makeText(this, "You shall not pass !", Toast.LENGTH_SHORT).show();//incorrect password
