@@ -40,19 +40,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".InfoList"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MapActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".DetailsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".AddElement"
-            android:screenOrientation="portrait" />
-        <activity android:name=".PictureGrowActivity"></activity>
+
+        <activity android:name=".InfoListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MapActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DetailsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AddElementActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".PictureGrowActivity"/>
     </application>
 
 </manifest>

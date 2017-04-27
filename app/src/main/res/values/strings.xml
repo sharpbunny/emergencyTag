@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">EmergencyTag</string>
     <string name="retour">Back to List Info</string>
+    <!-- Liste des types des items qui seront contenus dans le spinner de addElementActivity -->
+    <string-array name="typeItemArray">
+        <item>Alarmes</item>
+        <item>Consignes de sécurité</item>
+        <item>Extincteur</item>
+        <item>Plan de sécurité</item>
+        <item>Sortie de secours</item>
+    </string-array>
 </resources>
