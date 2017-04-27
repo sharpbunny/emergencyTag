@@ -37,7 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InfoList"
+        <activity android:name=".InfoListActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".MapActivity"
             android:screenOrientation="portrait"/>
