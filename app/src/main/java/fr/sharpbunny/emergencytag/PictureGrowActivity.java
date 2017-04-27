@@ -3,6 +3,8 @@ package fr.sharpbunny.emergencytag;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import java.io.File;
 
 import fr.sharpbunny.emergencytag.R;
 
+import static android.R.attr.id;
 import static fr.sharpbunny.emergencytag.R.id.gridView;
 
 public class PictureGrowActivity extends AppCompatActivity {
@@ -25,12 +28,18 @@ public class PictureGrowActivity extends AppCompatActivity {
     Button back;
     Button boutonCamera;
     ImageView imageView;
+    Button Activephoto;
+   android.hardware.Camera mCamera;
+
+   static final int CAM_REQUEST = 1;
+  // static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_picture_grow);
+        Activephoto = (Button) findViewById(R.id.photo);
         //Recupére l'image envoyer a cette fenêtre et la décode
         if(getIntent().hasExtra("byteArray")) {
 
@@ -43,20 +52,147 @@ public class PictureGrowActivity extends AppCompatActivity {
             Bitmap b = BitmapFactory.decodeByteArray(
              getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("byteArray").length);
             imageView.setImageBitmap(b);
-        }
-        /**
-         * Zoom l'image
-         */
-        final ImageView zoom = imageView;
-        final Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);
-        zoom.startAnimation(zoomAnimation);
 
-        back = (Button) findViewById(R.id.retourWindows);
+            /**
+             * Zoom l'image
+             */
+            final ImageView zoom = imageView;
+            final Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);
+            zoom.startAnimation(zoomAnimation);
+
+            back = (Button) findViewById(R.id.retourWindows);
+        }
+        else{
+            imageView = (ImageView) findViewById(R.id.imageView2);
+            imageView.setImageResource(R.drawable.surprise);
+            final ImageView zoom = imageView;
+            final Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);
+            zoom.startAnimation(zoomAnimation);
+        }
+
+
+
+        Activephoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File file = getFile();
+                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                startActivityForResult(camera_intent,CAM_REQUEST);
+            }
+        });
+
        }
 
     public void backOnPreviousWindows(View view){
         Intent previous = new Intent(this,InfoListActivity.class);
         startActivity(previous);
 
+    }
+    /*public void camera(View v) {
+        Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File file = getFile();
+        camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+        startActivityForResult(camera_intent,CAM_REQUEST);
+    }*/
+
+
+  /*  public void camera(View v) {
+
+        boolean qOpened = false;
+        try {
+            releaseCameraAndPreview();
+            mCamera = Camera.open(id);
+            qOpened = (mCamera != null);
+        } catch (Exception e) {
+            Log.e(getString(R.string.app_name), "failed to open Camera");
+            e.printStackTrace();
+        }
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    private void releaseCameraAndPreview() {
+        mPreview.setCamera(null);
+        if (mCamera != null) {
+            mCamera.release();
+            mCamera = null;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(imageBitmap);
+            final ImageView zoom = imageView;
+            final Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);
+            zoom.startAnimation(zoomAnimation);
+        }
+    }*/
+   // public void camera(View v){
+
+        /** On lance la caméra avec ce listener  pour l'envoi des photographies.**/
+       /* boutonCamera.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File file = getFile();
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                // Test de putextra pour l'envoyer sur la gridView de DetailsActivity.
+               // cameraIntent.putExtra("NouvellePhoto", gridView);
+                // Test de bytearray pour l'envoyer sur l'imageview d'AddElementActivity.
+              /*  Bitmap imageBMP = null;
+                ByteArrayOutputStream EncodageImageEnByte = new ByteArrayOutputStream();
+                imageBMP.compress(Bitmap.CompressFormat.JPEG, 50, EncodageImageEnByte);
+                cameraIntent.putExtra(("byteArray"), EncodageImageEnByte.toByteArray());
+                startActivityForResult(cameraIntent, CAM_REQUEST);
+
+
+            }
+        });
+
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File file = getFile();
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+
+
+    }*/
+
+    // CHEZ MOI DEBUT POUR ENREGISTRER LA PHOTO
+    /**
+     * Méthode pour enregistrer les photos dans le téléphone, avec un nom précis pour chaque photo.
+     * @return
+     */
+    private File getFile() {
+        File folder = new File("sdcard/emergency_picture");
+
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
+        File image_file = new File(folder, "cam_image.jpg");
+
+        return image_file;
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String path = "sdcard/emergency_picture/cam_image.jpg";
+
+        imageView.setImageDrawable(Drawable.createFromPath(path));
+        final ImageView zoom = imageView;
+        final Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);
+        zoom.startAnimation(zoomAnimation);
+
+       /* if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(imageBitmap);
+
+        }*/
     }
 }

@@ -78,7 +78,7 @@ public class LoginActivity extends Activity {
             startActivity(intent);}
         /**
          accès a l'activity DetailsActivity avec login et mdp "detail"
-         * */*
+         * */
         else if (ChampLogin.getText().toString().equals("detail") && ChampPassword.getText().toString().equals("detail")){
             Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
             Intent intent = new Intent(this, DetailsActivity.class);
