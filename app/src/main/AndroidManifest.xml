@@ -65,6 +65,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name="PictureGrowActivity"/>
 
+
     </application>
 
 </manifest>

@@ -1,30 +1,37 @@
 package fr.sharpbunny.emergencytag;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InfoListActivity extends Activity {
 
     protected ListView displayList;
-    String[] prenoms = new String[]{
-            "Antoine", "Benoit", "Cyril", "David", "Eloise", "Florent",
-            "Gerard", "Hugo", "Ingrid", "Jonathan", "Kevin", "Logan",
-            "Mathieu", "Noemie", "Olivia", "Philippe", "Quentin", "Romain",
-            "Sophie", "Tristan", "Vincent", "Willy", "Xavier",
-            "Yann", "Zoé"
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_list);
-
         displayList = (ListView)findViewById(R.id.listElement);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(InfoListActivity.this,
-                android.R.layout.simple_list_item_1, prenoms);
+
+        List<InfoElement> infoelements = genererInfoElementsRandom();
+        InfoElementAdapter adapter = new InfoElementAdapter(InfoListActivity.this,infoelements);
         displayList.setAdapter(adapter);
+    }
+
+    private List<InfoElement> genererInfoElementsRandom() {
+        List<InfoElement> infoelements = new ArrayList<>();
+        infoelements.add(new InfoElement(Color.BLACK, "Florent", "Mon premier InfoElement !"));
+        infoelements.add(new InfoElement(Color.BLUE, "Kevin", "C'est ici que ça se passe !"));
+        infoelements.add(new InfoElement(Color.GREEN, "Logan", "Que c'est beau..."));
+        infoelements.add(new InfoElement(Color.RED, "Mathieu", "Il est quelle heure ??"));
+        infoelements.add(new InfoElement(Color.GRAY, "Willy", "On y est presque"));
+        return infoelements;
     }
 
 }
