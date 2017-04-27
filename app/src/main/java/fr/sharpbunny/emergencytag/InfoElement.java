@@ -8,6 +8,7 @@ public class InfoElement {
     private String titre;
     private String soustexte;
 
+
     public InfoElement(int color, String titre, String soustexte) {
         color = this.color;
         titre = this.titre;
