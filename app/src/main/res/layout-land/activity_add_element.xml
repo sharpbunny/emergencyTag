@@ -9,7 +9,7 @@
         android:background="#CCE5FF"
         android:layout_width = "match_parent"
         android:layout_height = "match_parent"
-        android:orientation = "vertical"
+        android:orientation = "horizontal"
         android:weightSum = "1">
 
         <!--Affichage de la photo -->
@@ -18,33 +18,42 @@
             android:background="@android:color/darker_gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".75"/>
+            android:layout_weight="1"/>
 
-        <!-- Contient le type des items -->
-        <Spinner
-            android:id="@+id/typeSpinner"
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Commentaires sur l'item pris en photo -->
-        <EditText
-            android:id="@+id/textViewCommentaires"
-            android:background="@android:color/white"
-            android:hint = "Insérer un commentaire..."
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lines = "5"
-            android:maxLines = "5"/>
+            android:orientation="vertical">
 
-        <!-- Bouton <Valider> -->
-        <Button
-            android:id = "@+id/validerPhotoButton"
-            android:layout_marginTop="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text = "Valider"/>
+            <!-- Contient le type des items -->
+            <Spinner
+                android:id="@+id/typeSpinner"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <!-- Commentaires sur l'item pris en photo -->
+            <EditText
+                android:id="@+id/textViewCommentaires"
+                android:background="@android:color/white"
+                android:hint = "Insérer un commentaire..."
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines = "5"
+                android:maxLines = "5"/>
+
+            <!-- Bouton <Valider> -->
+            <Button
+                android:id = "@+id/validerPhotoButton"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text = "Valider"/>
+
+        </LinearLayout>
+
+
 
 
     </LinearLayout>
