@@ -57,7 +57,7 @@ public class LoginActivity extends Activity {
          * */
         if (ChampLogin.getText().toString().equals("info") && ChampPassword.getText().toString().equals("info")) {
             Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
-            Intent intent = new Intent(this, PictureGrowActivity.class);
+            Intent intent = new Intent(this, InfoListActivity.class);
             startActivity(intent);
         }
         /**
@@ -82,6 +82,11 @@ public class LoginActivity extends Activity {
         else if (ChampLogin.getText().toString().equals("detail") && ChampPassword.getText().toString().equals("detail")){
             Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
             Intent intent = new Intent(this, DetailsActivity.class);
+            startActivity(intent);}
+
+        else if (ChampLogin.getText().toString().equals("picture") && ChampPassword.getText().toString().equals("picture")){
+            Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
+            Intent intent = new Intent(this, PictureGrowActivity.class);
             startActivity(intent);}
 
         else

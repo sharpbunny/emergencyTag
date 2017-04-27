@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,7 +45,9 @@ public class AddElementActivity extends Activity {
     private void envoyerImagePourLAgrandir(){
         //Déclaration des objets
         Intent pictureGrowIntent = new Intent(this, PictureGrowActivity.class);
-        Bitmap b = null;
+        Bitmap b = BitmapFactory.decodeResource(getResources(),
+                R.drawable.surprise);
+
         ByteArrayOutputStream bs = new ByteArrayOutputStream(); //Tableau d'octets stocké en mémoire
 
         //L'image est compressée puis stockée sous forme d'un tableau de données dans bs
