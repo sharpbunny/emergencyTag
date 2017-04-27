@@ -1,4 +1,4 @@
-package fr.sharpbunny.emergencytag.metier;
+package fr.sharpbunny.emergencytag;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -24,7 +24,7 @@ public class InfoElementAdapter extends ArrayAdapter<InfoElement>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.ligne_info,parent,false)
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.ligne_info,parent,false);
         }
         InfoElementViewHolder viewHolder =(InfoElementViewHolder) convertView.getTag();
         if(viewHolder == null){
@@ -32,11 +32,11 @@ public class InfoElementAdapter extends ArrayAdapter<InfoElement>{
             viewHolder.photo = (ImageView)convertView.findViewById(R.id.photo);
             viewHolder.soustext = (TextView)convertView.findViewById(R.id.soustext);
             viewHolder.titre = (TextView)convertView.findViewById(R.id.titre);
-            convertView.setTag();
+            convertView.setTag(viewHolder);
         }
         InfoElement infoElement = getItem(position);
 
-
+        return convertView;
     }
 
 }

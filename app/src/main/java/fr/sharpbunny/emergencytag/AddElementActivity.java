@@ -13,7 +13,6 @@ import android.widget.Spinner;
 
 import java.io.ByteArrayOutputStream;
 
-import fr.sharpbunny.emergencytag.activities.PictureGrowActivity;
 
 /**
  * Permet d'ajouter un item à la base de données en inscrivant son type, sa photo et sa description
