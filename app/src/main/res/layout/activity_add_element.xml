@@ -10,28 +10,41 @@
         android:id = "@+id/layoutAddElement"
         android:layout_width = "match_parent"
         android:layout_height = "match_parent"
-        android:orientation = "vertical">
+        android:orientation = "vertical"
+        android:weightSum = "1">
 
         <!--Affichage de la photo -->
         <ImageView
             android:id="@+id/photoItem"
+            android:background="@android:color/darker_gray"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight=".75"/>
 
         <!-- Titre -->
         <Spinner
             android:id="@+id/typeSpinner"
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></Spinner>
 
         <!-- Commentaires -->
         <EditText
             android:id="@+id/textViewCommentaires"
-            android:hint = "Insérer un commentaire"
+            android:hint = "Insérer un commentaire..."
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines = "4"
-            android:maxLines = "4"/>
+            android:lines = "5"
+            android:maxLines = "5"/>
+
+        <!-- Bouton <Valider> -->
+        <Button
+            android:id = "@+id/validerPhotoButton"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text = "Valider"/>
 
 
     </LinearLayout>
