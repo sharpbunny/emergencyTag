@@ -8,6 +8,7 @@
 
     <LinearLayout
         android:id = "@+id/layoutAddElement"
+        android:background="#CCE5FF"
         android:layout_width = "match_parent"
         android:layout_height = "match_parent"
         android:orientation = "vertical"
@@ -31,6 +32,7 @@
         <!-- Commentaires -->
         <EditText
             android:id="@+id/textViewCommentaires"
+            android:background="android:color/white"
             android:hint = "Insérer un commentaire..."
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
@@ -41,7 +43,7 @@
         <!-- Bouton <Valider> -->
         <Button
             android:id = "@+id/validerPhotoButton"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text = "Valider"/>
