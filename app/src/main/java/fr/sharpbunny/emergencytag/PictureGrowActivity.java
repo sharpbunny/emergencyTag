@@ -45,7 +45,7 @@ public class PictureGrowActivity extends AppCompatActivity {
        }
 
     public void backOnPreviousWindows(View view){
-        Intent previous = new Intent(this,InfoList.class);
+        Intent previous = new Intent(this,InfoListActivity.class);
         startActivity(previous);
 
     }
