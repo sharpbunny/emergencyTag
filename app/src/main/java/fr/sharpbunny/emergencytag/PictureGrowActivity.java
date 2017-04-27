@@ -1,4 +1,4 @@
-package fr.sharpbunny.emergencytag.activities;
+package fr.sharpbunny.emergencytag;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
