@@ -8,11 +8,11 @@ public class InfoElement {
     private String titre;
     private String soustexte;
 
-    public InfoElement(int color,String titre,String soustexte){
+    public InfoElement(int color,String titre,String soustexte)
+    {
         this.color;
         this.titre;
         this.soustexte;
     }
-
 
 }
