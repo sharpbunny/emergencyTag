@@ -46,7 +46,7 @@ public class CameraActivity extends AppCompatActivity {
             // Test de bytearray pour l'envoyer sur l'imageview d'AddElementActivity.
             Bitmap imageBMP;
             ByteArrayOutputStream EncodageImageEnByte = new ByteArrayOutputStream();
-            imageBMP.compress(Bitmap.CompressFormat.PNG, 50, EncodageImageEnByte);
+            imageBMP.compress(Bitmap.CompressFormat.JPEG, 50, EncodageImageEnByte);
             cameraIntent.putExtra(("byteArray", EncodageImageEnByte.toByteArray());
             startActivityForResult(cameraIntent, CAM_REQUEST);
 
