@@ -4,9 +4,9 @@ package fr.sharpbunny.emergencytag;
  */
 
     public class InfoElement {
-    private int color;
-    private String titre;
-    private String soustexte;
+    private int color=0;
+    private String titre="";
+    private String soustexte="";
 
     public InfoElement(int color, String titre, String soustexte) {
         color = this.color;
