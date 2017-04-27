@@ -40,21 +40,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".CameraActivity"/>
+
         <activity
             android:name=".MapActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".DetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".CameraActivity"
-            android:screenOrientation="portrait"></activity>
+
         <activity android:name=".InfoListActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".AddElementActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="PictureGrowActivity"
-            android:screenOrientation="portrait"/>
-
+        <activity android:name=".PictureGrowActivity"/>
 
     </application>
 
