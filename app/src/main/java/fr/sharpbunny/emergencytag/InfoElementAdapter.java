@@ -1,6 +1,7 @@
 package fr.sharpbunny.emergencytag;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,10 @@ public class InfoElementAdapter extends ArrayAdapter<InfoElement>{
         }
         InfoElement infoElement = getItem(position);
 
+        viewHolder.titre.setText(infoElement.getTitre());
+        viewHolder.soustext.setText(infoElement.getSoustexte());
+        viewHolder.photo.setImageDrawable(new ColorDrawable(infoElement.getColor()));
+
         return convertView;
     }
-
 }

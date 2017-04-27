@@ -53,8 +53,9 @@ public class LoginActivity extends Activity {
             Intent intent = new Intent(this, PictureGrowActivity.class);
             startActivity(intent);
         }
-        if ((ChampLogin.getText().toString().equals("add") && ChampPassword.getText().toString().equals("add"))) {
+        if (ChampLogin.getText().toString().equals("add") && ChampPassword.getText().toString().equals("add")){
             Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
+
             Intent intent = new Intent(this, AddElementActivity.class);
             startActivity(intent);}
 
