@@ -49,7 +49,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".AddElementActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".PictureGrowActivity"/>
+        <activity android:name=".activities.PictureGrowActivity"/>
     </application>
 
 </manifest>
