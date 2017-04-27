@@ -28,12 +28,12 @@
             android:id="@+id/typeSpinner"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></Spinner>
+            android:layout_height="wrap_content"/>
 
         <!-- Commentaires sur l'item pris en photo -->
         <EditText
             android:id="@+id/textViewCommentaires"
-            android:background="android:color/white"
+            android:background="@android:color/white"
             android:hint = "Insérer un commentaire..."
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
