@@ -16,14 +16,15 @@
         <ImageView
             android:id="@+id/photoItem"
             android:background="@android:color/darker_gray"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_weight="0.2">
 
             <!-- Contient le type des items -->
             <Spinner
@@ -37,7 +38,7 @@
                 android:id="@+id/textViewCommentaires"
                 android:background="@android:color/white"
                 android:hint = "Insérer un commentaire..."
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="35dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines = "5"
@@ -46,7 +47,7 @@
             <!-- Bouton <Valider> -->
             <Button
                 android:id = "@+id/validerPhotoButton"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="40dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text = "Valider"/>
