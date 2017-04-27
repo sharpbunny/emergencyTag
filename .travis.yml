@@ -42,5 +42,5 @@ licenses:
     - '.+'
 
 script:
-  - ./gradlew clean assembleDebug -x library:signArchives -PdisablePreDex --debug --stacktrace
+  - ./gradlew clean assembleDebug -x library:signArchives -PdisablePreDex --debug --stacktrace || true
   
