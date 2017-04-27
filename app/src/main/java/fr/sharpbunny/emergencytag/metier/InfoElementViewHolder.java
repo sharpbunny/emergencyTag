@@ -8,7 +8,7 @@ import android.widget.TextView;
  * By Chris Domingues.
  */
 
-class ItemViewHolder {
+public class InfoElementViewHolder {
     //Attributs
     public ImageView photo;
     public TextView titre;

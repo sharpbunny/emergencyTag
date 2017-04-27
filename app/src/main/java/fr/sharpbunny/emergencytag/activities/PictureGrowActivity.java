@@ -1,4 +1,4 @@
-package fr.sharpbunny.emergencytag;
+package fr.sharpbunny.emergencytag.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +10,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import fr.sharpbunny.emergencytag.R;
 
 public class PictureGrowActivity extends AppCompatActivity {
 

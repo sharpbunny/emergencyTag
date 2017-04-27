@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import java.io.ByteArrayOutputStream;
+
+import fr.sharpbunny.emergencytag.activities.PictureGrowActivity;
 
 /**
  * Permet d'ajouter un item à la base de données en inscrivant son type, sa photo et sa description
