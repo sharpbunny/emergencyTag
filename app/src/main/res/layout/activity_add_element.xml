@@ -20,7 +20,7 @@
 
         <!-- Titre -->
         <Spinner
-            android:id="@+id/descriptionSpinner"
+            android:id="@+id/typeSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></Spinner>
 
