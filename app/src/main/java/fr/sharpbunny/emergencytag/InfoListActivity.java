@@ -1,7 +1,6 @@
 package fr.sharpbunny.emergencytag;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -27,4 +26,5 @@ public class InfoList extends Activity {
                 android.R.layout.simple_list_item_1, prenoms);
         displayList.setAdapter(adapter);
     }
+
 }
