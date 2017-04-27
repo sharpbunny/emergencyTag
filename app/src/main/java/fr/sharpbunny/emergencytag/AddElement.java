@@ -1,6 +1,7 @@
 package fr.sharpbunny.emergencytag;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ public class AddElement extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        recuperationInformationPagePrecedente();
         initialiseComponents();
 
 
@@ -46,6 +48,13 @@ public class AddElement extends Activity {
 
         //Permet d'insérer les objets dans une listView
         elementSpinner.setAdapter(adapter);
+    }
+
+    /**
+     * On récupère les informations envoyées depuis l'appareil photo du smartphone
+     */
+    private void recuperationInformationPagePrecedente(){
+        Intent intent = getIntent();
     }
 
     /**
