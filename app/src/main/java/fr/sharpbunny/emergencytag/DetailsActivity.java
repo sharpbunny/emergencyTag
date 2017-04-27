@@ -26,17 +26,14 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap.getUiSettings();
+
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        mMap.setIndoorEnabled(true);
-        mMap.getFocusedBuilding();
-
 
 
         // Add a marker in Sydney, Australia, and move the camera.
         LatLng afpa = new LatLng(43.5653607,3.842927);
         mMap.addMarker(new MarkerOptions().position(afpa).title("Marqueur sur l'AFPA"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(afpa));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(afpa, 20));
     }
 }
