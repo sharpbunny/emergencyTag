@@ -41,6 +41,20 @@
             </intent-filter>
         </activity>
 
+            android:name=".InfoList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MapActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddElement"
+            android:screenOrientation="portrait" />
+        <activity android:name=".CameraActivity"></activity>
+
+
         <activity android:name=".InfoListActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".MapActivity"
@@ -49,7 +63,9 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".AddElementActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activities.PictureGrowActivity"/>
+        <activity android:name="PictureGrowActivity"/>
+
+
     </application>
 
 </manifest>

@@ -24,10 +24,8 @@ public class AddElementActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initialiseComponents();
-
-
         setContentView(R.layout.activity_add_element);
+        initialisation();
     }
 
     /**
@@ -51,13 +49,15 @@ public class AddElementActivity extends Activity {
     /**
      * Initialise tous les éléments de la page
      */
-    private void initialiseComponents(){
-        Spinner typeElementSpinner = (Spinner)findViewById(R.id.typeSpinner);
+    private void initialisation(){
+        Spinner typeElementSpinner = null;
+        typeElementSpinner = (Spinner)findViewById(R.id.typeSpinner);
         Button boutonValider = (Button)findViewById(R.id.validerPhotoButton);
 
         insertionElementSpinner(typeElementSpinner);
         boutonValider.setOnClickListener(clickListenerValider);
         recuperationImage();
+
     }
 
     /**
