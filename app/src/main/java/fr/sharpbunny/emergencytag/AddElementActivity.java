@@ -16,7 +16,7 @@ import android.widget.Spinner;
 /**
  * Permet d'ajouter un item à la base de données en inscrivant son type, sa photo et sa description
  */
-public class AddElement extends Activity {
+public class AddElementActivity extends Activity {
 
 
     @Override
