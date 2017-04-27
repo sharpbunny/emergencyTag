@@ -3,7 +3,7 @@ package fr.sharpbunny.emergencytag;
  * Created by 34011-14-05 on 27/04/2017.
  */
 
-    public class InfoElement {
+public class InfoElement {
     private int color;
     private String titre;
     private String soustexte;
