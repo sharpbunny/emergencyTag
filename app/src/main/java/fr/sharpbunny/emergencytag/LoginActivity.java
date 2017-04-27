@@ -1,11 +1,8 @@
 package fr.sharpbunny.emergencytag;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,9 +23,6 @@ public class LoginActivity extends Activity {
 
         mybuttonD = (Button) findViewById(R.id.buttonDetail);
         mybuttonD.setOnClickListener(gotoDetail);
-
-
-
 
     }
 
@@ -56,10 +50,20 @@ public class LoginActivity extends Activity {
         EditText ChampPassword = (EditText) findViewById(R.id.ChampPassword);
         if (ChampLogin.getText().toString().equals("info") && ChampPassword.getText().toString().equals("info")) {
             Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
-            Intent intent = new Intent(this, InfoList.class);
+            Intent intent = new Intent(this, InfoListActivity.class);
             startActivity(intent);
-        } else {
+        }
+        if ((ChampLogin.getText().toString().equals("add") && ChampPassword.getText().toString().equals("add"))) {
+            Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
+            Intent intent = new Intent(this, AddElementActivity.class);
+            startActivity(intent);}
+        else
+            {
             Toast.makeText(this, "You shall not pass !", Toast.LENGTH_SHORT).show();//incorrect password
         }
     }
+
+
+
+
 }
