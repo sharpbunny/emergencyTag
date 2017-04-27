@@ -31,6 +31,7 @@ public class CameraActivity extends AppCompatActivity {
     // CHEZ CHRIS DEBUT
         if (!UtilisateurNaPasDeCamera()) {
         boutonCamera.setEnabled(false);
+
     }
     /** On lance la caméra avec ce listener **/
         boutonCamera.setOnClickListener(new View.OnClickListener(){
@@ -45,7 +46,7 @@ public class CameraActivity extends AppCompatActivity {
 
         }
     });
-    //CHEZ CHRIS FIN
+
 }
     /**
      * Fonction qui vérifie si l'utilisateur possède un outil de capture d'écran sur son smartphone. On appelle alors le package android qui vérifie l'exsitence d'un tel outil.
