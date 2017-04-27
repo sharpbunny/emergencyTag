@@ -6,32 +6,48 @@
     android:layout_height="match_parent"
     tools:context="fr.sharpbunny.emergencytag.AddElement">
 
+    <!-- Unique conteneur qui contient tous les éléments de l'activité addElementActivity -->
     <LinearLayout
         android:id = "@+id/layoutAddElement"
+        android:background="#CCE5FF"
         android:layout_width = "match_parent"
         android:layout_height = "match_parent"
-        android:orientation = "vertical">
+        android:orientation = "vertical"
+        android:weightSum = "1">
 
         <!--Affichage de la photo -->
         <ImageView
             android:id="@+id/photoItem"
+            android:background="@android:color/darker_gray"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight=".75"/>
 
-        <!-- Titre -->
+        <!-- Contient le type des items -->
         <Spinner
             android:id="@+id/typeSpinner"
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></Spinner>
 
-        <!-- Commentaires -->
+        <!-- Commentaires sur l'item pris en photo -->
         <EditText
             android:id="@+id/textViewCommentaires"
-            android:hint = "Insérer un commentaire"
+            android:background="android:color/white"
+            android:hint = "Insérer un commentaire..."
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines = "4"
-            android:maxLines = "4"/>
+            android:lines = "5"
+            android:maxLines = "5"/>
+
+        <!-- Bouton <Valider> -->
+        <Button
+            android:id = "@+id/validerPhotoButton"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text = "Valider"/>
 
 
     </LinearLayout>
