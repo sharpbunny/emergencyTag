@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EmergencyTag</string>
+    <string name="retour">Back to List Info</string>
 </resources>
