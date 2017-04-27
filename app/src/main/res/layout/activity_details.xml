@@ -11,14 +11,17 @@
     <LinearLayout
         android:id="@+id/firstpane"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1.25"
         android:weightSum="1">
 
-        <com.google.android.gms.maps.MapView
+        <fragment
             android:id="@+id/mapView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            tools:context=".MapsActivity"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -64,7 +67,12 @@
             android:columnWidth="100dp"
             android:gravity="center"
             android:numColumns="3"
-            android:stretchMode="columnWidth" />
+            android:stretchMode="columnWidth"
+            android:layout_margin="5dp"
+            android:verticalSpacing="5dp"
+            android:focusable="true"
+            android:clickable="true"
+            />
 
         <Button
             android:id="@+id/ajout"
