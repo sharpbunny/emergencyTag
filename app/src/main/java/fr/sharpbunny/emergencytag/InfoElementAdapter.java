@@ -22,6 +22,13 @@ public class InfoElementAdapter extends ArrayAdapter<InfoElement> {
         super(context, 0, infoElements);
     }
 
+    /**
+     * @method Function who take recycle the view in function of the scrolling
+     * @param position Position of the element to recycle
+     * @param convertView The element to recycle (who is a view)
+     * @param parent Group of view elements / The list view where it's associate
+     * @return The recycled view
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
