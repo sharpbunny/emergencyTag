@@ -28,10 +28,6 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-
-
-        if(SiLeBooleenABienEteEnvoyeDeChris.e)
-
         boutonCamera = (Button) findViewById(R.id.boutonCamera);
         imageView = (ImageView) findViewById(R.id.image_view);
 
@@ -51,30 +47,30 @@ public class CameraActivity extends AppCompatActivity {
                 /*cameraIntent.putExtra("NouvellePhoto", gridView);*/
                 startActivityForResult(cameraIntent, CAM_REQUEST);
 
+                if(getIntent().getExtras().getBoolean("isNewElement") == true){
+                    cameraIntent.setClass(CameraActivity.this, AddElementActivity.class);
+                    Bitmap imageBMP = null;
+                    ByteArrayOutputStream EncodageImageEnByte = new ByteArrayOutputStream();
+                    imageBMP.compress(Bitmap.CompressFormat.JPEG, 50, EncodageImageEnByte);
+                    cameraIntent.putExtra(("byteArray"), EncodageImageEnByte.toByteArray());
+
+                    cameraIntent.putExtra("NouvellePhoto", photoItem);
+                }
+
+
+
+                /*if(getIntent().getExtras().getBoolean("isNewPicture") == true){
+                    cameraIntent.putExtra("NouvellePhoto", gridView);
+                }
                 Boolean SiLeBooleenABienEteEnvoyeDeVona = getIntent().getExtras().getBoolean("nomdubooleengeneral");
                 Boolean SiLeBooleenABienEteEnvoyeDeChris = getIntent().getExtras().getBoolean("nomdubooleengeneral");
-
+                */
                 // Test de bytearray pour l'envoyer sur l'imageview d'AddElementActivity.
-               /* cameraIntent.setClass(CameraActivity.this, AddElementActivity.class);
-                Bitmap imageBMP = null;
-                ByteArrayOutputStream EncodageImageEnByte = new ByteArrayOutputStream();
-                imageBMP.compress(Bitmap.CompressFormat.JPEG, 50, EncodageImageEnByte);
-                cameraIntent.putExtra(("byteArray"), EncodageImageEnByte.toByteArray());
+               /*
                 startActivityForResult(cameraIntent, CAM_REQUEST);*/
             }
         });
     }
-    /**
-     * Fonction qui vérifie si l'utilisateur possède un outil de capture d'écran sur son smartphone. On appelle alors le package android qui vérifie l'exsitence d'un tel outil.
-     * @return
-     */
-
-    /**
-     * Fonction vérifiant si l'utilisateur possède ou non un outil de capture d'écran.
-     * @return
-     */
-
-
     /**
      * Méthode pour enregistrer les photos dans le téléphone, avec un nom précis pour chaque photo.
      * @return
