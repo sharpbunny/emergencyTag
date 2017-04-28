@@ -30,6 +30,10 @@ public class AddElementActivity extends Activity {
         initialisation();
     }
 
+    /**
+     * Evenement qui permet d'envoyer vers PictureGrowActivity lorsque l'utilisateur appuie sur la
+     * photo
+     */
     private View.OnTouchListener agrandirImage = new View.OnTouchListener(){
         public boolean onTouch(View v, MotionEvent event){
             envoyerImagePourLAgrandir();
