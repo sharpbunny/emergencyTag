@@ -31,16 +31,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:text = "Commentaire"/>
+
         <!-- Commentaires sur l'item pris en photo -->
         <EditText
             android:id="@+id/textViewCommentaires"
             android:background="@android:color/white"
-            android:hint = "Insérer un commentaire..."
-            android:layout_marginTop="15dp"
+            android:focusable="true"
+            android:inputType="textMultiLine"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines = "5"
-            android:maxLines = "5"/>
+            android:maxLines = "5"
+            android:text = ""
+            android:textColor = "#000000"
+            android:visibility = "visible"/>
 
         <!-- Bouton <Valider> -->
         <Button
