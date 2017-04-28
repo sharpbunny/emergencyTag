@@ -28,53 +28,38 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-    boutonCamera = (Button) findViewById(R.id.boutonCamera);
-    imageView = (ImageView) findViewById(R.id.image_view);
-    // CHEZ CHRIS DEBUT
-        if (!UtilisateurNaPasDeCamera()) {
-        boutonCamera.setEnabled(false);
+        boutonCamera = (Button) findViewById(R.id.boutonCamera);
+        imageView = (ImageView) findViewById(R.id.image_view);
 
-    }
-    /** On lance la caméra avec ce listener  pour l'envoi des photographies.**/
-        boutonCamera.setOnClickListener(new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            File file = getFile();
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-            if (imagedugriddeVonaEstClique = true) {
 
-            }
-            // Test de putextra pour l'envoyer sur la gridView de DetailsActivity.
-            cameraIntent.putExtra("NouvellePhoto", gridView);
-            startActivityForResult(cameraIntent, CAM_REQUEST);
-        }
+        /** On lance la caméra avec ce listener  pour l'envoi des photographies.**/
+        boutonCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File file = getFile();
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
 
-            if( = true) {// Test de bytearray pour l'envoyer sur l'imageview d'AddElementActivity.
-                cameraIntent.setClass(CameraActivity.this, AddElementActivity.class);
+               /* // Test de putextra pour l'envoyer sur la gridView de DetailsActivity.
+                cameraIntent.putExtra("NouvellePhoto", gridView);
+                startActivityForResult(cameraIntent, CAM_REQUEST);*/
+
+
+                // Test de bytearray pour l'envoyer sur l'imageview d'AddElementActivity.
+                /*cameraIntent.setClass(CameraActivity.this, AddElementActivity.class);
                 Bitmap imageBMP = null;
                 ByteArrayOutputStream EncodageImageEnByte = new ByteArrayOutputStream();
                 imageBMP.compress(Bitmap.CompressFormat.JPEG, 50, EncodageImageEnByte);
                 cameraIntent.putExtra(("byteArray"), EncodageImageEnByte.toByteArray());
-                startActivityForResult(cameraIntent, CAM_REQUEST);
+                startActivityForResult(cameraIntent, CAM_REQUEST);*/
             }
-
-
-
-        }
-    });
-
-}
+        });
+    }
     /**
      * Fonction qui vérifie si l'utilisateur possède un outil de capture d'écran sur son smartphone. On appelle alors le package android qui vérifie l'exsitence d'un tel outil.
      * @return
      */
-    // CHEZ CHRIS DEBUT
-    public boolean UtilisateurNaPasDeCamera()
-    {
-        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
-    }
-    // CHEZ CHRIS FIN
+
     /**
      * Fonction vérifiant si l'utilisateur possède ou non un outil de capture d'écran.
      * @return
