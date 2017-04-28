@@ -17,13 +17,12 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
 public class HttpHandler {
-
+    // TAG is used in log to identify origin of log
     private static final String TAG = HttpHandler.class.getSimpleName();
 
     public HttpHandler() {
@@ -33,8 +32,8 @@ public class HttpHandler {
         String response = null;
         try {
             // check for request method
-            if(method == "POST"){
-                // TODO params
+            if(method == "POST") {
+                // Make http request with POST
                 Log.e(TAG, "Making POST request on " + reqUrl + " with params " + postDataParams);
                 URL url = new URL(reqUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -53,6 +52,7 @@ public class HttpHandler {
                 os.close();
                 int responseCode=conn.getResponseCode();
                 if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    response = "";
                     String line;
                     BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     while ((line=br.readLine()) != null) {
@@ -60,10 +60,11 @@ public class HttpHandler {
                     }
                 }
                 else {
-                    response="";
+                    response = "";
                 }
             } else if (method == "GET") {
-                Log.e(TAG, "Making GET request on " + reqUrl);
+                // Make http request with GET
+                Log.d(TAG, "Making GET request on " + reqUrl);
                 URL url = new URL(reqUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
@@ -71,7 +72,7 @@ public class HttpHandler {
                 InputStream in = new BufferedInputStream(conn.getInputStream());
                 response = convertStreamToString(in);
             }
-            Log.e(TAG, "Response of request on " + reqUrl + " is " + response);
+            Log.d(TAG, "Response of request on " + reqUrl + " is " + response);
         } catch (MalformedURLException e) {
             Log.e(TAG, "MalformedURLException: " + e.getMessage());
         } catch (ProtocolException e) {
