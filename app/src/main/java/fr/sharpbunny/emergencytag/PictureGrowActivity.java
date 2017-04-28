@@ -1,5 +1,6 @@
 package fr.sharpbunny.emergencytag;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,14 +10,18 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOError;
+import java.io.IOException;
 
 import fr.sharpbunny.emergencytag.R;
 
@@ -40,6 +45,7 @@ public class PictureGrowActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_picture_grow);
         Activephoto = (Button) findViewById(R.id.photo);
+        imageView = (ImageView) findViewById(R.id.imageView2);
         //Recupére l'image envoyer a cette fenêtre et la décode
         if(getIntent().hasExtra("byteArray")) {
 
@@ -70,16 +76,23 @@ public class PictureGrowActivity extends AppCompatActivity {
             zoom.startAnimation(zoomAnimation);
         }
 
-
-
         Activephoto.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
-            public void onClick(View v) {
-                Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File file = getFile();
-                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                startActivityForResult(camera_intent,CAM_REQUEST);
+                public void onClick (View v){
+                    try
+                    {
+                        Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        File file = getFile();
+                        camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                        startActivityForResult(camera_intent, CAM_REQUEST);
+                 } catch(IOError e) {
+                        Toast.makeText(getApplicationContext(),"impossible to create le dossier", Toast.LENGTH_LONG).show();
+                        Log.d("TAG","Creation du dossier impossible");
+                    }
             }
+
         });
 
        }
@@ -88,6 +101,36 @@ public class PictureGrowActivity extends AppCompatActivity {
         Intent previous = new Intent(this,InfoListActivity.class);
         startActivity(previous);
 
+    }
+
+    // CHEZ MOI DEBUT POUR ENREGISTRER LA PHOTO
+    /**
+     * Méthode pour enregistrer les photos dans le téléphone, avec un nom précis pour chaque photo.
+     * //@return
+     */
+    private File getFile() {
+        File folder = new File("cam_app");
+
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        File image_file = new File(folder,"cam_image.jpg");
+        return image_file;
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String path = "sdcard/camera_app/cam_image.jpg";
+        imageView.setImageDrawable(Drawable.createFromPath(path));
+        final ImageView zoom = imageView;
+        final Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);
+        zoom.startAnimation(zoomAnimation);
+
+       /* if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(imageBitmap);
+
+        }*/
     }
     /*public void camera(View v) {
         Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -163,36 +206,5 @@ public class PictureGrowActivity extends AppCompatActivity {
 
     }*/
 
-    // CHEZ MOI DEBUT POUR ENREGISTRER LA PHOTO
-    /**
-     * Méthode pour enregistrer les photos dans le téléphone, avec un nom précis pour chaque photo.
-     * @return
-     */
-    private File getFile() {
-        File folder = new File("sdcard/emergency_picture");
 
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
-
-        File image_file = new File(folder, "cam_image.jpg");
-
-        return image_file;
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String path = "sdcard/emergency_picture/cam_image.jpg";
-
-        imageView.setImageDrawable(Drawable.createFromPath(path));
-        final ImageView zoom = imageView;
-        final Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);
-        zoom.startAnimation(zoomAnimation);
-
-       /* if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageView.setImageBitmap(imageBitmap);
-
-        }*/
-    }
 }
