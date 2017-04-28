@@ -51,7 +51,7 @@
         <activity android:name=".InfoListActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".AddElementActivity"
-            android:screenOrientation="portrait"/>
+            />
         <activity android:name=".PictureGrowActivity"
             android:screenOrientation="portrait"/>
 
