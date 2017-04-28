@@ -122,11 +122,11 @@ public class LoginActivity extends Activity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://10.111.61.148:3000/users";
+            String url = "http://rest.nomadi.fr/user";
             HashMap<String, String> params = new HashMap<>();
             params.put("login", login);
             params.put("password", password);
-            String jsonStr = sh.makeServiceCall(url, "POST", params);
+            String jsonStr = sh.makeServiceCall(url, "GET", params);
 
             Log.e(TAG, "Response from url: " + jsonStr);
             if (jsonStr != null) {
@@ -137,19 +137,6 @@ public class LoginActivity extends Activity {
                     JSONArray response = jsonObj.getJSONArray("contacts");
 
                     // make use of response here
-
-                    // "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                    // doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                    // veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-                    // ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                    // consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque
-                    // porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                    // adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore
-                    // et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis
-                    // nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
-                    // ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea
-                    // voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem
-                    // eum fugiat quo voluptas nulla pariatur?"
 
 
                     //
