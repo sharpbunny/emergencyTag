@@ -105,6 +105,7 @@ public class HttpHandler {
 
         return sb.toString();
     }
+
     private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
         boolean first = true;
