@@ -28,8 +28,7 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        Boolean SiLeBooleenABienEteEnvoyeDeVona = getIntent().getExtras().getBoolean("nomdubooleengeneral");
-        Boolean SiLeBooleenABienEteEnvoyeDeChris = getIntent().getExtras().getBoolean("nomdubooleengeneral");
+
 
         if(SiLeBooleenABienEteEnvoyeDeChris.e)
 
@@ -52,6 +51,8 @@ public class CameraActivity extends AppCompatActivity {
                 /*cameraIntent.putExtra("NouvellePhoto", gridView);*/
                 startActivityForResult(cameraIntent, CAM_REQUEST);
 
+                Boolean SiLeBooleenABienEteEnvoyeDeVona = getIntent().getExtras().getBoolean("nomdubooleengeneral");
+                Boolean SiLeBooleenABienEteEnvoyeDeChris = getIntent().getExtras().getBoolean("nomdubooleengeneral");
 
                 // Test de bytearray pour l'envoyer sur l'imageview d'AddElementActivity.
                /* cameraIntent.setClass(CameraActivity.this, AddElementActivity.class);
