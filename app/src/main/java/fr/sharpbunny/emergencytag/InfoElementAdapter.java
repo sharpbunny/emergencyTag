@@ -8,42 +8,48 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.List;
-import fr.sharpbunny.emergencytag.InfoElement;
-import fr.sharpbunny.emergencytag.InfoElementViewHolder;
-import fr.sharpbunny.emergencytag.R;
 
 /**
- * Created by 34011-14-05 on 27/04/2017.
+ * Created by 34011-14-05 on 28/04/2017.
  */
 
-public class InfoElementAdapter extends ArrayAdapter<InfoElement>{
-    public InfoElementAdapter(Context context,List<InfoElement> infoelements){
-        super(context,0,infoelements);
+public class InfoElementAdapter extends ArrayAdapter<InfoElement> {
+
+    //tweets est la liste des models à afficher
+    public InfoElementAdapter(Context context, List<InfoElement> infoElements) {
+        super(context, 0, infoElements);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
-        if(convertView == null) {
-            LayoutInflater inf = LayoutInflater.from(getContext());
-            convertView =inf.inflate(R.layout.ligne_info, parent, false);
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        if(convertView == null){
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.ligne_info,parent, false);
         }
-        InfoElementViewHolder viewHolder =(InfoElementViewHolder) convertView.getTag();
+
+        InfoElementViewHolder viewHolder = (InfoElementViewHolder) convertView.getTag();
         if(viewHolder == null){
             viewHolder = new InfoElementViewHolder();
-            viewHolder.photo = (ImageView)convertView.findViewById(R.id.photo);
-            viewHolder.soustext = (TextView)convertView.findViewById(R.id.soustext);
-            viewHolder.titre = (TextView)convertView.findViewById(R.id.titre);
+            viewHolder.type = (TextView) convertView.findViewById(R.id.type);
+            viewHolder.commentaire = (TextView) convertView.findViewById(R.id.commentaire);
+            viewHolder.photo = (ImageView) convertView.findViewById(R.id.photo);
             convertView.setTag(viewHolder);
         }
-        InfoElement infoElement = getItem(position);
 
-        viewHolder.titre.setText(infoElement.getTitre());
-        viewHolder.soustext.setText(infoElement.getSoustexte());
-        viewHolder.photo.setImageDrawable(new ColorDrawable(infoElement.getColor()));
+        InfoElement infoelement = getItem(position);
+
+        viewHolder.type.setText(infoelement.getTitre());
+        viewHolder.commentaire.setText(infoelement.getCommentaire());
+        viewHolder.photo.setImageDrawable(new ColorDrawable(infoelement.getImage()));
 
         return convertView;
     }
 
-
+    private class InfoElementViewHolder{
+        public TextView type;
+        public TextView commentaire;
+        public ImageView photo;
+    }
 }

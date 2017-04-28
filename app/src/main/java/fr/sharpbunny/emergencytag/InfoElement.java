@@ -1,42 +1,49 @@
+
+/**
+ * Created by 34011-14-05 on 28/04/2017.
+ */
 package fr.sharpbunny.emergencytag;
+
+import android.widget.ImageView;
+import android.widget.TextView;
+
 /**
  * Created by 34011-14-05 on 27/04/2017.
  */
 
 public class InfoElement {
-    private int color;
+    private int image;
     private String titre;
-    private String soustexte;
+    private String commentaire;
 
-
-    public InfoElement(int color, String titre, String soustexte) {
-        color = this.color;
-        titre = this.titre;
-        soustexte = this.soustexte;
-    }
-
-    public void setColor(int color){
-        this.color = color;
-    }
-
-    public int getColor(){
-        return color;
-    }
-
-    public void setTitre(String titre){
+    public InfoElement(int image, String titre, String commentaire) {
+        this.image = image;
         this.titre = titre;
+        this.commentaire = commentaire;
     }
 
-    public String getTitre(){
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
+    }
+
+    public String getTitre() {
         return titre;
     }
 
-    public void setSoustexte(String soustexte){
-        this.soustexte = soustexte;
+    public void setTitre(String titre) {
+        this.titre = titre;
     }
 
-    public String getSoustexte(){
-        return soustexte;
+    public String getCommentaire() {
+        return commentaire;
     }
 
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
+    }
 }

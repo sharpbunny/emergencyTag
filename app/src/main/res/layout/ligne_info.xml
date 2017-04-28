@@ -14,7 +14,7 @@
         />
 
     <TextView
-        android:id="@+id/titre"
+        android:id="@+id/type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
@@ -26,12 +26,12 @@
         />
 
     <TextView
-        android:id="@+id/soustext"
+        android:id="@+id/commentaire"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:layout_alignLeft="@+id/titre"
-        android:layout_below="@+id/titre"
+        android:layout_alignLeft="@+id/type"
+        android:layout_below="@+id/type"
         tools:text="Texte de mon tweet"
         />
 
