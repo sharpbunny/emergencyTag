@@ -1,8 +1,10 @@
 package fr.sharpbunny.emergencytag;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,8 +14,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginActivity extends Activity {
+import java.util.HashMap;
 
+import static android.content.ContentValues.TAG;
+
+public class LoginActivity extends Activity {
+    private String TAG = LoginActivity.class.getSimpleName();
+    private String login="";
+    private String password="";
     Button mybutton;
     Button mybuttonD;
 
@@ -52,6 +60,12 @@ public class LoginActivity extends Activity {
 
         EditText ChampLogin = (EditText) findViewById(R.id.ChampLogin);
         EditText ChampPassword = (EditText) findViewById(R.id.ChampPassword);
+
+        login = ChampLogin.getText().toString();
+        password = ChampPassword.getText().toString();
+
+        new GetLogin().execute();
+
         /**
          * accès a l'activity INFO LIST avec login et mdp "info"
          * */
@@ -96,18 +110,73 @@ public class LoginActivity extends Activity {
             Toast.makeText(this, "You shall not pass !", Toast.LENGTH_SHORT).show();//incorrect password
         }
     }
-    /**
-     * création Json
-     * */
-        public void writeJSON() {
-            JSONObject object = new JSONObject();
-            try {
-                object.put("email", "@");
-                object.put("password","pwd" );
-            } catch (JSONException e) {
-                e.printStackTrace();
+    private class GetLogin extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(LoginActivity.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response
+            String url = "http://10.111.61.148/user/login";
+            HashMap<String, String> params = new HashMap<>();
+            params.put("login", login);
+            params.put("password", password);
+            String jsonStr = sh.makeServiceCall(url, "POST", params);
+
+            Log.e(TAG, "Response from url: " + jsonStr);
+            if (jsonStr != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonStr);
+
+                    // Getting JSON Array node
+                    JSONArray response = jsonObj.getJSONArray("contacts");
+
+                    // make use of response here
+
+
+                    //
+
+
+                } catch (final JSONException e) {
+                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    "Json parsing error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
             }
-            System.out.println(object);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            Toast.makeText(getApplicationContext(),
+                    "Got response json from server. Check LogCat for possible errors!",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }
 
