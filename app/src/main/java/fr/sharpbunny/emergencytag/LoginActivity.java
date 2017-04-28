@@ -122,7 +122,7 @@ public class LoginActivity extends Activity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://10.111.61.148/user/login";
+            String url = "http://10.111.61.148:3000/users";
             HashMap<String, String> params = new HashMap<>();
             params.put("login", login);
             params.put("password", password);
