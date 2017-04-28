@@ -22,6 +22,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOError;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 import fr.sharpbunny.emergencytag.R;
 
@@ -34,8 +36,9 @@ public class PictureGrowActivity extends AppCompatActivity {
     Button boutonCamera;
     ImageView imageView;
     Button Activephoto;
-   android.hardware.Camera mCamera;
-
+    String nowString;
+    android.hardware.Camera mCamera;
+    File imagerecu;
    static final int CAM_REQUEST = 1;
   // static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -109,17 +112,27 @@ public class PictureGrowActivity extends AppCompatActivity {
      * //@return
      */
     private File getFile() {
-        File folder = new File("cam_app");
+
+        File folder = new File("sdcard/cam_app");
 
         if (!folder.exists()) {
-            folder.mkdir();
+
+            boolean imageIsStoredInFolder = folder.mkdirs();
+            if(!imageIsStoredInFolder){
+                Log.e("Storage error : ", "Picture couldn't be stored on the phone storage");
+            }
+
         }
-        File image_file = new File(folder,"cam_image.jpg");
+
+        nowString = Calendar.getInstance().toString();
+       // File image_file = new File(folder,nowString+".jpg");
+        File image_file = new File(folder,nowString+"toto.jpg");
         return image_file;
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String path = "sdcard/camera_app/cam_image.jpg";
+
+        String path = "sdcard/camera_app/"+nowString+"toto.jpg";
         imageView.setImageDrawable(Drawable.createFromPath(path));
         final ImageView zoom = imageView;
         final Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);
