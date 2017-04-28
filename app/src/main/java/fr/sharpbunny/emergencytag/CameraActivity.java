@@ -28,11 +28,19 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
+        Boolean SiLeBooleenABienEteEnvoyeDeVona = getIntent().getExtras().getBoolean("nomdubooleengeneral");
+        Boolean SiLeBooleenABienEteEnvoyeDeChris = getIntent().getExtras().getBoolean("nomdubooleengeneral");
+
+        if(SiLeBooleenABienEteEnvoyeDeChris.e)
+
         boutonCamera = (Button) findViewById(R.id.boutonCamera);
         imageView = (ImageView) findViewById(R.id.image_view);
 
 
-        /** On lance la caméra avec ce listener  pour l'envoi des photographies.**/
+        /** On lance la caméra avec ce listener  pour l'envoi des photographies.
+         * Test de condidition si le boolean de chris est true, ou celui de Vona est true.
+         * Envoi la photo soit chez la page de Julien ou celle de Vona.**/
+
         boutonCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,13 +48,13 @@ public class CameraActivity extends AppCompatActivity {
                 File file = getFile();
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
 
-               /* // Test de putextra pour l'envoyer sur la gridView de DetailsActivity.
-                cameraIntent.putExtra("NouvellePhoto", gridView);
-                startActivityForResult(cameraIntent, CAM_REQUEST);*/
+                // Test de putextra pour l'envoyer sur la gridView de DetailsActivity.
+                /*cameraIntent.putExtra("NouvellePhoto", gridView);*/
+                startActivityForResult(cameraIntent, CAM_REQUEST);
 
 
                 // Test de bytearray pour l'envoyer sur l'imageview d'AddElementActivity.
-                /*cameraIntent.setClass(CameraActivity.this, AddElementActivity.class);
+               /* cameraIntent.setClass(CameraActivity.this, AddElementActivity.class);
                 Bitmap imageBMP = null;
                 ByteArrayOutputStream EncodageImageEnByte = new ByteArrayOutputStream();
                 imageBMP.compress(Bitmap.CompressFormat.JPEG, 50, EncodageImageEnByte);
@@ -65,7 +73,7 @@ public class CameraActivity extends AppCompatActivity {
      * @return
      */
 
-        // CHEZ MOI DEBUT POUR ENREGISTRER LA PHOTO
+
     /**
      * Méthode pour enregistrer les photos dans le téléphone, avec un nom précis pour chaque photo.
      * @return
@@ -92,7 +100,7 @@ public class CameraActivity extends AppCompatActivity {
         String path ="sdcard/camera_app/cam_image.jpg";
         imageView.setImageDrawable(Drawable.createFromPath(path));
     }
-    // CHEZ MOI FIN POUR ENREGISTRER LA PHOTO
+
 }
 
 
