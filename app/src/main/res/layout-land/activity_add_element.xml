@@ -19,13 +19,14 @@
             android:src="@drawable/surprise"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.8"/>
+            android:layout_weight="1.1"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:orientation="vertical"
-            android:layout_weight="0.2">
+            android:layout_weight="0">
 
             <!-- Contient le type des items -->
             <Spinner
