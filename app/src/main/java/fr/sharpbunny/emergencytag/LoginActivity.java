@@ -53,57 +53,52 @@ public class LoginActivity extends Activity {
 
         login = ChampLogin.getText().toString();
         password = ChampPassword.getText().toString();
+        
+        // hack to login with rest without typing anything
         if (login.isEmpty()) {
             login = "sam@soung.ue";
             password = "inburnwetrust";
         }
 
-        new GetLogin().execute();
-
         /**
-         * accès a l'activity INFO LIST avec login et mdp "info"
+         * accès a l'activity INFO LIST avec login "info"
          * */
-        if (ChampLogin.getText().toString().equals("info") && ChampPassword.getText().toString().equals("info")) {
-            Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
+        if (ChampLogin.getText().toString().equals("info")) {
             Intent intent = new Intent(this, InfoListActivity.class);
             startActivity(intent);
         }
         /**
-         * accès a l'activity AddElementActivity avec login et mdp "add"
+         * accès a l'activity AddElementActivity avec login "add"
          * */
-        else if (ChampLogin.getText().toString().equals("add") && ChampPassword.getText().toString().equals("add")){
-            Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
-
+        else if (ChampLogin.getText().toString().equals("add")){
             Intent intent = new Intent(this, AddElementActivity.class);
             startActivity(intent);}
 
         /**
-         * accès a l'activity CameraActivity avec login et mdp "camera"
+         * accès a l'activity CameraActivity avec login "camera"
          * */
-        else if (ChampLogin.getText().toString().equals("camera") && ChampPassword.getText().toString().equals("camera")){
-            Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
+        else if (ChampLogin.getText().toString().equals("camera")){
             Intent intent = new Intent(this, CameraActivity.class);
             startActivity(intent);}
         /**
-         accès a l'activity DetailsActivity avec login et mdp "detail"
+         accès a l'activity DetailsActivity avec login "detail"
          * */
-        else if (ChampLogin.getText().toString().equals("detail") && ChampPassword.getText().toString().equals("detail")){
-            Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
+        else if (ChampLogin.getText().toString().equals("detail")){
             Intent intent = new Intent(this, DetailsActivity.class);
             startActivity(intent);}
-        /**
-         accès a l'activity DetailsActivity avec login et mdp "picture"
-         * */
-        else if (ChampLogin.getText().toString().equals("picture") && ChampPassword.getText().toString().equals("picture")){
-            Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
-            Intent intent = new Intent(this, PictureGrowActivity.class);
-            startActivity(intent);}
 
-        else
-            {
-            //Toast.makeText(this, "You shall not pass !", Toast.LENGTH_SHORT).show();//incorrect password
+        // accès a l'activity DetailsActivity avec login "picture"
+        else if (ChampLogin.getText().toString().equals("picture")){
+            Intent intent = new Intent(this, PictureGrowActivity.class);
+            startActivity(intent);
+        } else {
+            new GetLogin().execute();
         }
     }
+
+    /**
+     * Async task to check login
+     */
     private class GetLogin extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
