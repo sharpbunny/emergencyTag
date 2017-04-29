@@ -53,7 +53,7 @@ public class LoginActivity extends Activity {
 
         login = ChampLogin.getText().toString();
         password = ChampPassword.getText().toString();
-        
+
         // hack to login with rest without typing anything
         if (login.isEmpty()) {
             login = "sam@soung.ue";
@@ -160,7 +160,7 @@ public class LoginActivity extends Activity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             if (connected) {
-                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                Intent intent = new Intent(getApplicationContext(), InfoListActivity.class);
                 startActivity(intent);
             } else {
                 Toast.makeText(LoginActivity.this, R.string.accessDenied,

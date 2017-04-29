@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.Button;
@@ -14,13 +15,19 @@ import java.util.List;
 
 public class InfoListActivity extends Activity {
 
-    ListView mListView;
-    Button accesNewElementBtn = (Button)findViewById(R.id.accesNewElement);
+    private String TAG = InfoListActivity.class.getSimpleName();
+    private ListView mListView;
+
+    Button accesNewElementBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "Entering infolist...");
         setContentView(R.layout.activity_info_list);
+
+        accesNewElementBtn = (Button)findViewById(R.id.accesNewElement);
+
         mListView = (ListView) findViewById(R.id.listView);
 
         List<InfoElement> infoElements = genererInfoElements();
@@ -52,7 +59,5 @@ public class InfoListActivity extends Activity {
         infoElements.add(new InfoElement(Color.GRAY, "Willy", "On y est presque"));
         return infoElements;
     }
-
-
 
 }

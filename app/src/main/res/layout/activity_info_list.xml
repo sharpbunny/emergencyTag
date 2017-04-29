@@ -6,7 +6,7 @@
     <!-- ListView who will contain the JSON list of elements -->
     <ListView
         android:id="@+id/listView"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
     <!-- Access to the photo view to create a new element -->
