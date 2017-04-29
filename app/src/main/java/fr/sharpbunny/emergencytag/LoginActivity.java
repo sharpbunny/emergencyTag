@@ -17,7 +17,9 @@ import java.util.HashMap;
 
 
 public class LoginActivity extends Activity {
-    // TAG is used in log to identify origin of log
+    /**
+     * TAG is used in log to identify origin of log
+     */
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     private String login = "";

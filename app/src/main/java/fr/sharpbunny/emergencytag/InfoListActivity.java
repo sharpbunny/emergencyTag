@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InfoListActivity extends Activity {
-
+    /**
+     *  TAG is used in log to identify origin of log
+     */
     private String TAG = InfoListActivity.class.getSimpleName();
     private ListView mListView;
 

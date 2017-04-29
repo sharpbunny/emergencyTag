@@ -22,7 +22,9 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 public class HttpHandler {
-    // TAG is used in log to identify origin of log
+    /**
+     * TAG is used in log to identify origin of log
+     */
     private static final String TAG = HttpHandler.class.getSimpleName();
 
     public HttpHandler() {
