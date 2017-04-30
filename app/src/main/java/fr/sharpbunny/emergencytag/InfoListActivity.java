@@ -20,7 +20,7 @@ public class InfoListActivity extends Activity {
     private String TAG = InfoListActivity.class.getSimpleName();
     private ListView mListView;
 
-    Button accesNewElementBtn;
+    Button addNewElementBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class InfoListActivity extends Activity {
         Log.d(TAG, "Entering infolist...");
         setContentView(R.layout.activity_info_list);
 
-        accesNewElementBtn = (Button)findViewById(R.id.accesNewElement);
+        addNewElementBtn = (Button)findViewById(R.id.accesNewElement);
 
         mListView = (ListView) findViewById(R.id.listView);
 
@@ -37,7 +37,7 @@ public class InfoListActivity extends Activity {
         InfoElementAdapter adapter = new InfoElementAdapter(InfoListActivity.this, infoElements);
         mListView.setAdapter(adapter);
 
-        accesNewElementBtn.setOnClickListener(
+        addNewElementBtn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -49,11 +49,22 @@ public class InfoListActivity extends Activity {
         );
     }
 
-    /*
-    * @method Generating some specimen infoelements to test before adding the JSON
-    * */
+    /**
+     * Generating some specimen infoelements to test before adding the JSON
+     * @return list of infoelements
+     */
     private List<InfoElement> genererInfoElements(){
         List<InfoElement> infoElements = new ArrayList<InfoElement>();
+        infoElements.add(new InfoElement(Color.BLACK, "Florent", "Mon premier InfoElement !"));
+        infoElements.add(new InfoElement(Color.BLUE, "Kevin", "C'est ici que ça se passe !"));
+        infoElements.add(new InfoElement(Color.GREEN, "Logan", "Que c'est beau..."));
+        infoElements.add(new InfoElement(Color.RED, "Mathieu", "Il est quelle heure ??"));
+        infoElements.add(new InfoElement(Color.GRAY, "Willy", "On y est presque"));
+        infoElements.add(new InfoElement(Color.BLACK, "Florent", "Mon premier InfoElement !"));
+        infoElements.add(new InfoElement(Color.BLUE, "Kevin", "C'est ici que ça se passe !"));
+        infoElements.add(new InfoElement(Color.GREEN, "Logan", "Que c'est beau..."));
+        infoElements.add(new InfoElement(Color.RED, "Mathieu", "Il est quelle heure ??"));
+        infoElements.add(new InfoElement(Color.GRAY, "Willy", "On y est presque"));
         infoElements.add(new InfoElement(Color.BLACK, "Florent", "Mon premier InfoElement !"));
         infoElements.add(new InfoElement(Color.BLUE, "Kevin", "C'est ici que ça se passe !"));
         infoElements.add(new InfoElement(Color.GREEN, "Logan", "Que c'est beau..."));

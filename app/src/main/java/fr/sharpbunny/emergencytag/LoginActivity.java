@@ -26,28 +26,18 @@ public class LoginActivity extends Activity {
     private String password = "";
     private boolean connected = false;
 
-    Button mybuttonD;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mybuttonD = (Button) findViewById(R.id.buttonDetail);
-        mybuttonD.setOnClickListener(gotoDetail);
-
     }
 
 
-    private View.OnClickListener gotoDetail = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            Intent intent =new Intent(LoginActivity.this,DetailsActivity.class);
-            startActivity(intent);
-        }
-    };
-
+    /**
+     *
+     * @param v
+     */
     public void Login(View v) {
 
         EditText ChampLogin = (EditText) findViewById(R.id.ChampLogin);
@@ -62,38 +52,22 @@ public class LoginActivity extends Activity {
             password = "inburnwetrust";
         }
 
-        /**
-         * accès a l'activity INFO LIST avec login "info"
-         * */
-        if (ChampLogin.getText().toString().equals("info")) {
-            Intent intent = new Intent(this, InfoListActivity.class);
-            startActivity(intent);
-        }
-        /**
-         * accès a l'activity AddElementActivity avec login "add"
-         * */
-        else if (ChampLogin.getText().toString().equals("add")){
+        // accès a l'activity AddElementActivity avec login "add"
+        if (ChampLogin.getText().toString().equals("add")){
             Intent intent = new Intent(this, AddElementActivity.class);
             startActivity(intent);}
 
-        /**
-         * accès a l'activity CameraActivity avec login "camera"
-         * */
-        else if (ChampLogin.getText().toString().equals("camera")){
-            Intent intent = new Intent(this, CameraActivity.class);
-            startActivity(intent);}
-        /**
-         accès a l'activity DetailsActivity avec login "detail"
-         * */
+        // accès a l'activity DetailsActivity avec login "detail"
         else if (ChampLogin.getText().toString().equals("detail")){
             Intent intent = new Intent(this, DetailsActivity.class);
             startActivity(intent);}
 
-        // accès a l'activity DetailsActivity avec login "picture"
+        // accès a l'activity PictureGrowActivity avec login "picture"
         else if (ChampLogin.getText().toString().equals("picture")){
             Intent intent = new Intent(this, PictureGrowActivity.class);
             startActivity(intent);
         } else {
+            // Start check access with rest
             new GetLogin().execute();
         }
     }
@@ -114,17 +88,20 @@ public class LoginActivity extends Activity {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
             String url = "http://rest.nomadi.fr/user/login";
+            // create a hashmap to store POST params
             HashMap<String, String> params = new HashMap<>();
             params.put("email", login);
             params.put("pwd", password);
+            // make request to REST server
             String jsonStr = sh.makeServiceCall(url, "POST", params);
 
-            Log.e(TAG, "Response from url: " + jsonStr);
+            Log.d(TAG, "Response from url: " + jsonStr);
             if (jsonStr != null) {
                 try {
                     JSONObject jsonObj = new JSONObject(jsonStr);
-                    // Getting JSON message
-                    if (jsonObj.getString("message").equals("Connexion OK")){
+                    // Getting JSON status
+                    // REST return 0 if OK, 1 if not
+                    if (jsonObj.getInt("status")==0) {
                         connected = true;
                     } else {
                         connected = false;

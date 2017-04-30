@@ -12,9 +12,8 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by 34011-14-05 on 28/04/2017.
+ * Class to handle Element of list.
  */
-
 public class InfoElementAdapter extends ArrayAdapter<InfoElement> {
 
     //tweets est la liste des models à afficher
@@ -23,7 +22,7 @@ public class InfoElementAdapter extends ArrayAdapter<InfoElement> {
     }
 
     /**
-     * @method Function who take recycle the view in function of the scrolling
+     * Function who take recycle the view in function of the scrolling
      * @param position Position of the element to recycle
      * @param convertView The element to recycle (who is a view)
      * @param parent Group of view elements / The list view where it's associate
@@ -40,7 +39,7 @@ public class InfoElementAdapter extends ArrayAdapter<InfoElement> {
         if(viewHolder == null){
             viewHolder = new InfoElementViewHolder();
             viewHolder.type = (TextView) convertView.findViewById(R.id.type);
-            viewHolder.commentaire = (TextView) convertView.findViewById(R.id.commentaire);
+            viewHolder.comment = (TextView) convertView.findViewById(R.id.commentaire);
             viewHolder.photo = (ImageView) convertView.findViewById(R.id.photo);
             convertView.setTag(viewHolder);
         }
@@ -48,15 +47,15 @@ public class InfoElementAdapter extends ArrayAdapter<InfoElement> {
         InfoElement infoelement = getItem(position);
 
         viewHolder.type.setText(infoelement.getTitre());
-        viewHolder.commentaire.setText(infoelement.getCommentaire());
+        viewHolder.comment.setText(infoelement.getCommentaire());
         viewHolder.photo.setImageDrawable(new ColorDrawable(infoelement.getImage()));
 
         return convertView;
     }
 
     private class InfoElementViewHolder{
-        public TextView type;
-        public TextView commentaire;
-        public ImageView photo;
+        private TextView type;
+        private TextView comment;
+        private ImageView photo;
     }
 }

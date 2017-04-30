@@ -1,7 +1,3 @@
-
-/**
- * Created by 34011-14-05 on 28/04/2017.
- */
 package fr.sharpbunny.emergencytag;
 
 import android.widget.ImageView;

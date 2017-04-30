@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="15dp"
-            android:text = "Commentaire"/>
+            android:text = "@string/comment"/>
 
         <!-- Commentaires sur l'item pris en photo -->
         <EditText
@@ -53,13 +53,13 @@
             android:textColor = "#000000"
             android:visibility = "visible"/>
 
-        <!-- Bouton <Valider> -->
+        <!-- Button <Validate> -->
         <Button
             android:id = "@+id/validerPhotoButton"
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text = "Valider"/>
+            android:text = "@string/validate"/>
 
 
     </LinearLayout>

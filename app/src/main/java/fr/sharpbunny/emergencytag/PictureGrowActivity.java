@@ -20,6 +20,9 @@ import fr.sharpbunny.emergencytag.R;
 
 import static fr.sharpbunny.emergencytag.R.id.gridView;
 
+/**
+ *
+ */
 public class PictureGrowActivity extends AppCompatActivity {
 
     Button back;
@@ -36,17 +39,15 @@ public class PictureGrowActivity extends AppCompatActivity {
 
             //Associe imageView avec le Layout  ativity_picture_grow.xml
             imageView = (ImageView) findViewById(R.id.imageView2);
-            /**
-             * Decode le byteArray reçu dans la vue pour le recomposé en image;
-             *une fois recomposé on la place dans notre variable image imageView
-             */
+
+            // Decode le byteArray reçu dans la vue pour le recomposé en image;
+            // une fois recomposé on la place dans notre variable image imageView
             Bitmap b = BitmapFactory.decodeByteArray(
              getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("byteArray").length);
             imageView.setImageBitmap(b);
         }
-        /**
-         * Zoom l'image
-         */
+
+        // Zoom l'image
         /*final ImageView zoom = imageView;
         final Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);
         zoom.startAnimation(zoomAnimation);*/

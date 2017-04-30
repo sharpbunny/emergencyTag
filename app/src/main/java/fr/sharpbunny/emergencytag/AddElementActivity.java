@@ -79,7 +79,7 @@ public class AddElementActivity extends Activity {
     }
 
     /**
-     * @method Permet d'insérer les items écrits dans un string_array dans values/strings dans le Spinner
+     * Permet d'insérer les items écrits dans un string_array dans values/strings dans le Spinner
      * @param elementSpinner
      */
     private void insertionElementSpinner(Spinner elementSpinner){

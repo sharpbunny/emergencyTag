@@ -2,13 +2,17 @@ package fr.sharpbunny.emergencytag;
 
 import android.app.Activity;
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -23,10 +27,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
+    /**
+     * TAG is used in log to identify origin of log
+     */
+    private static final String TAG = LoginActivity.class.getSimpleName();
 
     private GoogleMap mMap;
+    private boolean markersPresent =false;
 
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
@@ -47,6 +61,79 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+
+    /**
+     * Async task to check login
+     */
+    private class GetItems extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(MapActivity.this, R.string.requestAllItems, Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response with all items
+            String url = "http://rest.nomadi.fr/item";
+            String jsonStr = sh.makeServiceCall(url, "GET", null);
+
+            Log.d(TAG, "Response from url: " + jsonStr);
+            if (jsonStr != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonStr);
+                    // Getting JSON items
+
+                    markersPresent=false;
+
+
+                } catch (final JSONException e) {
+                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    "Json parsing error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (markersPresent) {
+
+
+            } else {
+                Toast.makeText(MapActivity.this, R.string.noItemsForThisArea,
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    /**
+     * Check for permissions otherwise request them
+     * @return boolean true if success
+     */
     public boolean checkPermissions(){
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -83,6 +170,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             // activate zoom ui controls
             mMap.getUiSettings().setZoomControlsEnabled(true);
         }
+        // Get all items with rest
+        new GetItems().execute();
     }
 
     protected synchronized void buildGoogleApiClient() {

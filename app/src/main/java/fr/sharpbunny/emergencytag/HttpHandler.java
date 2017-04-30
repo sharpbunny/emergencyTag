@@ -21,22 +21,35 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
+/**
+ * Class to handle http with POST or GET protocols.
+ */
 public class HttpHandler {
     /**
      * TAG is used in log to identify origin of log
      */
     private static final String TAG = HttpHandler.class.getSimpleName();
 
+    /**
+     * Constructor for class HttpHandler.
+     */
     public HttpHandler() {
     }
 
+    /**
+     * Make http calls
+     * @param reqUrl url of service
+     * @param method method GET or POST
+     * @param postDataParams params for POST
+     * @return response from server in string, null if no response
+     */
     public String makeServiceCall(String reqUrl, String method, HashMap<String, String> postDataParams) {
         String response = null;
         try {
             // check for request method
-            if(method == "POST") {
+            if(method.equals("POST")) {
                 // Make http request with POST
-                Log.e(TAG, "Making POST request on " + reqUrl + " with params " + postDataParams);
+                Log.d(TAG, "Making POST request on " + reqUrl + " with params " + postDataParams);
                 URL url = new URL(reqUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -64,7 +77,7 @@ public class HttpHandler {
                 else {
                     response = "";
                 }
-            } else if (method == "GET") {
+            } else if (method.equals("GET")) {
                 // Make http request with GET
                 Log.d(TAG, "Making GET request on " + reqUrl);
                 URL url = new URL(reqUrl);
@@ -87,6 +100,11 @@ public class HttpHandler {
         return response;
     }
 
+    /**
+     * Convert a stream into string.
+     * @param is stream
+     * @return string
+     */
     private String convertStreamToString(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
@@ -109,6 +127,12 @@ public class HttpHandler {
         return sb.toString();
     }
 
+    /**
+     *
+     * @param params
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
         boolean first = true;
