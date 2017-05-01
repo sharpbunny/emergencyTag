@@ -21,8 +21,7 @@
             android:background="@android:color/darker_gray"
             android:src="@drawable/surprise"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight=".75"/>
+            android:layout_height="262dp" />
 
         <!-- Contient le type des items -->
         <Spinner
@@ -47,19 +46,19 @@
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines = "5"
-            android:maxLines = "5"
+            android:lines = "4"
+            android:maxLines = "4"
             android:text = ""
             android:textColor = "#000000"
-            android:visibility = "visible"/>
+            android:visibility = "visible" />
 
         <!-- Button <Validate> -->
         <Button
-            android:id = "@+id/validerPhotoButton"
-            android:layout_marginTop="30dp"
+            android:id="@+id/validerPhotoButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text = "@string/validate"/>
+            android:layout_height="48dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/validate" />
 
 
     </LinearLayout>

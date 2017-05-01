@@ -37,13 +37,12 @@ public class InfoListActivity extends Activity {
         InfoElementAdapter adapter = new InfoElementAdapter(InfoListActivity.this, infoElements);
         mListView.setAdapter(adapter);
 
-        addNewElementBtn.setOnClickListener(
-                new View.OnClickListener() {
+        addNewElementBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent newPhotoToNewElement = new Intent(InfoListActivity.this,CameraActivity.class);
-                        newPhotoToNewElement.putExtra("isNewElement",true);
-                        startActivity(newPhotoToNewElement);
+                        Intent intent = new Intent(InfoListActivity.this,DetailsActivity.class);
+                        intent.putExtra("isNewElement",true);
+                        startActivity(intent);
                     }
                 }
         );
