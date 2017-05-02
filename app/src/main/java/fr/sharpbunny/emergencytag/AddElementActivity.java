@@ -106,10 +106,10 @@ public class AddElementActivity extends Activity {
      * http://stackoverflow.com/questions/13226263/i-want-to-transfer-the-image-from-one-activity-to-another
      */
     private void recuperationImage(){
-        if(getIntent().hasExtra("biteArray")){
+        if(getIntent().hasExtra("byteArray")){
             ImageView photo = (ImageView)findViewById(R.id.photoItem);
             Bitmap imageBMP = BitmapFactory.decodeByteArray(
-                    getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("biteArray").length
+                    getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("byteArray").length
             );
             photo.setImageBitmap(imageBMP);
         }
