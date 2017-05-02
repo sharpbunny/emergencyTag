@@ -34,22 +34,16 @@ public class CameraActivity extends AppCompatActivity {
 
     public final static int TAKE_PICTURE=1;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-
         boutonCamera = (Button) findViewById(R.id.boutonCamera);
         imageView = (ImageView) findViewById(R.id.image_view);
-        // Récupération du boolean de la partie InfoElement //
 
-
-        /** On lance la caméra avec ce listener  pour l'envoi des photographies.
-         * Test de condidition si le boolean de chris est true, ou celui de Vona est true.
-         * Envoi la photo soit chez la page de Julien ou celle de Vona.**/
+        /**
+         * Method on Click to activate the camera on the cell. * */
         boutonCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,26 +53,11 @@ public class CameraActivity extends AppCompatActivity {
                 file = getFile();
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(cameraIntent, TAKE_PICTURE);
-
-
-                // Test de putextra pour l'envoyer sur la gridView de NouvelElementActivity.
-                /*cameraIntent.putExtra("NouvellePhoto", gridView);*/
-
-
-                /*if(getIntent().getExtras().getBoolean("isNewPicture") == true){
-                    cameraIntent.putExtra("NouvellePhoto", gridView);
-                }
-                Boolean SiLeBooleenABienEteEnvoyeDeVona = getIntent().getExtras().getBoolean("nomdubooleengeneral");
-                Boolean SiLeBooleenABienEteEnvoyeDeChris = getIntent().getExtras().getBoolean("nomdubooleengeneral");
-                */
-                // Test de bytearray pour l'envoyer sur l'imageview d'AddElementActivity.
-               /*
-                startActivityForResult(cameraIntent, CAM_REQUEST);*/
             }
         });
     }
     /**
-     * Méthode pour enregistrer les photos dans le téléphone, avec un nom précis pour chaque photo.
+     * Method using the getfile() function so as to record the picture and store it in the cell's database.
      * @return
      */
 
@@ -100,9 +79,8 @@ public class CameraActivity extends AppCompatActivity {
 
         return image_file;
     }
-
     /**
-     * Méthode créée afin de rewrite le chemin de la photo, pour le moment, cela évite de trop stocker sur le téléphone test.
+     * Method using a try catch in order to put the path to the image registered. And send the picture in the AddElementActivity (photoView).
      * @param requestCode
      * @param resultCode
      * @param data
@@ -111,7 +89,7 @@ public class CameraActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data ){
         Intent addElementIntent = new Intent(CameraActivity.this, AddElementActivity.class);
         final boolean AjouterNouvelElement =  getIntent().getExtras().getBoolean("isNewElement");
-        Uri uri = Uri.fromFile(file);
+       Uri uri = Uri.fromFile(file);
 
         if(requestCode == TAKE_PICTURE){
 
@@ -126,19 +104,14 @@ public class CameraActivity extends AppCompatActivity {
 
                         ByteArrayOutputStream bs = new ByteArrayOutputStream(); //Tableau d'octets stocké en mémoire
 
-                        //L'image est compressée puis stockée sous forme d'un tableau de données dans bs
+                        // Convert picture into bitmap format.
                         b.compress(Bitmap.CompressFormat.JPEG, 50, bs);
 
-                        //On envoie le tableau de byte dans l'activité pictureGrowActivity
+                        //Sending bytearray in the AddElementActivity.
                         addElementIntent.putExtra("byteArray", bs.toByteArray());
                         startActivity(addElementIntent);
-
-
                     }
-
-
-
-        }
+        }           if(
     }
 
 }
