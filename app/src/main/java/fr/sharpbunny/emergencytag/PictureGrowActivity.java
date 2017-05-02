@@ -22,6 +22,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOError;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -35,9 +37,9 @@ public class PictureGrowActivity extends AppCompatActivity {
     Button back;
     Button boutonCamera;
     ImageView imageView;
+    String inActiveDate;
     Button Activephoto;
-    String nowString;
-    android.hardware.Camera mCamera;
+     android.hardware.Camera mCamera;
     File imagerecu;
    static final int CAM_REQUEST = 1;
   // static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -79,8 +81,22 @@ public class PictureGrowActivity extends AppCompatActivity {
             zoom.startAnimation(zoomAnimation);
         }
 
-        Activephoto.setOnClickListener(new View.OnClickListener() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 1);
+        Date date = cal.getTime();
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS");
+        String inActiveDate ;
+        try {
+            inActiveDate = format1.format(date);
+            Toast.makeText(getApplicationContext(),inActiveDate, Toast.LENGTH_LONG).show();
+            //System.out.println(inActiveDate );
+        } catch (Exception e1) {
 
+            e1.printStackTrace();
+        }
+
+        //Activé la photo
+        Activephoto.setOnClickListener(new View.OnClickListener() {
 
             @Override
                 public void onClick (View v){
@@ -112,7 +128,7 @@ public class PictureGrowActivity extends AppCompatActivity {
      * //@return
      */
     private File getFile() {
-
+        File image_file = null;
         File folder = new File("sdcard/cam_app");
 
         if (!folder.exists()) {
@@ -124,15 +140,22 @@ public class PictureGrowActivity extends AppCompatActivity {
 
         }
 
-        nowString = Calendar.getInstance().toString();
-       // File image_file = new File(folder,nowString+".jpg");
-        File image_file = new File(folder,nowString+"toto.jpg");
+        //nowString = Calendar.getInstance().toString();
+           Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DATE, 1);
+            Date date = cal.getTime();
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyyMMddHHMMSS");
+            inActiveDate = format1.format(date);
+
+           // Toast.makeText(getApplicationContext(),inActiveDate, Toast.LENGTH_LONG).show();
+            //System.out.println(inActiveDate );*/
+        image_file = new File(folder,inActiveDate+"emergency.jpg");
         return image_file;
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        String path = "sdcard/camera_app/"+nowString+"toto.jpg";
+        String path = "sdcard/camera_app/"+inActiveDate+"toto.jpg";
         imageView.setImageDrawable(Drawable.createFromPath(path));
         final ImageView zoom = imageView;
         final Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);
