@@ -12,8 +12,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 /**
@@ -112,8 +122,59 @@ public class AddElementActivity extends Activity {
      */
     private View.OnClickListener clickListenerValider = new View.OnClickListener(){
         public void onClick(View v){
+            JSONObject jsonAEnvoyer = new JSONObject();
+
+            creationObjetJSON(jsonAEnvoyer);
+            connexionAuServeurREST();
 
 
         }
     };
+
+
+    /**
+     * Permet de se connecter au serveur REST
+     */
+    private void connexionAuServeurREST(){
+        try{
+            URL url = new URL("http://rest.nomadi.fr/item");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+            connection.setRequestMethod("POST");
+
+            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+
+
+        }
+
+        catch(MalformedURLException e){
+            e.printStackTrace();
+        }
+
+        catch(IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * On créé le JSON à envoyer avec la méthode POST
+     */
+    private void creationObjetJSON(JSONObject json){
+        Spinner typeDeLItem = (Spinner)findViewById(R.id.typeSpinner);
+        TextView commentaire = (TextView)findViewById(R.id.textViewCommentaires);
+
+        //On ajoute les éléments dans l'objet JSON
+        try{
+            json.put("typeItem", typeDeLItem.getSelectedItem().toString());
+            if(commentaire.getText().length() > 0){
+                json.put("commentaire", commentaire.getText().toString());
+            }
+        }
+
+        catch(JSONException e){
+            e.printStackTrace();
+        }
+
+    }
 }
