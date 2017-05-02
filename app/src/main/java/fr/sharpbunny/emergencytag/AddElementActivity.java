@@ -19,6 +19,8 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -139,6 +141,10 @@ public class AddElementActivity extends Activity {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             connection.setRequestMethod("POST");
+
+            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+
+
         }
 
         catch(MalformedURLException e){
