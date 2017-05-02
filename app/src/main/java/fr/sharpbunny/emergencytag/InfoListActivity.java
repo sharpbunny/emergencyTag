@@ -4,22 +4,33 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+
 import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class InfoListActivity extends Activity {
+    /**
+     *  TAG is used in log to identify origin of log
+     */
+    private String TAG = InfoListActivity.class.getSimpleName();
+    private ListView mListView;
 
-    ListView mListView;
-    Button accesNewElementBtn = (Button)findViewById(R.id.accesNewElement);
+    Button accesNewElementBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "Entering infolist...");
         setContentView(R.layout.activity_info_list);
+
+        accesNewElementBtn = (Button)findViewById(R.id.accesNewElement);
+
         mListView = (ListView) findViewById(R.id.listView);
 
         List<InfoElement> infoElements = genererInfoElements();
@@ -39,7 +50,20 @@ public class InfoListActivity extends Activity {
         );
     }
 
-    /*
+    /**
+     * @method Transform a Json list into infoelements list.
+     * @return List Composed of infoelements from the JSON file.
+     */
+    private List<InfoElement> generateInfElemFromJSON(){
+        HttpHandler sh = new HttpHandler();
+        List<InfoElement> infoElements = new ArrayList<InfoElement>();
+        String url = "http://rest.nomadi.fr/user/login";
+        HashMap<String, String> elements = new HashMap<>();
+        String jsonStr = sh.makeServiceCall(url, "GET", elements);
+        /*elements.get("");*/
+    }
+
+    /**
     * @method Generating some specimen infoelements to test before adding the JSON
     * */
     private List<InfoElement> genererInfoElements(){
@@ -51,7 +75,5 @@ public class InfoListActivity extends Activity {
         infoElements.add(new InfoElement(Color.GRAY, "Willy", "On y est presque"));
         return infoElements;
     }
-
-
 
 }

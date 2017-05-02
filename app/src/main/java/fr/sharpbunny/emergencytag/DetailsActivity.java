@@ -1,9 +1,14 @@
 package fr.sharpbunny.emergencytag;
 import android.*;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.GridView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,7 +28,34 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapView);
         mapFragment.getMapAsync(this);
+
+        GridView gridView = (GridView) findViewById(R.id.gridView);
+
+        gridView.setAdapter(new GridAdapter(this));
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(DetailsActivity.this, PictureGrowActivity.class);
+                startActivity(i);
+
+            }
+        });
+
+        Button mybuttonA = (Button) findViewById(R.id.ajout);
+        mybuttonA.setOnClickListener(gotoCamera);
+
+
     }
+
+    private View.OnClickListener gotoCamera = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            Intent intent =new Intent(DetailsActivity.this,CameraActivity.class);
+            startActivity(intent);
+        }
+    };
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
