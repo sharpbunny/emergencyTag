@@ -121,20 +121,24 @@ public class AddElementActivity extends Activity {
     private View.OnClickListener clickListenerValider = new View.OnClickListener(){
         public void onClick(View v){
             JSONObject jsonAEnvoyer = new JSONObject();
-            connexionAuServeurREST();
+
             creationObjetJSON(jsonAEnvoyer);
+            connexionAuServeurREST();
+
 
         }
     };
+
 
     /**
      * Permet de se connecter au serveur REST
      */
     private void connexionAuServeurREST(){
         try{
-            URL url = new URL("http://rest.nomadi.fr/items");
+            URL url = new URL("http://rest.nomadi.fr/item");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
+            connection.setRequestMethod("POST");
         }
 
         catch(MalformedURLException e){
@@ -150,9 +154,11 @@ public class AddElementActivity extends Activity {
     /**
      * On créé le JSON à envoyer avec la méthode POST
      */
-    private JSONObject creationObjetJSON(JSONObject json){
+    private void creationObjetJSON(JSONObject json){
         Spinner typeDeLItem = (Spinner)findViewById(R.id.typeSpinner);
         TextView commentaire = (TextView)findViewById(R.id.textViewCommentaires);
+
+        //On ajoute les éléments dans l'objet JSON
         try{
             json.put("typeItem", typeDeLItem.getSelectedItem().toString());
             if(commentaire.getText().length() > 0){
@@ -164,6 +170,5 @@ public class AddElementActivity extends Activity {
             e.printStackTrace();
         }
 
-        return json;
     }
 }
