@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,9 +38,24 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(DetailsActivity.this, PictureGrowActivity.class);
                 startActivity(i);
+
             }
         });
+
+        Button mybuttonA = (Button) findViewById(R.id.ajout);
+        mybuttonA.setOnClickListener(gotoCamera);
+
+
     }
+
+    private View.OnClickListener gotoCamera = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            Intent intent =new Intent(DetailsActivity.this,CameraActivity.class);
+            startActivity(intent);
+        }
+    };
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

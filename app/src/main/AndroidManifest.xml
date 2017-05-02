@@ -43,6 +43,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".InfoListActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".CameraActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -51,8 +53,7 @@
         <activity
             android:name=".DetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".InfoListActivity"
-            android:screenOrientation="portrait"/>
+
         <activity android:name=".AddElementActivity"
             />
         <activity android:name=".PictureGrowActivity"
