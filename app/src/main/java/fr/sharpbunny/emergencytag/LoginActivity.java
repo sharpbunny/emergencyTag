@@ -10,19 +10,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import static android.content.ContentValues.TAG;
 
 public class LoginActivity extends Activity {
-    private String TAG = LoginActivity.class.getSimpleName();
-    private String login="";
-    private String password="";
-    Button mybutton;
+    /**
+     * TAG is used in log to identify origin of log
+     */
+    private static final String TAG = LoginActivity.class.getSimpleName();
+
+    private String login = "";
+    private String password = "";
+    private boolean connected = false;
+
     Button mybuttonD;
 
     @Override
@@ -30,22 +33,11 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mybutton = (Button) findViewById(R.id.buttonMap);
-        mybutton.setOnClickListener(gotoMap);
-
         mybuttonD = (Button) findViewById(R.id.buttonDetail);
         mybuttonD.setOnClickListener(gotoDetail);
 
     }
 
-    private View.OnClickListener gotoMap = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            Intent intent =new Intent(LoginActivity.this,MapActivity.class);
-            startActivity(intent);
-        }
-    };
 
     private View.OnClickListener gotoDetail = new View.OnClickListener() {
 
@@ -64,57 +56,56 @@ public class LoginActivity extends Activity {
         login = ChampLogin.getText().toString();
         password = ChampPassword.getText().toString();
 
-        new GetLogin().execute();
+        // hack to login with rest without typing anything
+        if (login.isEmpty()) {
+            login = "sam@soung.ue";
+            password = "inburnwetrust";
+        }
 
         /**
-         * accès a l'activity INFO LIST avec login et mdp "info"
+         * accès a l'activity INFO LIST avec login "info"
          * */
-        if (ChampLogin.getText().toString().equals("info") && ChampPassword.getText().toString().equals("info")) {
-            Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
+        if (ChampLogin.getText().toString().equals("info")) {
             Intent intent = new Intent(this, InfoListActivity.class);
             startActivity(intent);
         }
         /**
-         * accès a l'activity AddElementActivity avec login et mdp "add"
+         * accès a l'activity AddElementActivity avec login "add"
          * */
-        else if (ChampLogin.getText().toString().equals("add") && ChampPassword.getText().toString().equals("add")){
-            Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
-
+        else if (ChampLogin.getText().toString().equals("add")){
             Intent intent = new Intent(this, AddElementActivity.class);
             startActivity(intent);}
 
         /**
-         * accès a l'activity CameraActivity avec login et mdp "camera"
+         * accès a l'activity CameraActivity avec login "camera"
          * */
-        else if (ChampLogin.getText().toString().equals("camera") && ChampPassword.getText().toString().equals("camera")){
-            Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
+        else if (ChampLogin.getText().toString().equals("camera")){
             Intent intent = new Intent(this, CameraActivity.class);
             startActivity(intent);}
         /**
-         accès a l'activity DetailsActivity avec login et mdp "detail"
+         accès a l'activity DetailsActivity avec login "detail"
          * */
-        else if (ChampLogin.getText().toString().equals("detail") && ChampPassword.getText().toString().equals("detail")){
-            Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
+        else if (ChampLogin.getText().toString().equals("detail")){
             Intent intent = new Intent(this, DetailsActivity.class);
             startActivity(intent);}
-        /**
-         accès a l'activity DetailsActivity avec login et mdp "picture"
-         * */
-        else if (ChampLogin.getText().toString().equals("picture") && ChampPassword.getText().toString().equals("picture")){
-            Toast.makeText(this, "Welcome here !", Toast.LENGTH_SHORT).show();//correct password
-            Intent intent = new Intent(this, PictureGrowActivity.class);
-            startActivity(intent);}
 
-        else
-            {
-            Toast.makeText(this, "You shall not pass !", Toast.LENGTH_SHORT).show();//incorrect password
+        // accès a l'activity DetailsActivity avec login "picture"
+        else if (ChampLogin.getText().toString().equals("picture")){
+            Intent intent = new Intent(this, PictureGrowActivity.class);
+            startActivity(intent);
+        } else {
+            new GetLogin().execute();
         }
     }
+
+    /**
+     * Async task to check login
+     */
     private class GetLogin extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(LoginActivity.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, R.string.requestAccess, Toast.LENGTH_SHORT).show();
 
         }
 
@@ -122,25 +113,22 @@ public class LoginActivity extends Activity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://rest.nomadi.fr/user";
+            String url = "http://rest.nomadi.fr/user/login";
             HashMap<String, String> params = new HashMap<>();
-            params.put("login", login);
-            params.put("password", password);
-            String jsonStr = sh.makeServiceCall(url, "GET", params);
+            params.put("email", login);
+            params.put("pwd", password);
+            String jsonStr = sh.makeServiceCall(url, "POST", params);
 
             Log.e(TAG, "Response from url: " + jsonStr);
             if (jsonStr != null) {
                 try {
                     JSONObject jsonObj = new JSONObject(jsonStr);
-
-                    // Getting JSON Array node
-                    JSONArray response = jsonObj.getJSONArray("contacts");
-
-                    // make use of response here
-
-
-                    //
-
+                    // Getting JSON message
+                    if (jsonObj.getString("message").equals("Connexion OK")){
+                        connected = true;
+                    } else {
+                        connected = false;
+                    }
 
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -173,9 +161,13 @@ public class LoginActivity extends Activity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            Toast.makeText(getApplicationContext(),
-                    "Got response json from server. Check LogCat for possible errors!",
-                    Toast.LENGTH_LONG).show();
+            if (connected) {
+                Intent intent = new Intent(getApplicationContext(), InfoListActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(LoginActivity.this, R.string.accessDenied,
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
