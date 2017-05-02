@@ -1,13 +1,13 @@
 package fr.sharpbunny.emergencytag;
 
-import android.content.Context;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.hardware.Camera;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,24 +18,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOError;
-import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import fr.sharpbunny.emergencytag.R;
-
-import static android.R.attr.id;
-import static fr.sharpbunny.emergencytag.R.id.gridView;
+import layout.PictureGrowFrags;
 
 public class PictureGrowActivity extends AppCompatActivity {
 
     Button back;
-    Button boutonCamera;
+    Button rest;
     ImageView imageView;
     String inActiveDate;
     Button Activephoto;
@@ -47,10 +41,11 @@ public class PictureGrowActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_picture_grow);
+
         Activephoto = (Button) findViewById(R.id.photo);
         imageView = (ImageView) findViewById(R.id.imageView2);
+        rest = (Button)findViewById(R.id.button2);
         //Recupére l'image envoyer a cette fenêtre et la décode
         if(getIntent().hasExtra("byteArray")) {
 
@@ -100,18 +95,39 @@ public class PictureGrowActivity extends AppCompatActivity {
 
             @Override
                 public void onClick (View v){
-                    try
-                    {
+               // if(v==  Activephoto) {
+                    try {
                         Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         File file = getFile();
                         camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                         startActivityForResult(camera_intent, CAM_REQUEST);
-                 } catch(IOError e) {
-                        Toast.makeText(getApplicationContext(),"impossible to create le dossier", Toast.LENGTH_LONG).show();
-                        Log.d("TAG","Creation du dossier impossible");
+                    } catch (IOError e) {
+                        Toast.makeText(getApplicationContext(), "impossible to create le dossier", Toast.LENGTH_LONG).show();
+                        Log.d("TAG", "Creation du dossier impossible");
                     }
+               // }
             }
 
+        });
+
+        //ajout un fragment a la page
+        rest.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick (View v) {
+
+                //PictureGrowFrags fragment;
+                /*fragment = new PictureGrowFrags();
+                FragmentManager fm = getFragmentManager();
+                android.app.FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.fragment_place,fragment);*/
+                PictureGrowFrags overviewFragment = new PictureGrowFrags();
+
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_place, overviewFragment).commit();
+
+                Toast.makeText(getApplicationContext(), "rest test", Toast.LENGTH_LONG).show();
+            }
         });
         /**
          * Zoom l'image
@@ -159,7 +175,7 @@ public class PictureGrowActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        String path = "sdcard/camera_app/"+inActiveDate+"toto.jpg";
+        String path = "sdcard/camera_app/"+inActiveDate+"emergency.jpg";
         imageView.setImageDrawable(Drawable.createFromPath(path));
         final ImageView zoom = imageView;
         final Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);

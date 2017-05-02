@@ -61,6 +61,7 @@ public class InfoListActivity extends Activity {
         HashMap<String, String> elements = new HashMap<>();
         String jsonStr = sh.makeServiceCall(url, "GET", elements);
         /*elements.get("");*/
+        return infoElements;
     }
 
     /**
