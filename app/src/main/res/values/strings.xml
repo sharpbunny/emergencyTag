@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">EmergencyTag</string>
     <string name="retour">Back to List Info</string>
+    <string name="requestAccess">Requesting Access...</string>
+    <string name="accessDenied">Access denied</string>
     <!-- Liste des types des items qui seront contenus dans le spinner de addElementActivity -->
     <string-array name="typeItemArray">
         <item>Alarmes</item>
