@@ -14,6 +14,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 /**
@@ -112,8 +116,28 @@ public class AddElementActivity extends Activity {
      */
     private View.OnClickListener clickListenerValider = new View.OnClickListener(){
         public void onClick(View v){
-
+            connexionAuServeurREST();
 
         }
     };
+
+    /**
+     * Permet de se connecter au serveur REST
+     */
+    private void connexionAuServeurREST(){
+        try{
+            URL url = new URL("http://rest.nomadi.fr/items");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+        }
+
+        catch(MalformedURLException e){
+            e.printStackTrace();
+        }
+
+        catch(IOException e){
+            e.printStackTrace();
+        }
+
+    }
 }
