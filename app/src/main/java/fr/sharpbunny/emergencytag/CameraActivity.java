@@ -3,6 +3,7 @@ package fr.sharpbunny.emergencytag;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -35,7 +36,6 @@ public class CameraActivity extends AppCompatActivity {
         /** On lance la caméra avec ce listener  pour l'envoi des photographies.
          * Test de condidition si le boolean de chris est true, ou celui de Vona est true.
          * Envoi la photo soit chez la page de Julien ou celle de Vona.**/
-
         boutonCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +49,7 @@ public class CameraActivity extends AppCompatActivity {
 
                 if(getIntent().getExtras().getBoolean("isNewElement") == true){
                     cameraIntent.setClass(CameraActivity.this, AddElementActivity.class);
-                    Bitmap imageBMP = null;
+                    Bitmap imageBMP = BitmapFactory.decodeFile(file.getAbsolutePath());
                     ByteArrayOutputStream EncodageImageEnByte = new ByteArrayOutputStream();
                     imageBMP.compress(Bitmap.CompressFormat.JPEG, 50, EncodageImageEnByte);
                     cameraIntent.putExtra(("byteArray"), EncodageImageEnByte.toByteArray());
