@@ -80,7 +80,7 @@ public class CameraActivity extends AppCompatActivity {
         return image_file;
     }
     /**
-     * Method using a try catch in order to put the path to the image registered. And send the picture in the AddElementActivity (photoView).
+     * Method using a try catch in order to put the path to the image registered. And send the picture in the AddElementActivity (photoView) as a new element. Or it will be send in the DetailsActivity(GridView) as a new picture.
      * @param requestCode
      * @param resultCode
      * @param data
@@ -89,6 +89,7 @@ public class CameraActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data ){
         Intent addElementIntent = new Intent(CameraActivity.this, AddElementActivity.class);
         final boolean AjouterNouvelElement =  getIntent().getExtras().getBoolean("isNewElement");
+        final boolean AjouterNouvellePhoto = getIntent().getExtras().getBoolean("ajouterNouvellePhoto");
        Uri uri = Uri.fromFile(file);
 
         if(requestCode == TAKE_PICTURE){
@@ -111,9 +112,28 @@ public class CameraActivity extends AppCompatActivity {
                         addElementIntent.putExtra("byteArray", bs.toByteArray());
                         startActivity(addElementIntent);
                     }
-        }           if(
+                    if(AjouterNouvellePhoto == true){
+                        try{
+                            b = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                        }
+                        catch(IOException e){
+                            e.printStackTrace();
+                        }
+
+                        ByteArrayOutputStream bs = new ByteArrayOutputStream(); //Tableau d'octets stocké en mémoire
+
+                        // Convert picture into bitmap format.
+                        b.compress(Bitmap.CompressFormat.JPEG, 50, bs);
+
+                        //Sending bytearray in the AddElementActivity.
+                        addElementIntent.putExtra("byteArray", bs.toByteArray());
+                        startActivity(addElementIntent);
+                    }
+
+                    }
+        }
     }
 
-}
+
 
 

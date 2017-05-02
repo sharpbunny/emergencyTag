@@ -62,4 +62,3 @@ public class PictureGrowActivity extends AppCompatActivity {
 }
 
 
-    final boolean  =  getIntent().getExtras().getBoolean("isNewElement");
