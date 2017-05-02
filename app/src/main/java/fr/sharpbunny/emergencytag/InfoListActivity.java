@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class InfoListActivity extends Activity {
@@ -49,7 +50,20 @@ public class InfoListActivity extends Activity {
         );
     }
 
-    /*
+    /**
+     * @method Transform a Json list into infoelements list.
+     * @return List Composed of infoelements from the JSON file.
+     */
+    private List<InfoElement> generateInfElemFromJSON(){
+        HttpHandler sh = new HttpHandler();
+        List<InfoElement> infoElements = new ArrayList<InfoElement>();
+        String url = "http://rest.nomadi.fr/user/login";
+        HashMap<String, String> elements = new HashMap<>();
+        String jsonStr = sh.makeServiceCall(url, "GET", elements);
+        /*elements.get("");*/
+    }
+
+    /**
     * @method Generating some specimen infoelements to test before adding the JSON
     * */
     private List<InfoElement> genererInfoElements(){
