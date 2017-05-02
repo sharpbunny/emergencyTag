@@ -12,6 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -116,7 +120,9 @@ public class AddElementActivity extends Activity {
      */
     private View.OnClickListener clickListenerValider = new View.OnClickListener(){
         public void onClick(View v){
+            JSONObject jsonAEnvoyer = new JSONObject();
             connexionAuServeurREST();
+            creationObjetJSON(jsonAEnvoyer);
 
         }
     };
@@ -139,5 +145,25 @@ public class AddElementActivity extends Activity {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * On créé le JSON à envoyer avec la méthode POST
+     */
+    private JSONObject creationObjetJSON(JSONObject json){
+        Spinner typeDeLItem = (Spinner)findViewById(R.id.typeSpinner);
+        TextView commentaire = (TextView)findViewById(R.id.textViewCommentaires);
+        try{
+            json.put("typeItem", typeDeLItem.getSelectedItem().toString());
+            if(commentaire.getText().length() > 0){
+                json.put("commentaire", commentaire.getText().toString());
+            }
+        }
+
+        catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        return json;
     }
 }
