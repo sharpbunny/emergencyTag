@@ -47,9 +47,9 @@ public class PictureGrowActivity extends AppCompatActivity {
         /**
          * Zoom l'image
          */
-        final ImageView zoom = imageView;
+        /*final ImageView zoom = imageView;
         final Animation zoomAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom);
-        zoom.startAnimation(zoomAnimation);
+        zoom.startAnimation(zoomAnimation);*/
 
         back = (Button) findViewById(R.id.retourWindows);
        }
