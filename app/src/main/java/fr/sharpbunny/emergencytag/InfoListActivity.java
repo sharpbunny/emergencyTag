@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,14 +56,17 @@ public class InfoListActivity extends Activity {
      * @method Transform a Json list into infoelements list.
      * @return List Composed of infoelements from the JSON file.
      */
-  /*  private List<InfoElement> generateInfElemFromJSON(){
+    private List<InfoElement> generateInfElemFromJSON(){
         HttpHandler sh = new HttpHandler();
         List<InfoElement> infoElements = new ArrayList<InfoElement>();
-        String url = "http://rest.nomadi.fr/user/login";
-        HashMap<String, String> elements = new HashMap<>();
-        String jsonStr = sh.makeServiceCall(url, "GET", elements);
-        /*elements.get("");*/
-    //}
+       // String url = "http://rest.nomadi.fr/user/login";
+       // HashMap<String, String> elements = new HashMap<>();
+        //String jsonStr = sh.makeServiceCall(url, "GET", elements);
+        String jsonStr = "{\"status\":0,\"response\":[{\"idItem\":1,\"nameItem\":\"Extincteur\",\"latitudeItem\":43.5653607,\"longitudeItem\":3.842927,\"typeItem\":\"Extincteur\",\"pictureItem\":\"surprise.jpg\",\"commentItem\":\"Au fond de la salle\"},{\"idItem\":2,\"nameItem\":\"Porte\",\"latitudeItem\":43.5653607,\"longitudeItem\":3.84292755,\"typeItem\":\"Issue de secours\",\"pictureItem\":\"surprise.jpg\",\"commentItem\":\"En haut de l'escalier\"}]}";
+
+        
+        return infoElements;
+    }
 
 
     /**
