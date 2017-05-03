@@ -7,7 +7,7 @@
     <ListView
         android:id="@+id/listView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="150dp" />
 
     <!-- Access to the photo view to create a new element -->
     <Button
@@ -22,4 +22,51 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="12dp"
         />
+
+    <TextView
+        android:id="@+id/BackJson"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/listView"
+        android:layout_marginLeft="33dp"
+        android:layout_marginTop="37dp"
+        android:text="TextView" />
+
+    <EditText
+        android:id="@+id/utilisateur"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Utilisateur"
+        android:textColorHint="#606060"
+        android:layout_below="@+id/BackJson"
+        android:layout_centerHorizontal="true"
+        />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="password"
+        android:textColorHint="#606060"
+        android:layout_below="@+id/utilisateur"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="appuyer"
+        android:layout_above="@+id/accesNewElement"
+        android:layout_alignLeft="@+id/utilisateur"
+        android:layout_alignStart="@+id/utilisateur"
+        android:layout_marginLeft="52dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginBottom="26dp" />
+
 </RelativeLayout>

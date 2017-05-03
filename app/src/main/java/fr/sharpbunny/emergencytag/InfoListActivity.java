@@ -8,8 +8,13 @@ import android.util.Log;
 import android.view.View;
 
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +25,12 @@ public class InfoListActivity extends Activity {
      */
     private String TAG = InfoListActivity.class.getSimpleName();
     private ListView mListView;
-
+    private TextView retourJson;
+    private Button appuyer;
     Button accesNewElementBtn;
-
+     EditText UsernameEt;
+    EditText PasswordEt;
+    BackgroundWorker backgroundworker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +40,27 @@ public class InfoListActivity extends Activity {
         accesNewElementBtn = (Button)findViewById(R.id.accesNewElement);
 
         mListView = (ListView) findViewById(R.id.listView);
+        retourJson = (TextView) findViewById(R.id.BackJson);
 
+
+        //************************connexion par url****************************************************
+
+        UsernameEt= (EditText) findViewById(R.id.utilisateur);
+        PasswordEt=(EditText) findViewById(R.id.password);
+        appuyer= (Button) findViewById(R.id.button3);
+       final BackgroundWorker backgroundworker = new BackgroundWorker(this);
+        appuyer.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+
+                String username = UsernameEt.getText().toString();//stock saisi de l'utilisateur
+        String password=PasswordEt.getText().toString();//stock saisi de l'utilisateur
+        String type ="login";
+
+        backgroundworker.execute(type,username,password);//Envoi les parametres saisi a la class
+                                       }
+                                   });
+        //************************************************************************************************
         List<InfoElement> infoElements = genererInfoElements();
 
         InfoElementAdapter adapter = new InfoElementAdapter(InfoListActivity.this, infoElements);
@@ -77,4 +105,8 @@ public class InfoListActivity extends Activity {
         return infoElements;
     }
 
+    public void connection(){
+
+
+    }
 }

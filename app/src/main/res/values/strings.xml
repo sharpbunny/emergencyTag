@@ -5,6 +5,7 @@
     <string name="accessDenied">Access denied</string>
     <string name="photo">photo</string>
     <string name="rest">rest</string>
+    <string name="cool">cool ca work</string>
         <!-- Liste des types des items qui seront contenus dans le spinner de addElementActivity -->
     <string-array name="typeItemArray">
         <item>Alarmes</item>
