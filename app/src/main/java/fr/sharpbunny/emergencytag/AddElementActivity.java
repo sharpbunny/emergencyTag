@@ -15,11 +15,16 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -98,6 +103,37 @@ public class AddElementActivity extends Activity {
         //ArrayAdapter: Tableau contenant un item par case
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.typeItemArray, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        TextView commentaire = (TextView) findViewById(R.id.textViewCommentaires);
+
+        HttpURLConnection connection;
+        try {
+            //On configure la connexion au serveur REST
+            URL url = new URL("http://rest.nomadi.fr/items");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+
+            OutputStream stream = connection.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stream));
+            JSONObject item = new JSONObject();
+            item.put("idUser", 1);
+            if(commentaire.getText() != null){
+                item.put("commentaire", commentaire.getText());
+            }
+
+            item.put("majItem", "2016/10/5");
+            item.put("item_Lat", 30);
+            item.put("item_Lon", 54);
+            item.put("id_Type", 1);
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         //Permet d'insérer les objets dans une listView
         elementSpinner.setAdapter(adapter);
