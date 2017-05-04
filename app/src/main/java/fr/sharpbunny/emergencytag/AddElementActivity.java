@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -210,15 +211,15 @@ public class AddElementActivity extends Activity {
             try{
 
                 URL url = new URL("http://10.111.61.100:3001/item");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 try {
                     //connection.connect();
-                    connection.setRequestMethod("POST");
+                    conn.setRequestMethod("POST");
                     Log.i("info", "1");
 
-                    //connection.setRequestProperty("Content-Type","application/json");
-                    connection.setDoOutput(true);
-                    connection.connect();
+                    conn.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+                    conn.setDoOutput(true);
+                    conn.connect();
                     Log.i("info", "2");
                     //json = "{\"id\" : 145}";
                     //DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
@@ -226,19 +227,29 @@ public class AddElementActivity extends Activity {
                     //wr.flush();
                     //wr.close();
 
-                    OutputStream outputPost = new BufferedOutputStream(connection.getOutputStream());
-                    BufferedWriter write = new BufferedWriter((new OutputStreamWriter(outputPost, "UTF-8")));
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                    wr.write("{\"id\" : 145}");  //<--- sending data.
+
+                    wr.flush();
+                    BufferedReader serverAnswer = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String line;
+                    while ((line = serverAnswer.readLine()) != null) {
+
+                        System.out.println("LINE: " + line); //<--If any response from server
+                        //use it as you need, if server send something back you will get it here.
+                    }
+
                     Log.i("info", json);
-                    outputPost.write(json.getBytes());
-                    write.close();
-                    outputPost.close();
+                    //outputPost.write(json.getBytes());
+                    wr.close();
+                    serverAnswer.close();
                     Log.i("info", "4");
 
 
                     Log.i("info", "Processus terminé");
                 } finally {
                     Log.i("info", "on entre dans le finally madafuckaaaa");
-                    connection.disconnect();
+                    conn.disconnect();
                 }
 
 
