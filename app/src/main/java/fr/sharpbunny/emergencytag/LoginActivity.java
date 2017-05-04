@@ -26,28 +26,20 @@ public class LoginActivity extends Activity {
     private String password = "";
     private boolean connected = false;
 
-    Button mybuttonD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mybuttonD = (Button) findViewById(R.id.buttonDetail);
-        mybuttonD.setOnClickListener(gotoDetail);
 
     }
 
 
-    private View.OnClickListener gotoDetail = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            Intent intent =new Intent(LoginActivity.this,DetailsActivity.class);
-            startActivity(intent);
-        }
-    };
-
+    /**
+     *
+     * @param v
+     */
     public void Login(View v) {
 
         EditText ChampLogin = (EditText) findViewById(R.id.ChampLogin);
