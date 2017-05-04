@@ -209,7 +209,8 @@ public class AddElementActivity extends Activity {
             try{
 
 
-                URL url = new URL("http://10.111.61.100:3001/item");
+                //URL url = new URL("http://10.111.61.100:3001/item");
+                URL url = new URL("http://10.111.61.94:3001/item");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 try {
