@@ -33,7 +33,7 @@
 
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/textNom"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:gravity="center"
@@ -41,12 +41,12 @@
             android:text="Nom" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textCom"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:text="Emplacement"
             android:gravity="center"
-            android:layout_below="@id/textView1"
+            android:layout_below="@id/textNom"
             android:layout_weight="1" />
 
     </LinearLayout>
