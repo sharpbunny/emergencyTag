@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -136,8 +137,9 @@ public class AddElementActivity extends Activity {
      */
     private View.OnClickListener clickListenerValider = new View.OnClickListener(){
         public void onClick(View v){
+            JSONObject jsonAEnvoyer = new JSONObject();
 
-            item = creationObjetJSON();
+            item = creationObjetJSON(jsonAEnvoyer);
             Toast.makeText(AddElementActivity.this, "Connexion au serveur REST", Toast.LENGTH_SHORT).show();
             connexionAuServeurREST();
 
@@ -160,10 +162,9 @@ public class AddElementActivity extends Activity {
     /**
      * On créé le JSON à envoyer avec la méthode POST
      */
-    private JSONObject creationObjetJSON(){
+    private JSONObject creationObjetJSON(JSONObject json){
         Spinner typeDeLItem = (Spinner)findViewById(R.id.typeSpinner);
         TextView commentaire = (TextView)findViewById(R.id.textViewCommentaires);
-        JSONObject json = new JSONObject();
 
         try {
 
@@ -191,7 +192,7 @@ public class AddElementActivity extends Activity {
         return null;
     }
 
-    private class envoyerJSON extends AsyncTask<String, Void, Void>{
+    private class envoyerJSON extends AsyncTask<Void, Void, Void>{
 
         @Override
         protected void onPreExecute() {
@@ -201,7 +202,7 @@ public class AddElementActivity extends Activity {
         }
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected Void doInBackground(Void... params) {
             Log.i("info", "On entre dans doInBackground");
             String json = item.toString();
             Spinner typeDeLItem = (Spinner)findViewById(R.id.typeSpinner);
@@ -209,16 +210,15 @@ public class AddElementActivity extends Activity {
             try{
 
                 URL url = new URL("http://rest.nomadi.fr/item");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 try {
                     //connection.connect();
-                    connection.setRequestMethod("POST");
+                    conn.setRequestMethod("POST");
                     Log.i("info", "1");
 
-                    connection.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-                    connection.setDoOutput(true);
-                    connection.setDoInput(true);
-                    connection.connect();
+                    conn.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+                    conn.setDoOutput(true);
+                    conn.connect();
                     Log.i("info", "2");
                     //json = "{\"id\" : 145}";
                     //DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
@@ -226,20 +226,29 @@ public class AddElementActivity extends Activity {
                     //wr.flush();
                     //wr.close();
 
-                    OutputStream outputPost = new BufferedOutputStream(connection.getOutputStream());
-                    BufferedWriter write = new BufferedWriter((new OutputStreamWriter(outputPost, "UTF-8")));
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                    wr.write(json);  //<--- sending data.
+
+                    wr.flush();
+                    BufferedReader serverAnswer = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String line;
+                    while ((line = serverAnswer.readLine()) != null) {
+
+                        Log.i("LINE: ", line); //<--If any response from server
+                        //use it as you need, if server send something back you will get it here.
+                    }
+
                     Log.i("info", json);
-                    outputPost.write(json.getBytes());
-                    //write.write(json);
-                    write.close();
-                    outputPost.close();
+                    //outputPost.write(json.getBytes());
+                    wr.close();
+                    serverAnswer.close();
                     Log.i("info", "4");
 
 
                     Log.i("info", "Processus terminé");
                 } finally {
                     Log.i("info", "on entre dans le finally madafuckaaaa");
-                    connection.disconnect();
+                    conn.disconnect();
                 }
 
 
