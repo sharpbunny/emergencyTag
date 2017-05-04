@@ -40,6 +40,10 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             }
         });
     }
+    public void onClickAjout(View v) {
+        Intent intent = new Intent(this, CameraActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

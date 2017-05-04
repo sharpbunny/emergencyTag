@@ -25,6 +25,7 @@ public class LoginActivity extends Activity {
     private String login = "";
     private String password = "";
     private boolean connected = false;
+    private JSONObject jsonObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +99,7 @@ public class LoginActivity extends Activity {
             Log.d(TAG, "Response from url: " + jsonStr);
             if (jsonStr != null) {
                 try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
+                    jsonObj = new JSONObject(jsonStr);
                     // Getting JSON status
                     // REST return 0 if OK, 1 if not
                     if (jsonObj.getInt("status")==0) {
@@ -140,6 +141,12 @@ public class LoginActivity extends Activity {
             super.onPostExecute(result);
             if (connected) {
                 Intent intent = new Intent(getApplicationContext(), InfoListActivity.class);
+                try {
+                    intent.putExtra("idUser", jsonObj.getInt("id"));
+                    intent.putExtra("token", jsonObj.getString("token"));
+                } catch (final JSONException e) {
+                    Log.e(TAG, "Json parsing error for put extra: " + e.getMessage());
+                }
                 startActivity(intent);
             } else {
                 Toast.makeText(LoginActivity.this, R.string.accessDenied,

@@ -80,6 +80,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Ajout"
+            android:onClick="onClickAjout"
             android:layout_gravity="right"/>
 
     </LinearLayout>

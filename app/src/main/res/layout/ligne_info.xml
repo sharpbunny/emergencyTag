@@ -7,32 +7,46 @@
     >
 
     <ImageView
-        android:id="@+id/photo"
+        android:id="@+id/item_photo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         tools:background="#AAA"
         />
 
     <TextView
-        android:id="@+id/type"
+        android:id="@+id/item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/photo"
-        android:layout_alignTop="@+id/photo"
+        android:layout_marginStart="10dp"
+        android:layout_toRightOf="@+id/item_photo"
+        android:layout_toEndOf="@+id/item_photo"
         android:textStyle="bold"
-        tools:text="Pseudo"
-        />
-
+        tools:text="Item Name"
+        android:layout_alignParentTop="true"
+         />
     <TextView
-        android:id="@+id/commentaire"
+        android:id="@+id/item_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:layout_alignLeft="@+id/type"
-        android:layout_below="@+id/type"
-        tools:text="Texte de mon tweet"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_toRightOf="@+id/item_name"
+        android:layout_alignTop="@+id/item_photo"
+        android:textStyle="bold"
+        tools:text="Item Type"
+        />
+
+    <TextView
+        android:id="@+id/item_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:layout_alignLeft="@+id/item_name"
+        android:layout_below="@+id/item_name"
+        tools:text="Item Comment"
         />
 
 </RelativeLayout>
