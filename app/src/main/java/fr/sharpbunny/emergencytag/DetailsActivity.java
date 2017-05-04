@@ -138,7 +138,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             TextView textCom = (TextView) findViewById(R.id.textCom);
 
             LatLng afpa = new LatLng(item.getLat(),item.getLon());
-            mMap.addMarker(new MarkerOptions().position(afpa).title("Marqueur sur zone").);
+            mMap.addMarker(new MarkerOptions().position(afpa).title("Marqueur sur zone"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(afpa, 20));
 
             textNom.setText(""+item.getId());
