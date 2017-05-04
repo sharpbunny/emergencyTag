@@ -34,9 +34,9 @@ public class HttpHandler {
         String response = null;
         try {
             // check for request method
-            if(method == "POST") {
+            if(method.equals("POST")) {
                 // Make http request with POST
-                Log.e(TAG, "Making POST request on " + reqUrl + " with params " + postDataParams);
+                Log.d(TAG, "Making POST request on " + reqUrl + " with params " + postDataParams);
                 URL url = new URL(reqUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -64,7 +64,7 @@ public class HttpHandler {
                 else {
                     response = "";
                 }
-            } else if (method == "GET") {
+            } else if (method.equals("GET")) {
                 // Make http request with GET
                 Log.d(TAG, "Making GET request on " + reqUrl);
                 URL url = new URL(reqUrl);
