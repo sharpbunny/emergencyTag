@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -30,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -219,6 +221,19 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         }
         return null;
     }
+    private void envoyerImagePourLAgrandir(){
+        //Déclaration des objets
+        Intent pictureGrowIntent = new Intent(this, PictureGrowActivity.class);
+
+        ByteArrayOutputStream bs = new ByteArrayOutputStream(); //Tableau d'octets stocké en mémoire
+
+        //L'image est compressée puis stockée sous forme d'un tableau de données dans bs
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bs);
+
+        //On envoie le tableau de byte dans l'activité pictureGrowActivity
+        pictureGrowIntent.putExtra("byteArray", bs.toByteArray());
+        startActivity(pictureGrowIntent);
+    }
 
     class GetServerData extends AsyncTask {
 
@@ -286,8 +301,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(DetailsActivity.this, PictureGrowActivity.class);
-                    startActivity(i);
+                    envoyerImagePourLAgrandir();
                 }
             });
         }
