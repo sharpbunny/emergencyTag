@@ -136,9 +136,8 @@ public class AddElementActivity extends Activity {
      */
     private View.OnClickListener clickListenerValider = new View.OnClickListener(){
         public void onClick(View v){
-            JSONObject jsonAEnvoyer = new JSONObject();
 
-            item = creationObjetJSON(jsonAEnvoyer);
+            item = creationObjetJSON();
             Toast.makeText(AddElementActivity.this, "Connexion au serveur REST", Toast.LENGTH_SHORT).show();
             connexionAuServeurREST();
 
@@ -161,22 +160,22 @@ public class AddElementActivity extends Activity {
     /**
      * On créé le JSON à envoyer avec la méthode POST
      */
-    private JSONObject creationObjetJSON(JSONObject json){
+    private JSONObject creationObjetJSON(){
         Spinner typeDeLItem = (Spinner)findViewById(R.id.typeSpinner);
         TextView commentaire = (TextView)findViewById(R.id.textViewCommentaires);
+        JSONObject json = new JSONObject();
 
         try {
 
-            JSONObject item = new JSONObject();
-            item.put("idUser", 1);
+            json.put("idUser", 1);
             if (commentaire.getText() != null) {
-                item.put("commentaire", commentaire.getText().toString());
+                json.put("commentaire", commentaire.getText().toString());
             }
 
-            item.put("majItem", "2016/10/5");
-            item.put("item_Lat", 30);
-            item.put("item_Lon", 54);
-            item.put("id_Type", 1);
+            json.put("majItem", "2016/10/5");
+            json.put("item_Lat", 30);
+            json.put("item_Lon", 54);
+            json.put("id_Type", 1);
 
         }
         catch (JSONException e) {
@@ -192,7 +191,7 @@ public class AddElementActivity extends Activity {
         return null;
     }
 
-    private class envoyerJSON extends AsyncTask<Void, Void, Void>{
+    private class envoyerJSON extends AsyncTask<String, Void, Void>{
 
         @Override
         protected void onPreExecute() {
@@ -202,22 +201,23 @@ public class AddElementActivity extends Activity {
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(String... params) {
             Log.i("info", "On entre dans doInBackground");
             String json = item.toString();
             Spinner typeDeLItem = (Spinner)findViewById(R.id.typeSpinner);
             TextView commentaire = (TextView)findViewById(R.id.textViewCommentaires);
             try{
 
-                URL url = new URL("http://10.111.61.100:3001/item");
+                URL url = new URL("http://rest.nomadi.fr/item");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 try {
                     //connection.connect();
                     connection.setRequestMethod("POST");
                     Log.i("info", "1");
 
-                    //connection.setRequestProperty("Content-Type","application/json");
+                    connection.setRequestProperty("Content-Type","application/json; charset=UTF-8");
                     connection.setDoOutput(true);
+                    connection.setDoInput(true);
                     connection.connect();
                     Log.i("info", "2");
                     //json = "{\"id\" : 145}";
@@ -230,6 +230,7 @@ public class AddElementActivity extends Activity {
                     BufferedWriter write = new BufferedWriter((new OutputStreamWriter(outputPost, "UTF-8")));
                     Log.i("info", json);
                     outputPost.write(json.getBytes());
+                    //write.write(json);
                     write.close();
                     outputPost.close();
                     Log.i("info", "4");
