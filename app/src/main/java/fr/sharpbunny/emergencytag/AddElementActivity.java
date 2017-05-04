@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -12,8 +13,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 /**
@@ -49,8 +60,9 @@ public class AddElementActivity extends Activity {
     private void envoyerImagePourLAgrandir(){
         //Déclaration des objets
         Intent pictureGrowIntent = new Intent(this, PictureGrowActivity.class);
-        Bitmap b = BitmapFactory.decodeResource(getResources(),
-                R.drawable.surprise);
+        ImageView image = (ImageView)findViewById(R.id.photoItem);
+        BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+        Bitmap b = drawable.getBitmap();
 
         ByteArrayOutputStream bs = new ByteArrayOutputStream(); //Tableau d'octets stocké en mémoire
 
@@ -96,10 +108,10 @@ public class AddElementActivity extends Activity {
      * http://stackoverflow.com/questions/13226263/i-want-to-transfer-the-image-from-one-activity-to-another
      */
     private void recuperationImage(){
-        if(getIntent().hasExtra("biteArray")){
+        if(getIntent().hasExtra("byteArray")){
             ImageView photo = (ImageView)findViewById(R.id.photoItem);
             Bitmap imageBMP = BitmapFactory.decodeByteArray(
-                    getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("biteArray").length
+                    getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("byteArray").length
             );
             photo.setImageBitmap(imageBMP);
         }
@@ -112,8 +124,59 @@ public class AddElementActivity extends Activity {
      */
     private View.OnClickListener clickListenerValider = new View.OnClickListener(){
         public void onClick(View v){
+            JSONObject jsonAEnvoyer = new JSONObject();
+
+            creationObjetJSON(jsonAEnvoyer);
+            connexionAuServeurREST();
 
 
         }
     };
+
+
+    /**
+     * Permet de se connecter au serveur REST
+     */
+    private void connexionAuServeurREST(){
+        try{
+            URL url = new URL("http://rest.nomadi.fr/item");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+            connection.setRequestMethod("POST");
+
+            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+
+
+        }
+
+        catch(MalformedURLException e){
+            e.printStackTrace();
+        }
+
+        catch(IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * On créé le JSON à envoyer avec la méthode POST
+     */
+    private void creationObjetJSON(JSONObject json){
+        Spinner typeDeLItem = (Spinner)findViewById(R.id.typeSpinner);
+        TextView commentaire = (TextView)findViewById(R.id.textViewCommentaires);
+
+        //On ajoute les éléments dans l'objet JSON
+        try{
+            json.put("typeItem", typeDeLItem.getSelectedItem().toString());
+            if(commentaire.getText().length() > 0){
+                json.put("commentaire", commentaire.getText().toString());
+            }
+        }
+
+        catch(JSONException e){
+            e.printStackTrace();
+        }
+
+    }
 }

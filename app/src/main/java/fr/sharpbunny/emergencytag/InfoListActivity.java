@@ -7,14 +7,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.json.JSONObject;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +70,17 @@ public class InfoListActivity extends Activity {
 
         InfoElementAdapter adapter = new InfoElementAdapter(InfoListActivity.this, infoElements);
         mListView.setAdapter(adapter);
-
+        mListView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent targetElement = new Intent(InfoListActivity.this,DetailsActivity.class);
+                        //targetElement.putExtra("item",itemEntier);
+                        startActivity(targetElement);
+                    }
+                }
+        );
+        mListView.setItemsCanFocus(true);
         accesNewElementBtn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -76,6 +91,8 @@ public class InfoListActivity extends Activity {
                     }
                 }
         );
+
+
     }
 
     /**
@@ -87,10 +104,17 @@ public class InfoListActivity extends Activity {
         List<InfoElement> infoElements = new ArrayList<InfoElement>();
         String url = "http://rest.nomadi.fr/user/login";
         HashMap<String, String> elements = new HashMap<>();
-        String jsonStr = sh.makeServiceCall(url, "GET", elements);
+       // String jsonStr = sh.makeServiceCall(url, "GET", elements);
         /*elements.get("");*/
+
+       // String url = "http://rest.nomadi.fr/user/login";
+       // HashMap<String, String> elements = new HashMap<>();
+        //String jsonStr = sh.makeServiceCall(url, "GET", elements);
+        String jsonStr = "{\"status\":0,\"response\":[{\"idItem\":1,\"nameItem\":\"Extincteur\",\"latitudeItem\":43.5653607,\"longitudeItem\":3.842927,\"typeItem\":\"Extincteur\",\"pictureItem\":\"surprise.jpg\",\"commentItem\":\"Au fond de la salle\"},{\"idItem\":2,\"nameItem\":\"Porte\",\"latitudeItem\":43.5653607,\"longitudeItem\":3.84292755,\"typeItem\":\"Issue de secours\",\"pictureItem\":\"surprise.jpg\",\"commentItem\":\"En haut de l'escalier\"}]}";
+
         return infoElements;
     }
+
 
     /**
     * @method Generating some specimen infoelements to test before adding the JSON

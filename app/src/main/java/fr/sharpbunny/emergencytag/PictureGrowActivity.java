@@ -142,6 +142,7 @@ public class PictureGrowActivity extends AppCompatActivity {
 
     }
 
+
     // CHEZ MOI DEBUT POUR ENREGISTRER LA PHOTO
     /**
      * Méthode pour enregistrer les photos dans le téléphone, avec un nom précis pour chaque photo.
@@ -263,4 +264,9 @@ public class PictureGrowActivity extends AppCompatActivity {
     }*/
 
 
+
+
 }
+
+
+

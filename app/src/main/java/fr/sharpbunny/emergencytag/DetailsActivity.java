@@ -53,6 +53,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         @Override
         public void onClick(View v) {
             Intent intent =new Intent(DetailsActivity.this,CameraActivity.class);
+            intent.putExtra("ajouterNouvellePhoto",true);
             startActivity(intent);
         }
     };

@@ -44,6 +44,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String>{
                 URL url = new URL(login_url);
                 Log.d("azerty",user_name);
                 Log.d("azert",password);
+               // String json = "{\"user_name\" : \""+user_name+"\", \"password\" : \""+password+"\"}";
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
