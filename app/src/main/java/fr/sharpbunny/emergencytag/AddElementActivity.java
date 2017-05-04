@@ -166,16 +166,15 @@ public class AddElementActivity extends Activity {
 
         try {
 
-            JSONObject item = new JSONObject();
-            item.put("idUser", 1);
+            json.put("idUser", 1);
             if (commentaire.getText() != null) {
-                item.put("commentaire", commentaire.getText().toString());
+                json.put("commentaire", commentaire.getText().toString());
             }
 
-            item.put("majItem", "2016/10/5");
-            item.put("item_Lat", 30);
-            item.put("item_Lon", 54);
-            item.put("id_Type", 1);
+            json.put("majItem", "2016/10/5");
+            json.put("item_Lat", 30);
+            json.put("item_Lon", 54);
+            json.put("id_Type", 1);
 
         }
         catch (JSONException e) {
@@ -211,45 +210,37 @@ public class AddElementActivity extends Activity {
 
                 //URL url = new URL("http://10.111.61.100:3001/item");
                 URL url = new URL("http://10.111.61.94:3001/item");
+
+               // URL url = new URL("http://rest.nomadi.fr/item");
+
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 try {
-                    //connection.connect();
+
+
                     conn.setRequestMethod("POST");
-                    Log.i("info", "1");
 
                     conn.setRequestProperty("Content-Type","application/json; charset=UTF-8");
                     conn.setDoOutput(true);
                     conn.connect();
-                    Log.i("info", "2");
-                    //json = "{\"id\" : 145}";
-                    //DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-                    //wr.writeBytes(json);
-                    //wr.flush();
-                    //wr.close();
 
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                    wr.write("{\"id\" : 145}");  //<--- sending data.
+                    wr.write(json);  //<--- sending data.
 
                     wr.flush();
                     BufferedReader serverAnswer = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     String line;
                     while ((line = serverAnswer.readLine()) != null) {
 
-                        System.out.println("LINE: " + line); //<--If any response from server
+                        Log.i("LINE: ", line); //<--If any response from server
                         //use it as you need, if server send something back you will get it here.
                     }
 
-                    Log.i("info", json);
-                    //outputPost.write(json.getBytes());
                     wr.close();
                     serverAnswer.close();
-                    Log.i("info", "4");
 
-
-                    Log.i("info", "Processus terminé");
                 } finally {
-                    Log.i("info", "on entre dans le finally madafuckaaaa");
+
                     conn.disconnect();
                 }
 

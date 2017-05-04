@@ -1,14 +1,18 @@
 package fr.sharpbunny.emergencytag;
 import android.*;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,9 +21,34 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import static android.content.ContentValues.TAG;
+
 public class DetailsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+
+    ProgressDialog progressDialog;
+
+    private String path = "http://rest.nomadi.fr/item/1";
+    private URL url;
+    private StringBuffer response;
+
+    private String responseText;
+    private int responseCode;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +74,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         Button mybuttonA = (Button) findViewById(R.id.ajout);
         mybuttonA.setOnClickListener(gotoCamera);
 
+        new GetServerData().execute();
 
     }
 
@@ -74,6 +104,91 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         LatLng afpa = new LatLng(43.5653607,3.842927);
         mMap.addMarker(new MarkerOptions().position(afpa).title("Marqueur sur l'AFPA"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(afpa, 20));
+
+    }
+    class GetServerData extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+
+            progressDialog = new ProgressDialog(DetailsActivity.this);
+            progressDialog.setMessage("Fetching data");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            return getWebServiceResponseData();
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+
+            // Dismiss the progress dialog
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
+        }
+
+        protected Void getWebServiceResponseData() {
+
+            try {
+
+                url = new URL(path);
+                Log.d(TAG, "ServerData: " + path);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("GET");
+                responseCode = conn.getResponseCode();
+                Log.d(TAG, "Response code: " + responseCode);
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    // Reading response from input Stream
+                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String output;
+                    response = new StringBuffer();
+
+                    while ((output = in.readLine()) != null) {
+                        response.append(output);
+                    }
+                    in.close();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            responseText = response.toString();
+            //Call ServerData() method to call webservice and store result in response
+            //  response = service.ServerData(path, postDataParams);*/
+            Log.d(TAG, "data:" + responseText);
+            try {
+
+                JSONObject jsonObj = new JSONObject(responseText);
+                JSONArray itemDetail = jsonObj.getJSONArray("item");
+
+                for (int i = 0; i < itemDetail.length(); i++) {
+                    JSONObject c = itemDetail.getJSONObject(i);
+                    int id = c.getInt("idItem");
+                    String commentaire = c.getString("commentaire");
+                    int item_Lat = c.getInt("item_Lat");
+                    int item_Lon = c.getInt("item_Lon");
+                    Log.d(TAG, "idUser:" + id);
+                    Log.d(TAG, "commentaire:" + commentaire);
+                    Log.d(TAG, "item_Lat:" + item_Lat);
+                    Log.d(TAG, "item_Lon:" + item_Lon);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
 }
