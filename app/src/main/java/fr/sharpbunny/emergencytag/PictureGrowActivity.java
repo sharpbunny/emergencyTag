@@ -18,7 +18,7 @@ import java.io.File;
 
 import fr.sharpbunny.emergencytag.R;
 
-import static fr.sharpbunny.emergencytag.R.id.gridView;
+//import static fr.sharpbunny.emergencytag.R.id.gridView;
 
 public class PictureGrowActivity extends AppCompatActivity {
 

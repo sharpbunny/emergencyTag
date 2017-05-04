@@ -1,6 +1,7 @@
 package fr.sharpbunny.emergencytag;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ public class GridAdapter extends BaseAdapter {
     public int imgIcon[] = { R.drawable.surprise};
 
     private Context context;
+
 
 
     public GridAdapter(Context c){

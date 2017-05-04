@@ -3,6 +3,8 @@ import android.*;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -42,7 +47,8 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
 
     private GoogleMap mMap;
     ProgressDialog progressDialog;
-    private String path = "http://rest.nomadi.fr/item/1";
+    private String path = "http://rest.nomadi.fr/item/5";
+    private String path1 = "http://rest.nomadi.fr/uploads/Koala.jpg";
     private URL url;
     private StringBuffer response;
     private String responseText;
@@ -52,6 +58,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
     String commentaire;
     int item_Lat;
     int item_Lon;
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,17 +71,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
                 .findFragmentById(R.id.mapView);
         mapFragment.getMapAsync(this);
 
-        GridView gridView = (GridView) findViewById(R.id.gridView);
 
-        gridView.setAdapter(new GridAdapter(this));
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(DetailsActivity.this, PictureGrowActivity.class);
-                startActivity(i);
-            }
-        });
 
         Button mybuttonA = (Button) findViewById(R.id.ajout);
         mybuttonA.setOnClickListener(gotoCamera);
@@ -101,12 +98,6 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             // activate zoom ui controls
             mMap.getUiSettings().setZoomControlsEnabled(true);
         }
-
-        // Add a marker in AFPA, FRANCE, and move the camera.
-        /*LatLng afpa = new LatLng(43,9);
-        mMap.addMarker(new MarkerOptions().position(afpa).title("Marqueur sur zone"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(afpa, 20));*/
-
     }
     class GetServerData extends AsyncTask {
 
@@ -124,8 +115,8 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
 
         @Override
         protected Object doInBackground(Object[] objects) {
+            downloadBitmap(path1);
             return getWebServiceResponseData();
-
         }
 
         @Override
@@ -137,6 +128,12 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
                 progressDialog.dismiss();
             }
 
+            Log.e(TAG, "id: " +item.getId() );
+            Log.e(TAG, "com: " +item.getCommentaire() );
+            Log.e(TAG, "lat: " +item.getLat() );
+            Log.e(TAG, "lon: " +item.getLon() );
+
+
             TextView textNom = (TextView) findViewById(R.id.textNom);
             TextView textCom = (TextView) findViewById(R.id.textCom);
 
@@ -146,6 +143,18 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
 
             textNom.setText(""+item.getId());
             textCom.setText(""+item.getCommentaire());
+
+            ImageView imageView = (ImageView) findViewById(R.id.imageView);
+            imageView.setImageBitmap(bitmap);
+
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(DetailsActivity.this, PictureGrowActivity.class);
+                    startActivity(i);
+                }
+            });
         }
     }
 
@@ -197,7 +206,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
                 Log.d(TAG, "commentaire:" + commentaire);
                 Log.d(TAG, "item_Lat:" + item_Lat);
                 Log.d(TAG, "item_Lon:" + item_Lon);
-                item = new Item(id,commentaire,item_Lon,item_Lat);
+                item = new Item(id,commentaire,item_Lat,item_Lon);
 
             }
 
@@ -215,7 +224,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         int longitude;
         int latitude;
 
-        public Item (int id, String commentaire , int longitude, int latitude) {
+        public Item (int id, String commentaire , int latitude, int longitude) {
             super();
             this.id = id;
             this.commentaire = commentaire;
@@ -231,4 +240,37 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         public int getLat() {return latitude;}
         public void setLat(int latitude) {this.latitude = latitude;}
     }
+    private Bitmap downloadBitmap(String url) {
+        HttpURLConnection urlConnection = null;
+        try {
+            URL uri = new URL(url);
+            urlConnection = (HttpURLConnection) uri.openConnection();
+
+            int statusCode = urlConnection.getResponseCode();
+            if (statusCode != HttpsURLConnection.HTTP_OK) {
+                return null;
+            }
+
+            InputStream inputStream = urlConnection.getInputStream();
+            if (inputStream != null) {
+
+                bitmap = BitmapFactory.decodeStream(inputStream);
+                Log.e(TAG, "downloadBitmap: "+bitmap );
+                return bitmap;
+            }
+        } catch (Exception e) {
+            Log.d("URLCONNECTIONERROR", e.toString());
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            Log.w("ImageDownloader", "Error downloading image from " + url);
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+
+            }
+        }
+        return null;
+    }
+
 }

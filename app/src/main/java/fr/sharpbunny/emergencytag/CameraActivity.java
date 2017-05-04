@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static fr.sharpbunny.emergencytag.R.id.gridView;
+//import static fr.sharpbunny.emergencytag.R.id.gridView;
 import static fr.sharpbunny.emergencytag.R.id.photoItem;
 
 public class CameraActivity extends AppCompatActivity {
