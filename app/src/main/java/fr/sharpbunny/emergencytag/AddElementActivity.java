@@ -212,19 +212,12 @@ public class AddElementActivity extends Activity {
                 URL url = new URL("http://rest.nomadi.fr/item");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 try {
-                    //connection.connect();
+
                     conn.setRequestMethod("POST");
-                    Log.i("info", "1");
 
                     conn.setRequestProperty("Content-Type","application/json; charset=UTF-8");
                     conn.setDoOutput(true);
                     conn.connect();
-                    Log.i("info", "2");
-                    //json = "{\"id\" : 145}";
-                    //DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-                    //wr.writeBytes(json);
-                    //wr.flush();
-                    //wr.close();
 
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                     wr.write(json);  //<--- sending data.
@@ -238,16 +231,11 @@ public class AddElementActivity extends Activity {
                         //use it as you need, if server send something back you will get it here.
                     }
 
-                    Log.i("info", json);
-                    //outputPost.write(json.getBytes());
                     wr.close();
                     serverAnswer.close();
-                    Log.i("info", "4");
 
-
-                    Log.i("info", "Processus terminé");
                 } finally {
-                    Log.i("info", "on entre dans le finally madafuckaaaa");
+
                     conn.disconnect();
                 }
 
