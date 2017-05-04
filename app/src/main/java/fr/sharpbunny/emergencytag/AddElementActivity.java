@@ -209,9 +209,10 @@ public class AddElementActivity extends Activity {
             TextView commentaire = (TextView)findViewById(R.id.textViewCommentaires);
             try{
 
-                URL url = new URL("http://rest.nomadi.fr/item");
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
                 try {
+                    URL url = new URL("http://rest.nomadi.fr/item");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                     conn.setRequestMethod("POST");
 
