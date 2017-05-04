@@ -101,15 +101,13 @@ public class AddElementActivity extends Activity {
     }
 
     /**
-     * @method Permet d'insérer les items écrits dans un string_array dans values/strings dans le Spinner
+     * @method Permet d'insérer les items écrits dans un string_array dans values/strings dans le Spinner*
      * @param elementSpinner
      */
     private void insertionElementSpinner(Spinner elementSpinner){
         //ArrayAdapter: Tableau contenant un item par case
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.typeItemArray, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-
-
 
         //Permet d'insérer les objets dans une listView
         elementSpinner.setAdapter(adapter);
@@ -209,7 +207,7 @@ public class AddElementActivity extends Activity {
             TextView commentaire = (TextView)findViewById(R.id.textViewCommentaires);
             try{
 
-                URL url = new URL("http://10.111.61.100:3001/item");
+                URL url = new URL("http://10.111.61.94:3000");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 try {
                     //connection.connect();
