@@ -6,7 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,12 +16,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -31,7 +42,7 @@ import java.net.URL;
  * Permet d'ajouter un item à la base de données en inscrivant son type, sa photo et sa description
  */
 public class AddElementActivity extends Activity {
-
+    JSONObject item = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +110,8 @@ public class AddElementActivity extends Activity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.typeItemArray, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
+
+
         //Permet d'insérer les objets dans une listView
         elementSpinner.setAdapter(adapter);
     }
@@ -126,7 +139,8 @@ public class AddElementActivity extends Activity {
         public void onClick(View v){
             JSONObject jsonAEnvoyer = new JSONObject();
 
-            creationObjetJSON(jsonAEnvoyer);
+            item = creationObjetJSON(jsonAEnvoyer);
+            Toast.makeText(AddElementActivity.this, "Connexion au serveur REST", Toast.LENGTH_SHORT).show();
             connexionAuServeurREST();
 
 
@@ -138,44 +152,105 @@ public class AddElementActivity extends Activity {
      * Permet de se connecter au serveur REST
      */
     private void connexionAuServeurREST(){
-        try{
-            URL url = new URL("http://rest.nomadi.fr/item");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
-            connection.setRequestMethod("POST");
 
-            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+        envoyerJSON jsonClass = new envoyerJSON();
+        jsonClass.execute();
 
-
-        }
-
-        catch(MalformedURLException e){
-            e.printStackTrace();
-        }
-
-        catch(IOException e){
-            e.printStackTrace();
-        }
 
     }
 
     /**
      * On créé le JSON à envoyer avec la méthode POST
      */
-    private void creationObjetJSON(JSONObject json){
+    private JSONObject creationObjetJSON(JSONObject json){
         Spinner typeDeLItem = (Spinner)findViewById(R.id.typeSpinner);
         TextView commentaire = (TextView)findViewById(R.id.textViewCommentaires);
 
-        //On ajoute les éléments dans l'objet JSON
-        try{
-            json.put("typeItem", typeDeLItem.getSelectedItem().toString());
-            if(commentaire.getText().length() > 0){
+        try {
+
+            json.put("idUser", 1);
+            if (commentaire.getText() != null) {
                 json.put("commentaire", commentaire.getText().toString());
             }
+
+            json.put("majItem", "2016/10/5");
+            json.put("item_Lat", 30);
+            json.put("item_Lon", 54);
+            json.put("id_Type", 1);
+
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        catch(JSONException e){
-            e.printStackTrace();
+        return json;
+    }
+
+
+    private String getServerResponse(String jsonStr) {
+
+        return null;
+    }
+
+    private class envoyerJSON extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(AddElementActivity.this, R.string.requestAccess, Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Log.i("info", "On entre dans doInBackground");
+            String json = item.toString();
+            Spinner typeDeLItem = (Spinner)findViewById(R.id.typeSpinner);
+            TextView commentaire = (TextView)findViewById(R.id.textViewCommentaires);
+            try{
+
+                URL url = new URL("http://rest.nomadi.fr/item");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                try {
+
+
+                    conn.setRequestMethod("POST");
+
+                    conn.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+                    conn.setDoOutput(true);
+                    conn.connect();
+
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                    wr.write(json);  //<--- sending data.
+
+                    wr.flush();
+                    BufferedReader serverAnswer = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String line;
+                    while ((line = serverAnswer.readLine()) != null) {
+
+                        Log.i("LINE: ", line); //<--If any response from server
+                        //use it as you need, if server send something back you will get it here.
+                    }
+
+                    wr.close();
+                    serverAnswer.close();
+
+                } finally {
+
+                    conn.disconnect();
+                }
+
+
+            }
+
+            catch(MalformedURLException e){
+                e.printStackTrace();
+            }
+
+            catch(IOException e){
+                e.printStackTrace();
+            }
+            return null;
         }
 
     }
