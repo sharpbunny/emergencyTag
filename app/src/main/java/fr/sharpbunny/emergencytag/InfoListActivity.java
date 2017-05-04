@@ -1,30 +1,36 @@
 package fr.sharpbunny.emergencytag;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public class InfoListActivity extends Activity {
+public class InfoListActivity extends AppCompatActivity {
     /**
      *  TAG is used in log to identify origin of log
      */
     private String TAG = InfoListActivity.class.getSimpleName();
-    private ListView mListView;
 
-    Button accesNewElementBtn;
+    private ListView mListView;
+    private JSONObject jsonResp;
+
+    Button addNewElementBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,67 +38,110 @@ public class InfoListActivity extends Activity {
         Log.d(TAG, "Entering infolist...");
         setContentView(R.layout.activity_info_list);
 
-        accesNewElementBtn = (Button)findViewById(R.id.accesNewElement);
 
-        mListView = (ListView) findViewById(R.id.listView);
+        addNewElementBtn = (Button)findViewById(R.id.accesNewElement);
 
-        List<InfoElement> infoElements = genererInfoElements();
 
-        InfoElementAdapter adapter = new InfoElementAdapter(InfoListActivity.this, infoElements);
-        mListView.setAdapter(adapter);
-        mListView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent targetElement = new Intent(InfoListActivity.this,DetailsActivity.class);
-                        //targetElement.putExtra("item",itemEntier);
-                        startActivity(targetElement);
-                    }
-                }
-        );
-        mListView.setItemsCanFocus(true);
-        accesNewElementBtn.setOnClickListener(
-                new View.OnClickListener() {
+
+        addNewElementBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent newPhotoToNewElement = new Intent(InfoListActivity.this,CameraActivity.class);
-                        newPhotoToNewElement.putExtra("isNewElement",true);
-                        startActivity(newPhotoToNewElement);
+                        Intent intent = new Intent(InfoListActivity.this,DetailsActivity.class);
+                        intent.putExtra("isNewElement",true);
+                        startActivity(intent);
                     }
                 }
         );
-
-
+        new GetJsonItem().execute();
     }
-
     /**
-     * @method Transform a Json list into infoelements list.
-     * @return List Composed of infoelements from the JSON file.
+     * Async task to check login
      */
-    private List<InfoElement> generateInfElemFromJSON(){
-        HttpHandler sh = new HttpHandler();
-        List<InfoElement> infoElements = new ArrayList<InfoElement>();
-       // String url = "http://rest.nomadi.fr/user/login";
-       // HashMap<String, String> elements = new HashMap<>();
-        //String jsonStr = sh.makeServiceCall(url, "GET", elements);
-        String jsonStr = "{\"status\":0,\"response\":[{\"idItem\":1,\"nameItem\":\"Extincteur\",\"latitudeItem\":43.5653607,\"longitudeItem\":3.842927,\"typeItem\":\"Extincteur\",\"pictureItem\":\"surprise.jpg\",\"commentItem\":\"Au fond de la salle\"},{\"idItem\":2,\"nameItem\":\"Porte\",\"latitudeItem\":43.5653607,\"longitudeItem\":3.84292755,\"typeItem\":\"Issue de secours\",\"pictureItem\":\"surprise.jpg\",\"commentItem\":\"En haut de l'escalier\"}]}";
+    private class GetJsonItem extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(InfoListActivity.this, "Getting Json item", Toast.LENGTH_SHORT).show();
 
-        
-        return infoElements;
-    }
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response
+            String url = "http://rest.nomadi.fr/item";
+            String json = sh.makeServiceCall(url, "GET", null);
+
+            //Log.e(TAG, "Response from url: " + json);
+            if (json != null) {
+                try {
+                    jsonResp = new JSONObject(json);
+                    // Getting JSON message
+                    //jsonResp = jsonObj.getString("response");
+
+                } catch (final JSONException e) {
+                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    "Json parsing error: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            final Context context = InfoListActivity.this;
+            // Get data to display
+            final ArrayList<InfoElement> infoElements = InfoElement.getInfoElements(jsonResp, InfoListActivity.this);
+
+            // Create adapter
+            InfoElementAdapter adapter = new InfoElementAdapter(InfoListActivity.this, infoElements);
 
 
-    /**
-    * @method Generating some specimen infoelements to test before adding the JSON
-    * */
-    private List<InfoElement> genererInfoElements(){
-        List<InfoElement> infoElements = new ArrayList<InfoElement>();
-        infoElements.add(new InfoElement(Color.BLACK, "Florent", "Mon premier InfoElement !"));
-        infoElements.add(new InfoElement(Color.BLUE, "Kevin", "C'est ici que ça se passe !"));
-        infoElements.add(new InfoElement(Color.GREEN, "Logan", "Que c'est beau..."));
-        infoElements.add(new InfoElement(Color.RED, "Mathieu", "Il est quelle heure ??"));
-        infoElements.add(new InfoElement(Color.GRAY, "Willy", "On y est presque"));
-        return infoElements;
+            // Create list view
+            mListView = (ListView) findViewById(R.id.listView);
+            mListView.setAdapter(adapter);
+
+            // Set what happens when a list view item is clicked
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    InfoElement selectedInfoElement = infoElements.get(position);
+                    // Calling intent with item details
+                    Intent detailIntent = new Intent(context, DetailsActivity.class);
+                    detailIntent.putExtra("idItem", selectedInfoElement.idItem);
+                    detailIntent.putExtra("nameItem", selectedInfoElement.nameItem);
+                    detailIntent.putExtra("latitudeItem", selectedInfoElement.latitudeItem);
+                    detailIntent.putExtra("longitudeItem", selectedInfoElement.longitudeItem);
+
+                    startActivity(detailIntent);
+                }
+
+            });
+
+        }
     }
 
 }
