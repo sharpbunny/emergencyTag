@@ -31,24 +31,26 @@ public class InfoElement {
         try {
             // Load data
             //JSONObject json = new JSONObject(jsonresp);
-            JSONArray infoelements = jsonresp.getJSONArray("response");
-            //Log.d(TAG, infoelements.toString());
-            // Get Item objects from data
-            for(int i = 0; i < infoelements.length(); i++){
-                InfoElement infoelement = new InfoElement();
+            if (jsonresp != null) {
+                JSONArray infoelements = jsonresp.getJSONArray("response");
+                //Log.d(TAG, infoelements.toString());
+                // Get Item objects from data
+                for (int i = 0; i < infoelements.length(); i++) {
+                    InfoElement infoelement = new InfoElement();
 
-                infoelement.idItem = infoelements.getJSONObject(i).getInt("idItem");
-                infoelement.nameItem = infoelements.getJSONObject(i).getString("commentaire");
-                infoelement.latitudeItem = infoelements.getJSONObject(i).getString("item_Lat");
-                infoelement.longitudeItem = infoelements.getJSONObject(i).getString("item_Lon");
-                infoelement.typeItem = infoelements.getJSONObject(i).getString("LabelType");
-                // TODO create 2 links with rest: 1 for picture, 1 for thumbnail
-                //infoelement.pictureItem = "http://rest.nomadi.fr/uploads/" + infoelements.getJSONObject(i).getString("pictureItem") + "?dim=60x60";
-                infoelement.pictureItem = "http://rest.nomadi.fr/uploads/Koala.jpg?dim=40x40";
-                Log.d(TAG,infoelement.pictureItem);
-                infoelement.commentItem = infoelements.getJSONObject(i).getString("commentaire");
+                    infoelement.idItem = infoelements.getJSONObject(i).getInt("idItem");
+                    infoelement.nameItem = infoelements.getJSONObject(i).getString("commentaire");
+                    infoelement.latitudeItem = infoelements.getJSONObject(i).getString("item_Lat");
+                    infoelement.longitudeItem = infoelements.getJSONObject(i).getString("item_Lon");
+                    infoelement.typeItem = infoelements.getJSONObject(i).getString("LabelType");
+                    // picture are in an array
+                    //infoelement.pictureItem = "http://rest.nomadi.fr/uploads/" + infoelements.getJSONObject(i).getString("pictureItem") + "?dim=60x60";
+                    infoelement.pictureItem = "http://rest.nomadi.fr/uploads/Koala.jpg?dim=40x40";
+                    Log.d(TAG, infoelement.pictureItem);
+                    infoelement.commentItem = infoelements.getJSONObject(i).getString("commentaire");
 
-                infoElementList.add(infoelement);
+                    infoElementList.add(infoelement);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

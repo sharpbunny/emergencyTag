@@ -60,7 +60,7 @@ public class LoginActivity extends Activity {
 
         // accès a l'activity DetailsActivity avec login "detail"
         else if (ChampLogin.getText().toString().equals("detail")){
-            Intent intent = new Intent(this, DetailsActivity.class);
+            Intent intent = new Intent(this, InfoListActivity.class);
             startActivity(intent);}
 
         // accès a l'activity PictureGrowActivity avec login "picture"
