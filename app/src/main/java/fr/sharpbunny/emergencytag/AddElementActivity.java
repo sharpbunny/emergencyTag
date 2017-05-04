@@ -1,6 +1,7 @@
 package fr.sharpbunny.emergencytag;
 
 import android.app.Activity;
+import android.app.VoiceInteractor;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,15 +9,23 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,9 +42,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.R.attr.bitmap;
+import static android.provider.Settings.NameValueTable.NAME;
 
 
 /**
@@ -43,13 +59,25 @@ import java.net.URL;
  */
 public class AddElementActivity extends Activity {
     JSONObject item = new JSONObject();
+    ImageView img = null;
+    BitmapDrawable drawable4 = null;
+    Bitmap imageBMP;
+    ImageView photo;
+    byte[] imgbyte;
+    private final int IMG_REQUEST = 1;
+    private EditText NAME;
+    private String imgencode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_add_element);
+        img = (ImageView) findViewById(R.id.photoItem);
+        drawable4 = (BitmapDrawable) img.getDrawable();
         initialisation();
+
     }
 
     /**
@@ -79,7 +107,7 @@ public class AddElementActivity extends Activity {
 
         //L'image est compressée puis stockée sous forme d'un tableau de données dans bs
         b.compress(Bitmap.CompressFormat.JPEG, 50, bs);
-
+        imgbyte = bs.toByteArray();
         //On envoie le tableau de byte dans l'activité pictureGrowActivity
         pictureGrowIntent.putExtra("byteArray", bs.toByteArray());
         startActivity(pictureGrowIntent);
@@ -92,7 +120,7 @@ public class AddElementActivity extends Activity {
         Spinner typeElementSpinner = null;
         typeElementSpinner = (Spinner)findViewById(R.id.typeSpinner);
         Button boutonValider = (Button)findViewById(R.id.validerPhotoButton);
-        ImageView photo = (ImageView)findViewById(R.id.photoItem);
+        photo = (ImageView)findViewById(R.id.photoItem);
 
         insertionElementSpinner(typeElementSpinner);
         boutonValider.setOnClickListener(clickListenerValider);
@@ -120,11 +148,17 @@ public class AddElementActivity extends Activity {
      */
     private void recuperationImage(){
         if(getIntent().hasExtra("byteArray")){
-            ImageView photo = (ImageView)findViewById(R.id.photoItem);
-            Bitmap imageBMP = BitmapFactory.decodeByteArray(
+             photo = (ImageView)findViewById(R.id.photoItem);
+             imageBMP = BitmapFactory.decodeByteArray(
                     getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("byteArray").length
             );
             photo.setImageBitmap(imageBMP);
+            ByteArrayOutputStream bs = new ByteArrayOutputStream(); //Tableau d'octets stocké en mémoire
+
+            //L'image est compressée puis stockée sous forme d'un tableau de données dans bs
+            imageBMP.compress(Bitmap.CompressFormat.JPEG, 50, bs);
+            imgbyte = bs.toByteArray();
+
         }
     }
 
@@ -140,6 +174,7 @@ public class AddElementActivity extends Activity {
             item = creationObjetJSON(jsonAEnvoyer);
             Toast.makeText(AddElementActivity.this, "Connexion au serveur REST", Toast.LENGTH_SHORT).show();
             connexionAuServeurREST();
+            uploadUneImage();
 
 
         }
@@ -189,7 +224,47 @@ public class AddElementActivity extends Activity {
 
         return null;
     }
+    //Envoi de l'image au serveur
+    private void uploadUneImage(){
+        String uploadurl = "http://10.111.61.94:3001/upload";
+         imgencode = Base64.encodeToString(imgbyte,Base64.DEFAULT);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,uploadurl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String Response=jsonObject.getString("response");
+                            Toast.makeText(AddElementActivity.this,Response,Toast.LENGTH_LONG).show();
+                            img.setImageResource(0);
+                            img.setVisibility(View.GONE);
+                            NAME.setText("");
+                            NAME.setVisibility(View.GONE);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
+                    }
+                }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error){
+
+            }
+        })
+        {
+            @Override
+            protected Map<String ,String>getParams()throws AuthFailureError{
+                Map<String,String>params=new HashMap<>();
+                params.put("name",NAME.getText().toString().trim());
+                params.put("image",imgencode);
+                return super.getParams();
+            }
+        };
+        MySingleton.getInstance(AddElementActivity.this).addToRequestQueue(stringRequest);
+
+    }
+
+    //***************************************************************************************************************
     private class envoyerJSON extends AsyncTask<Void, Void, Void>{
 
         @Override
@@ -198,6 +273,7 @@ public class AddElementActivity extends Activity {
             Toast.makeText(AddElementActivity.this, R.string.requestAccess, Toast.LENGTH_SHORT).show();
 
         }
+
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -243,7 +319,105 @@ public class AddElementActivity extends Activity {
 
                     conn.disconnect();
                 }
+                //******************image upload*********************************************************
 
+
+
+                //*********************************img***********************
+               /*DataOutputStream request = null;
+                HttpURLConnection httpUrlConnection = null;
+                URL url2 = null;
+                try {
+                    url2 = new URL("http://10.111.61.94:3001/upload");
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    httpUrlConnection = (HttpURLConnection) url.openConnection();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                httpUrlConnection.setUseCaches(false);
+                httpUrlConnection.setDoOutput(true);
+
+                try {
+                    httpUrlConnection.setRequestMethod("POST");
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                }
+                httpUrlConnection.setRequestProperty("Connection", "Keep-Alive");
+                httpUrlConnection.setRequestProperty("Cache-Control", "no-cache");
+
+                try {
+                    request = new DataOutputStream(
+                            httpUrlConnection.getOutputStream());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                Bitmap bitmap = drawable4.getBitmap();
+
+                byte[] pixels = new byte[bitmap.getWidth() * bitmap.getHeight()];
+                for (int i = 0; i < bitmap.getWidth(); ++i) {
+                    for (int j = 0; j < bitmap.getHeight(); ++j) {
+                        //we're interested only in the MSB of the first byte,
+                        //since the other 3 bytes are identical for B&W images
+                        pixels[i + j] = (byte) ((bitmap.getPixel(i, j) & 0x80) >> 7);
+                    }
+                }
+
+                try {
+                    request.write(pixels);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    request.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    request.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                InputStream responseStream = null;
+                try {
+                    responseStream = new
+                            BufferedInputStream(httpUrlConnection.getInputStream());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                BufferedReader responseStreamReader =
+                        new BufferedReader(new InputStreamReader(responseStream));
+
+                String line = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                try {
+                    while ((line = responseStreamReader.readLine()) != null) {
+                        stringBuilder.append(line).append("\n");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    responseStreamReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                String response = stringBuilder.toString();
+                try {
+                    responseStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                httpUrlConnection.disconnect();*/
 
             }
 
@@ -254,6 +428,7 @@ public class AddElementActivity extends Activity {
             catch(IOException e){
                 e.printStackTrace();
             }
+            //****************fin img******************************
             return null;
         }
 
