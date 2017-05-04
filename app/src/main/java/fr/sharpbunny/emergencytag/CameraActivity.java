@@ -27,6 +27,11 @@ import java.util.Date;
 import static fr.sharpbunny.emergencytag.R.id.photoItem;
 
 public class CameraActivity extends AppCompatActivity {
+    /**
+     * TAG is used in log to identify origin of log
+     */
+    public static final String TAG = CameraActivity.class.getSimpleName();
+
     Button boutonCamera;
     ImageView imageView;
     Bitmap b;
