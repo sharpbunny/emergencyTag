@@ -60,6 +60,11 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
     int item_Lon;
     Bitmap bitmap;
 
+    int idItem;
+    String nameItem;
+    int latItem;
+    int lonItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,64 +102,6 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             mMap.setMyLocationEnabled(true);
             // activate zoom ui controls
             mMap.getUiSettings().setZoomControlsEnabled(true);
-        }
-    }
-    class GetServerData extends AsyncTask {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Showing progress dialog
-
-            progressDialog = new ProgressDialog(DetailsActivity.this);
-            progressDialog.setMessage("Fetching data");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-
-        }
-
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            downloadBitmap(path1);
-            return getWebServiceResponseData();
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-
-            // Dismiss the progress dialog
-            if (progressDialog.isShowing()) {
-                progressDialog.dismiss();
-            }
-
-            Log.e(TAG, "id: " +item.getId() );
-            Log.e(TAG, "com: " +item.getCommentaire() );
-            Log.e(TAG, "lat: " +item.getLat() );
-            Log.e(TAG, "lon: " +item.getLon() );
-
-
-            TextView textNom = (TextView) findViewById(R.id.textNom);
-            TextView textCom = (TextView) findViewById(R.id.textCom);
-
-            LatLng afpa = new LatLng(item.getLat(),item.getLon());
-            mMap.addMarker(new MarkerOptions().position(afpa).title("Marqueur sur zone"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(afpa, 20));
-
-            textNom.setText(""+item.getId());
-            textCom.setText(""+item.getCommentaire());
-
-            ImageView imageView = (ImageView) findViewById(R.id.imageView);
-            imageView.setImageBitmap(bitmap);
-
-
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(DetailsActivity.this, PictureGrowActivity.class);
-                    startActivity(i);
-                }
-            });
         }
     }
 
@@ -273,4 +220,76 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         return null;
     }
 
+    class GetServerData extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+
+            progressDialog = new ProgressDialog(DetailsActivity.this);
+            progressDialog.setMessage("Fetching data");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            downloadBitmap(path1);
+            return getWebServiceResponseData();
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+
+            // Dismiss the progress dialog
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+
+            Intent detailIntent = getIntent();
+
+            idItem = detailIntent.getIntExtra("idItem", 0);
+            nameItem = detailIntent.getStringExtra("nameItem");
+            latItem = detailIntent.getIntExtra("latitudeItem", 0);
+            lonItem = detailIntent.getIntExtra("longitudeItem", 0);
+
+
+
+            /*Log.e(TAG, "id: " +item.getId() );
+            Log.e(TAG, "com: " +item.getCommentaire() );
+            Log.e(TAG, "lat: " +item.getLat() );
+            Log.e(TAG, "lon: " +item.getLon() );*/
+
+            Log.e(TAG, "id: " +idItem);
+            Log.e(TAG, "com: " +nameItem );
+            Log.e(TAG, "lat: " +latItem );
+            Log.e(TAG, "lon: " +lonItem );
+
+
+            TextView textNom = (TextView) findViewById(R.id.textNom);
+            TextView textCom = (TextView) findViewById(R.id.textCom);
+
+            LatLng afpa = new LatLng(latItem,lonItem);
+            mMap.addMarker(new MarkerOptions().position(afpa).title("Marqueur sur zone"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(afpa, 20));
+
+            textNom.setText(""+idItem);
+            textCom.setText(""+nameItem);
+
+            ImageView imageView = (ImageView) findViewById(R.id.imageView);
+            imageView.setImageBitmap(bitmap);
+
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(DetailsActivity.this, PictureGrowActivity.class);
+                    startActivity(i);
+                }
+            });
+        }
+    }
 }
