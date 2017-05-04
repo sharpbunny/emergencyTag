@@ -26,13 +26,10 @@ public class LoginActivity extends Activity {
     private String password = "";
     private boolean connected = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
     }
 
 
