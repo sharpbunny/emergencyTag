@@ -74,7 +74,7 @@ public class HttpHandler {
                 InputStream in = new BufferedInputStream(conn.getInputStream());
                 response = convertStreamToString(in);
             }
-            Log.d(TAG, "Response of request on " + reqUrl + " is " + response);
+            //Log.d(TAG, "Response of request on " + reqUrl + " is " + response);
         } catch (MalformedURLException e) {
             Log.e(TAG, "MalformedURLException: " + e.getMessage());
         } catch (ProtocolException e) {

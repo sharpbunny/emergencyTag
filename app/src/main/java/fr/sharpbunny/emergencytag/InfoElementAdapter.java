@@ -1,6 +1,7 @@
 package fr.sharpbunny.emergencytag;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +9,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.HashMap;
 import com.squareup.picasso.Picasso;
 import android.graphics.Typeface;
+
+import org.json.JSONObject;
 
 /**
  * Class to handle Element of list.
@@ -101,13 +103,19 @@ public class InfoElementAdapter extends BaseAdapter {
         InfoElement infoelement = (InfoElement) getItem(position);
 
         // Update row view's textviews to display items information
-        itemNameView.setText(infoelement.nameItem);
+        //itemNameView.setText(infoelement.nameItem);
         itemTypeView.setText(infoelement.typeItem);
         itemCommentView.setText(infoelement.commentItem);
 
         // Use Picasso to load the image. Temporarily have a placeholder in case it's slow to load
-        Picasso.with(mContext).load(infoelement.pictureItem).placeholder(R.mipmap
-                .ic_launcher).into(thumbnailImageView);
+        try {
+            JSONObject photo =new JSONObject(infoelement.pictureItem.get(0).toString());
+            String url = "http://rest.nomadi.fr/uploads/" + photo.getString("adressUrlPhoto") + "?dim=60x60";
+            Picasso.with(mContext).load(url).placeholder(R.mipmap
+                    .ic_launcher).into(thumbnailImageView);
+        }catch (Exception e) {
+            Log.i(TAG, "Pas d'image...");
+        }
 
         return convertView;
     }

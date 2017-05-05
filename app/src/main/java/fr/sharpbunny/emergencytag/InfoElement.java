@@ -19,12 +19,11 @@ public class InfoElement {
     public static final String TAG = InfoElement.class.getSimpleName();
 
     public int idItem;
-    public String nameItem;
+    public String commentItem;
     public String latitudeItem;
     public String longitudeItem;
     public String typeItem;
-    public String pictureItem;
-    public String commentItem;
+    public JSONArray pictureItem;
 
     public static ArrayList<InfoElement> getInfoElements(JSONObject jsonresp, Context context) {
         final ArrayList<InfoElement> infoElementList = new ArrayList<>();
@@ -39,14 +38,13 @@ public class InfoElement {
                     InfoElement infoelement = new InfoElement();
 
                     infoelement.idItem = infoelements.getJSONObject(i).getInt("idItem");
-                    infoelement.nameItem = infoelements.getJSONObject(i).getString("commentaire");
                     infoelement.latitudeItem = infoelements.getJSONObject(i).getString("item_Lat");
                     infoelement.longitudeItem = infoelements.getJSONObject(i).getString("item_Lon");
                     infoelement.typeItem = infoelements.getJSONObject(i).getString("LabelType");
                     // picture are in an array
+                    Log.d(TAG, infoelements.getJSONObject(i).getJSONArray("photo").toString());
                     //infoelement.pictureItem = "http://rest.nomadi.fr/uploads/" + infoelements.getJSONObject(i).getString("pictureItem") + "?dim=60x60";
-                    infoelement.pictureItem = "http://rest.nomadi.fr/uploads/Koala.jpg?dim=40x40";
-                    Log.d(TAG, infoelement.pictureItem);
+                    infoelement.pictureItem = infoelements.getJSONObject(i).getJSONArray("photo");
                     infoelement.commentItem = infoelements.getJSONObject(i).getString("commentaire");
 
                     infoElementList.add(infoelement);
