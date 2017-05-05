@@ -63,11 +63,12 @@ public class AddElementActivity extends Activity {
     BitmapDrawable drawable4 = null;
     Bitmap imageBMP;
     ImageView photo;
+    TextView commentaire;
     byte[] imgbyte;
     private final int IMG_REQUEST = 1;
-    private EditText NAME;
+    private EditText NAME=null;
     private String imgencode;
-
+    final String uploadurl = "http://10.111.61.94:3001/upload";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,12 +154,13 @@ public class AddElementActivity extends Activity {
                     getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("byteArray").length
             );
             photo.setImageBitmap(imageBMP);
+            photo.setVisibility(View.VISIBLE);
             ByteArrayOutputStream bs = new ByteArrayOutputStream(); //Tableau d'octets stocké en mémoire
 
             //L'image est compressée puis stockée sous forme d'un tableau de données dans bs
             imageBMP.compress(Bitmap.CompressFormat.JPEG, 50, bs);
             imgbyte = bs.toByteArray();
-
+            imgencode = Base64.encodeToString(imgbyte,Base64.DEFAULT);
         }
     }
 
@@ -173,8 +175,9 @@ public class AddElementActivity extends Activity {
 
             item = creationObjetJSON(jsonAEnvoyer);
             Toast.makeText(AddElementActivity.this, "Connexion au serveur REST", Toast.LENGTH_SHORT).show();
-            connexionAuServeurREST();
-            uploadUneImage();
+            uploadUneImage(imgencode);
+           // connexionAuServeurREST();
+
 
 
         }
@@ -197,7 +200,7 @@ public class AddElementActivity extends Activity {
      */
     private JSONObject creationObjetJSON(JSONObject json){
         Spinner typeDeLItem = (Spinner)findViewById(R.id.typeSpinner);
-        TextView commentaire = (TextView)findViewById(R.id.textViewCommentaires);
+        commentaire = (TextView)findViewById(R.id.textViewCommentaires);
 
         try {
 
@@ -225,9 +228,10 @@ public class AddElementActivity extends Activity {
         return null;
     }
     //Envoi de l'image au serveur
-    private void uploadUneImage(){
-        String uploadurl = "http://10.111.61.94:3001/upload";
-         imgencode = Base64.encodeToString(imgbyte,Base64.DEFAULT);
+    private void uploadUneImage(String imgcode){
+
+        final String nomImage= imgcode;
+        Toast.makeText(AddElementActivity.this, nomImage, Toast.LENGTH_SHORT).show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST,uploadurl,
                 new Response.Listener<String>() {
                     @Override
@@ -235,13 +239,15 @@ public class AddElementActivity extends Activity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String Response=jsonObject.getString("response");
+                            Log.e("ReponseServeur",Response);
                             Toast.makeText(AddElementActivity.this,Response,Toast.LENGTH_LONG).show();
-                            img.setImageResource(0);
-                            img.setVisibility(View.GONE);
-                            NAME.setText("");
-                            NAME.setVisibility(View.GONE);
+                            photo.setImageResource(0);
+                            photo.setVisibility(View.GONE);
+                            commentaire.setText("");
+                            commentaire.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Log.e("ReponseServeur","mon erreur");
                         }
 
                     }
@@ -254,10 +260,11 @@ public class AddElementActivity extends Activity {
         {
             @Override
             protected Map<String ,String>getParams()throws AuthFailureError{
-                Map<String,String>params=new HashMap<>();
-                params.put("name",NAME.getText().toString().trim());
-                params.put("image",imgencode);
-                return super.getParams();
+                Map<String,String>params = new HashMap<>();
+               // params.put("name",commentaire.getText().toString().trim());
+                params.put("name",nomImage);
+               // Log.e("ReponseServeur",nomImage);
+                return params;
             }
         };
         MySingleton.getInstance(AddElementActivity.this).addToRequestQueue(stringRequest);
