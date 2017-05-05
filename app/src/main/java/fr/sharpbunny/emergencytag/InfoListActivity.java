@@ -72,12 +72,11 @@ public class InfoListActivity extends AppCompatActivity {
             String url = "http://rest.nomadi.fr/item";
             String json = sh.makeServiceCall(url, "GET", null);
 
-            //Log.e(TAG, "Response from url: " + json);
+            //Log.i(TAG, "Response from url: " + json);
             if (json != null) {
                 try {
+                    // Getting JSON object
                     jsonResp = new JSONObject(json);
-                    // Getting JSON message
-                    //jsonResp = jsonObj.getString("response");
 
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -132,9 +131,10 @@ public class InfoListActivity extends AppCompatActivity {
                     // Calling intent with item details
                     Intent detailIntent = new Intent(context, DetailsActivity.class);
                     detailIntent.putExtra("idItem", selectedInfoElement.idItem);
-                    detailIntent.putExtra("nameItem", selectedInfoElement.nameItem);
+                    detailIntent.putExtra("commentaire", selectedInfoElement.commentItem);
                     detailIntent.putExtra("latitudeItem", selectedInfoElement.latitudeItem);
                     detailIntent.putExtra("longitudeItem", selectedInfoElement.longitudeItem);
+                    detailIntent.putExtra("pictureArrayItem", selectedInfoElement.pictureItem.toString());
 
                     startActivity(detailIntent);
                 }
