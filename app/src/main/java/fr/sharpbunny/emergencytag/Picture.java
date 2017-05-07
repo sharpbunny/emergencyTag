@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Class to describe picture
+ * Class to manage picture.
  */
 public class Picture implements Parcelable {
     private int idPhoto;

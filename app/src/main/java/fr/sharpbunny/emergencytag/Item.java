@@ -356,7 +356,7 @@ public class Item implements Parcelable {
         idType = in.readInt();
         labelType = in.readString();
         descriptionType = in.readString();
-        // read list by using User.CREATOR
+        // read list by using Picture.CREATOR
         this.pictureListItem = new ArrayList<Picture>();
         in.readTypedList(pictureListItem, Picture.CREATOR);
     }
