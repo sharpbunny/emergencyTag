@@ -53,7 +53,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
     private String path1 = "http://rest.nomadi.fr/uploads/Koala.jpg";
     private URL url;
     private StringBuffer response;
-    //Item item = null;
+
     int id;
     String commentaire;
     Double item_Lat;
@@ -72,12 +72,37 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        new GetServerData().execute();
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapView);
         mapFragment.getMapAsync(this);
 
+        //new GetServerData().execute();
+
+        // check if intent was called with extra
+        if(getIntent().hasExtra("item_extra")) {
+            Log.d(TAG, "Intent called with Parcelable item extra");
+            Item item = (Item) getIntent().getParcelableExtra("item_extra");
+            TextView textNom = (TextView) findViewById(R.id.textNom);
+            TextView textCom = (TextView) findViewById(R.id.textCom);
+
+            //LatLng marker = new LatLng(item.getItemLatitude(),item.getItemLongitude());
+            //mMap.addMarker(new MarkerOptions().position(marker).title(item.getComment()));
+            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 20));
+
+            textNom.setText(item.getComment());
+            textCom.setText(item.getDescriptionType());
+
+            ImageView imageView = (ImageView) findViewById(R.id.imageView);
+            //imageView.setImageBitmap(bitmap);
+
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    envoyerImagePourLAgrandir();
+                }
+            });
+        }
 
 
         Button mybuttonA = (Button) findViewById(R.id.ajout);
