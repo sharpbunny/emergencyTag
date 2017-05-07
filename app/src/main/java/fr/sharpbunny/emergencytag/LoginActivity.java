@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,7 +19,7 @@ public class LoginActivity extends Activity {
     /**
      * TAG is used in log to identify origin of log
      */
-    private static final String TAG = LoginActivity.class.getSimpleName();
+    private String TAG = LoginActivity.class.getSimpleName();
 
     private String login = "";
     private String password = "";
@@ -51,29 +50,23 @@ public class LoginActivity extends Activity {
             password = "inburnwetrust";
         }
 
-        /**
-         * accès a l'activity INFO LIST avec login "info"
-         * */
+        // accès a l'activity INFO LIST avec login "info"
         if (ChampLogin.getText().toString().equals("info")) {
             Intent intent = new Intent(this, InfoListActivity.class);
             startActivity(intent);
         }
-        /**
-         * accès a l'activity AddElementActivity avec login "add"
-         * */
+
+        // accès a l'activity AddElementActivity avec login "add"
         else if (ChampLogin.getText().toString().equals("add")){
             Intent intent = new Intent(this, AddElementActivity.class);
             startActivity(intent);}
 
-        /**
-         * accès a l'activity CameraActivity avec login "camera"
-         * */
+        // accès a l'activity CameraActivity avec login "camera"
         else if (ChampLogin.getText().toString().equals("camera")){
             Intent intent = new Intent(this, CameraActivity.class);
             startActivity(intent);}
-        /**
-         accès a l'activity DetailsActivity avec login "detail"
-         * */
+
+        // accès a l'activity DetailsActivity avec login "detail"
         else if (ChampLogin.getText().toString().equals("detail")){
             Intent intent = new Intent(this, DetailsActivity.class);
             startActivity(intent);}
@@ -102,13 +95,14 @@ public class LoginActivity extends Activity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://rest.nomadi.fr/user/login";
+            // take url for login in resource string file
+            String url = getResources().getString(R.string.LoginUrl);
             HashMap<String, String> params = new HashMap<>();
             params.put("email", login);
             params.put("pwd", password);
             String jsonStr = sh.makeServiceCall(url, "POST", params);
 
-            Log.e(TAG, "Response from url: " + jsonStr);
+            Log.i(TAG, "Response from url: " + jsonStr);
             if (jsonStr != null) {
                 try {
                     JSONObject jsonObj = new JSONObject(jsonStr);
