@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -130,15 +131,13 @@ public class InfoListActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Item selectedInfoElement = infoElements.get(position);
+                    Log.d(TAG, "++++++++++ item selected comment" + selectedInfoElement.getComment());
                     // Calling intent with item details
-                    Intent detailIntent = new Intent(context, DetailsActivity.class);
-                    detailIntent.putExtra("idItem", selectedInfoElement.getIdItem());
-                    detailIntent.putExtra("commentaire", selectedInfoElement.getComment());
-                    detailIntent.putExtra("latitudeItem", selectedInfoElement.getItemLatitude());
-                    detailIntent.putExtra("longitudeItem", selectedInfoElement.getItemLongitude());
-                    //detailIntent.putExtra("pictureArrayItem", selectedInfoElement.pictureItem.toString());
+                    Intent intent = new Intent(context, DetailsActivity.class);
+                    // use parcelable to send item object as extra
+                    intent.putExtra("item_extra", (Parcelable) selectedInfoElement);
 
-                    startActivity(detailIntent);
+                    startActivity(intent);
                 }
 
             });

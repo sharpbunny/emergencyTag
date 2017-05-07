@@ -42,6 +42,9 @@ import java.net.URL;
  * Permet d'ajouter un item à la base de données en inscrivant son type, sa photo et sa description
  */
 public class AddElementActivity extends Activity {
+
+    private static final String TAG = AddElementActivity.class.getSimpleName();
+
     JSONObject item = new JSONObject();
 
     @Override
@@ -102,7 +105,7 @@ public class AddElementActivity extends Activity {
     }
 
     /**
-     * @method Permet d'insérer les items écrits dans un string_array dans values/strings dans le Spinner
+     * Permet d'insérer les items écrits dans un string_array dans values/strings dans le Spinner
      * @param elementSpinner
      */
     private void insertionElementSpinner(Spinner elementSpinner){
@@ -153,9 +156,7 @@ public class AddElementActivity extends Activity {
      */
     private void connexionAuServeurREST(){
 
-        envoyerJSON jsonClass = new envoyerJSON();
-        jsonClass.execute();
-
+        new postItem().execute();
 
     }
 
@@ -187,32 +188,26 @@ public class AddElementActivity extends Activity {
     }
 
 
-    private String getServerResponse(String jsonStr) {
-
-        return null;
-    }
-
-    private class envoyerJSON extends AsyncTask<Void, Void, Void>{
+    private class postItem extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(AddElementActivity.this, R.string.requestAccess, Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddElementActivity.this, R.string.postingItem, Toast.LENGTH_SHORT).show();
 
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            Log.i("info", "On entre dans doInBackground");
+            Log.i(TAG, "On entre dans doInBackground");
             String json = item.toString();
             Spinner typeDeLItem = (Spinner)findViewById(R.id.typeSpinner);
             TextView commentaire = (TextView)findViewById(R.id.textViewCommentaires);
             try{
 
-                URL url = new URL("http://rest.nomadi.fr/item");
+                URL url = new URL(getResources().getString(R.string.ItemUrl));
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 try {
-
 
                     conn.setRequestMethod("POST");
 
@@ -236,15 +231,9 @@ public class AddElementActivity extends Activity {
                     serverAnswer.close();
 
                 } finally {
-
                     conn.disconnect();
                 }
 
-
-            }
-
-            catch(MalformedURLException e){
-                e.printStackTrace();
             }
 
             catch(IOException e){

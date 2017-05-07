@@ -1,12 +1,13 @@
 <resources>
     <string name="app_name">EmergencyTag</string>
     <string name="retour">Back to List Info</string>
-    <string name="requestAccess">Requesting Access...</string>
+    <string name="requestAccess">Requesting Access&#8230;</string>
     <string name="accessDenied">Access denied</string>
     <string name="LoginUrl"><![CDATA[http://rest.nomadi.fr/user/login]]></string>
     <string name="UploadsUrl"><![CDATA[http://rest.nomadi.fr/uploads]]></string>
     <string name="ItemUrl"><![CDATA[http://rest.nomadi.fr/item]]></string>
     <string name="TypeUrl"><![CDATA[http://rest.nomadi.fr/type]]></string>
+    <string name="postingItem">Sending Item data&#8230;</string>
     <!-- Liste des types des items qui seront contenus dans le spinner de addElementActivity -->
     <string-array name="typeItemArray">
         <item>Alarmes</item>

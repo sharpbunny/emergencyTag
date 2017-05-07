@@ -1,5 +1,7 @@
 package fr.sharpbunny.emergencytag;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Class to describe items
  */
-public class Item {
+public class Item implements Parcelable {
     private static String TAG = Item.class.getSimpleName();
 
     private int idItem;
@@ -330,5 +332,68 @@ public class Item {
      */
     public ArrayList<Picture> getPictureListItem() {
         return pictureListItem;
+    }
+
+    // implement for parcelable
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // write your object's data to the passed-in Parcel
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        Log.i(TAG, "Parcelling item");
+        // it works as a FIFO
+        out.writeInt(idItem);
+        out.writeString(comment);
+        out.writeString(majItem);
+        out.writeDouble(longitude);
+        out.writeDouble(latitude);
+        out.writeInt(idUser);
+        out.writeString(nameUser);
+        out.writeString(loginUser);
+        out.writeString(firstnameUser);
+        out.writeString(birthdateUser);
+        out.writeString(emailUser);
+        out.writeString(phoneUser);
+        out.writeInt(idType);
+        out.writeString(labelType);
+        out.writeString(descriptionType);
+        //out.writeArrayList<Picture>(pictureListItem);
+
+    }
+
+    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
+
+    // constructor that takes a Parcel and gives you an object populated with it's values
+    private Item(Parcel in) {
+        Log.i(TAG, "DeParcelling item");
+        // it works as a FIFO
+        idItem = in.readInt();
+        comment = in.readString();
+        majItem = in.readString();
+        longitude = in.readDouble();
+        latitude = in.readDouble();
+        idUser = in.readInt();
+        nameUser = in.readString();
+        loginUser = in.readString();
+        firstnameUser = in.readString();
+        birthdateUser = in.readString();
+        emailUser = in.readString();
+        phoneUser = in.readString();
+        idType = in.readInt();
+        labelType = in.readString();
+        descriptionType = in.readString();
+
     }
 }
