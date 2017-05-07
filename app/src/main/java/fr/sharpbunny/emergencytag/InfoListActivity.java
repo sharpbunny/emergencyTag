@@ -69,10 +69,11 @@ public class InfoListActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://rest.nomadi.fr/item";
-            String json = sh.makeServiceCall(url, "GET", null);
+            //String url = getResources().getString(R.string.ItemUrl);
 
-            //Log.i(TAG, "Response from url: " + json);
+            String json = sh.makeServiceCall(getResources().getString(R.string.ItemUrl), "GET", null);
+
+            Log.i(TAG, "Response from url: " + json);
             if (json != null) {
                 try {
                     // Getting JSON object
@@ -112,7 +113,8 @@ public class InfoListActivity extends AppCompatActivity {
 
             final Context context = InfoListActivity.this;
             // Get data to display
-            final ArrayList<InfoElement> infoElements = InfoElement.getInfoElements(jsonResp, InfoListActivity.this);
+            Item item = new Item();
+            final ArrayList<Item> infoElements = item.getItemsList(jsonResp);
 
             // Create adapter
             InfoElementAdapter adapter = new InfoElementAdapter(InfoListActivity.this, infoElements);
@@ -127,14 +129,14 @@ public class InfoListActivity extends AppCompatActivity {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    InfoElement selectedInfoElement = infoElements.get(position);
+                    Item selectedInfoElement = infoElements.get(position);
                     // Calling intent with item details
                     Intent detailIntent = new Intent(context, DetailsActivity.class);
-                    detailIntent.putExtra("idItem", selectedInfoElement.idItem);
-                    detailIntent.putExtra("commentaire", selectedInfoElement.commentItem);
-                    detailIntent.putExtra("latitudeItem", selectedInfoElement.latitudeItem);
-                    detailIntent.putExtra("longitudeItem", selectedInfoElement.longitudeItem);
-                    detailIntent.putExtra("pictureArrayItem", selectedInfoElement.pictureItem.toString());
+                    detailIntent.putExtra("idItem", selectedInfoElement.getIdItem());
+                    detailIntent.putExtra("commentaire", selectedInfoElement.getComment());
+                    detailIntent.putExtra("latitudeItem", selectedInfoElement.getItemLatitude());
+                    detailIntent.putExtra("longitudeItem", selectedInfoElement.getItemLongitude());
+                    //detailIntent.putExtra("pictureArrayItem", selectedInfoElement.pictureItem.toString());
 
                     startActivity(detailIntent);
                 }

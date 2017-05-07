@@ -12,19 +12,18 @@ import java.util.ArrayList;
 import com.squareup.picasso.Picasso;
 import android.graphics.Typeface;
 
-import org.json.JSONObject;
 
 /**
  * Class to handle Element of list.
  */
 public class InfoElementAdapter extends BaseAdapter {
 
-    public static final String TAG = InfoElementAdapter.class.getSimpleName();
+    private String TAG = InfoElementAdapter.class.getSimpleName();
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<InfoElement> mDataSource;
+    private ArrayList<Item> mDataSource;
 
-    public InfoElementAdapter(Context context, ArrayList<InfoElement> items) {
+    public InfoElementAdapter(Context context, ArrayList<Item> items) {
         mContext = context;
         mDataSource = items;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -78,13 +77,14 @@ public class InfoElementAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.ligne_info, parent, false);
             // create a new "Holder" with subviews
             holder = new InfoElementViewHolder();
-            holder.itemNameView = (TextView) convertView.findViewById(R.id.item_name);
-            holder.itemTypeView = (TextView) convertView.findViewById(R.id.item_type);
+            holder.itemLabelTypeView = (TextView) convertView.findViewById(R.id.item_labeltype);
+            holder.itemDescriptionTypeView = (TextView) convertView.findViewById(R.id.item_descriptiontype);
             holder.itemCommentView = (TextView) convertView.findViewById(R.id.item_comment);
-            //holder.detailTextView = (TextView) convertView.findViewById(R.id.item_name);
+            holder.itemLatitudeView = (TextView) convertView.findViewById(R.id.item_latitude);
+            holder.itemLongitudeView = (TextView) convertView.findViewById(R.id.item_longitude);
             holder.thumbnailPictureItemView = (ImageView) convertView.findViewById(R.id.item_photo);
 
-            // hang onto this holder for future recyclage
+            // hang onto this holder for future recycle
             convertView.setTag(holder);
         }
         else {
@@ -94,36 +94,41 @@ public class InfoElementAdapter extends BaseAdapter {
         }
 
         // Get relevant subviews of row view
-        TextView itemNameView = holder.itemNameView;
-        TextView itemTypeView = holder.itemTypeView;
+        TextView itemTypeView = holder.itemLabelTypeView;
+        TextView itemDescriptionTypeView = holder.itemDescriptionTypeView;
         TextView itemCommentView = holder.itemCommentView;
-        //TextView detailTextView = holder.detailTextView;
+        TextView itemLatitudeView = holder.itemLatitudeView;
+        TextView itemLongitudeView = holder.itemLongitudeView;
         ImageView thumbnailImageView = holder.thumbnailPictureItemView;
 
-        InfoElement infoelement = (InfoElement) getItem(position);
+        Item item = (Item) getItem(position);
 
         // Update row view's textviews to display items information
-        //itemNameView.setText(infoelement.nameItem);
-        itemTypeView.setText(infoelement.typeItem);
-        itemCommentView.setText(infoelement.commentItem);
+        itemCommentView.setText(item.getComment());
+        itemTypeView.setText(item.getLabelType());
+        itemDescriptionTypeView.setText(item.getDescriptionType());
+        itemLatitudeView.setText(item.getItemLatitude().toString());
+        itemLongitudeView.setText(item.getItemLongitude().toString());
+        itemCommentView.setText(item.getComment());
 
         // Use Picasso to load the image. Temporarily have a placeholder in case it's slow to load
         try {
-            JSONObject photo =new JSONObject(infoelement.pictureItem.get(0).toString());
-            String url = "http://rest.nomadi.fr/uploads/" + photo.getString("adressUrlPhoto") + "?dim=60x60";
+            String url = item.getPictureListItem().get(0).getThumbnailUrl();
             Picasso.with(mContext).load(url).placeholder(R.mipmap
-                    .ic_launcher).into(thumbnailImageView);
+                    .emergency).into(thumbnailImageView);
         }catch (Exception e) {
-            Log.i(TAG, "Pas d'image...");
+            Log.i(TAG, "No picture for this item...");
         }
 
         return convertView;
     }
 
     private class InfoElementViewHolder{
-        private TextView itemNameView;
-        private TextView itemTypeView;
         private TextView itemCommentView;
+        private TextView itemLongitudeView;
+        private TextView itemLatitudeView;
+        private TextView itemLabelTypeView;
+        private TextView itemDescriptionTypeView;
         private ImageView thumbnailPictureItemView;
     }
 }

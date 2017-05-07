@@ -13,40 +13,90 @@
         tools:background="#AAA"
         />
 
-    <TextView
-        android:id="@+id/item_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
+        android:orientation="horizontal"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:layout_toRightOf="@+id/item_photo"
-        android:layout_toEndOf="@+id/item_photo"
-        android:textStyle="bold"
-        tools:text="Item Name"
         android:layout_alignParentTop="true"
-         />
-    <TextView
-        android:id="@+id/item_type"
-        android:layout_width="wrap_content"
+        android:layout_toRightOf="@+id/item_photo"
+        android:layout_toEndOf="@+id/item_photo">
+
+        <TextView
+            android:id="@+id/item_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            tools:text="Item Comment" />
+
+        <TextView
+            android:id="@+id/item_labeltype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            tools:text="Item Type" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
+        android:orientation="horizontal"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:layout_toRightOf="@+id/item_name"
-        android:layout_alignTop="@+id/item_photo"
-        android:textStyle="bold"
-        tools:text="Item Type"
-        />
+        android:layout_below="@+id/linearLayout"
+        android:layout_toRightOf="@+id/item_photo"
+        android:layout_toEndOf="@+id/item_photo">
+
+        <TextView
+            android:id="@+id/item_descriptiontype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textColor="@android:color/black"
+            tools:text="Description type" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_toRightOf="@+id/item_photo"
+        android:layout_toEndOf="@+id/item_photo">
 
     <TextView
-        android:id="@+id/item_comment"
+        android:id="@+id/item_latitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:layout_alignLeft="@+id/item_name"
-        android:layout_below="@+id/item_name"
-        tools:text="Item Comment"
-        />
+        tools:text="Item latitude"
+        android:layout_toRightOf="@+id/item_photo"
+        android:layout_toEndOf="@+id/item_photo"
+        android:layout_alignBottom="@+id/linearLayout"
+        android:layout_below="@+id/linearLayout2" />
+
+    <TextView
+        android:id="@+id/item_longitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        tools:text="Item latitude"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/item_latitude"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp" />
+
+    </LinearLayout>
+
+
 
 </RelativeLayout>

@@ -1,5 +1,5 @@
 package fr.sharpbunny.emergencytag;
-import android.*;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -42,10 +42,10 @@ import java.util.HashMap;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import static android.content.ContentValues.TAG;
-
 
 public class DetailsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private static final String TAG = DetailsActivity.class.getSimpleName();
 
     private GoogleMap mMap;
     ProgressDialog progressDialog;
@@ -53,19 +53,19 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
     private String path1 = "http://rest.nomadi.fr/uploads/Koala.jpg";
     private URL url;
     private StringBuffer response;
-    private String responseText;
-    private int responseCode;
-    Item item = null;
+    //Item item = null;
     int id;
     String commentaire;
-    int item_Lat;
-    int item_Lon;
+    Double item_Lat;
+    Double item_Lon;
+    int idUser;
+    int idType;
     Bitmap bitmap;
 
     int idItem;
     String nameItem;
-    int latItem;
-    int lonItem;
+    Double latItem;
+    Double lonItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +117,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);
             conn.setRequestMethod("GET");
-            responseCode = conn.getResponseCode();
+            int responseCode = conn.getResponseCode();
             Log.d(TAG, "Response code: " + responseCode);
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {
@@ -136,7 +136,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             e.printStackTrace();
         }
 
-        responseText = response.toString();
+        String responseText = response.toString();
         //Call ServerData() method to call webservice and store result in response
         //  response = service.ServerData(path, postDataParams);*/
         Log.d(TAG, "data:" + responseText);
@@ -149,13 +149,15 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
                 JSONObject c = itemDetail.getJSONObject(i);
                 id = c.getInt("idItem");
                 commentaire = c.getString("commentaire");
-                item_Lat = c.getInt("item_Lat");
-                item_Lon = c.getInt("item_Lon");
+                item_Lat = c.getDouble("item_Lat");
+                item_Lon = c.getDouble("item_Lon");
+                idUser = c.getInt("idUser");
+                idType = c.getInt("id_Type");
                 Log.d(TAG, "idUser:" + id);
                 Log.d(TAG, "commentaire:" + commentaire);
                 Log.d(TAG, "item_Lat:" + item_Lat);
                 Log.d(TAG, "item_Lon:" + item_Lon);
-                item = new Item(id,commentaire,item_Lat,item_Lon);
+                Item item = new Item(id, commentaire, item_Lat, item_Lon, idUser, idType);
 
             }
 
@@ -166,29 +168,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         return null;
     }
 
-    public class Item {
 
-        int id;
-        String commentaire;
-        int longitude;
-        int latitude;
-
-        public Item (int id, String commentaire , int latitude, int longitude) {
-            super();
-            this.id = id;
-            this.commentaire = commentaire;
-            this.longitude = longitude;
-            this.latitude = latitude;
-        }
-        public int getId() {return id;}
-        public void setId(int id) {this.id = id;}
-        public String getCommentaire() {return commentaire;}
-        public void setCommentaire(String commentaire) {this.commentaire = commentaire;}
-        public int getLon() {return longitude;}
-        public void setLon(int longitude) { this.longitude = longitude; }
-        public int getLat() {return latitude;}
-        public void setLat(int latitude) {this.latitude = latitude;}
-    }
     private Bitmap downloadBitmap(String url) {
         HttpURLConnection urlConnection = null;
         try {
@@ -204,15 +184,15 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             if (inputStream != null) {
 
                 bitmap = BitmapFactory.decodeStream(inputStream);
-                Log.e(TAG, "downloadBitmap: "+bitmap );
+                Log.d(TAG, "downloadBitmap: "+bitmap );
                 return bitmap;
             }
         } catch (Exception e) {
-            Log.d("URLCONNECTIONERROR", e.toString());
+            Log.e("URLCONNECTIONERROR", e.toString());
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
-            Log.w("ImageDownloader", "Error downloading image from " + url);
+            Log.e("ImageDownloader", "Error downloading image from " + url);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -221,6 +201,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         }
         return null;
     }
+
     private void envoyerImagePourLAgrandir(){
         //Déclaration des objets
         Intent pictureGrowIntent = new Intent(this, PictureGrowActivity.class);
@@ -268,8 +249,9 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
 
             idItem = detailIntent.getIntExtra("idItem", 0);
             nameItem = detailIntent.getStringExtra("nameItem");
-            latItem = detailIntent.getIntExtra("latitudeItem", 0);
-            lonItem = detailIntent.getIntExtra("longitudeItem", 0);
+            latItem = detailIntent.getDoubleExtra("latitudeItem", 0);
+            lonItem = detailIntent.getDoubleExtra("longitudeItem", 0);
+            commentaire = detailIntent.getStringExtra("commentaire");
 
 
 
