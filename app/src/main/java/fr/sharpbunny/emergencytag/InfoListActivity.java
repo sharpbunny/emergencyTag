@@ -1,9 +1,7 @@
 package fr.sharpbunny.emergencytag;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -131,7 +129,6 @@ public class InfoListActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Item selectedInfoElement = infoElements.get(position);
-                    Log.d(TAG, "++++++++++ item selected comment" + selectedInfoElement.getComment());
                     // Calling intent with item details
                     Intent intent = new Intent(context, DetailsActivity.class);
                     // use parcelable to send item object as extra

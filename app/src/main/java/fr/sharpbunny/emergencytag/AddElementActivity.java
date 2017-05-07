@@ -194,7 +194,6 @@ public class AddElementActivity extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             Toast.makeText(AddElementActivity.this, R.string.postingItem, Toast.LENGTH_SHORT).show();
-
         }
 
         @Override

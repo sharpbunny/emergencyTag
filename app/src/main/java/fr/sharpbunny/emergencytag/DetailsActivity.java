@@ -25,6 +25,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,24 +49,24 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
     private static final String TAG = DetailsActivity.class.getSimpleName();
 
     private GoogleMap mMap;
-    ProgressDialog progressDialog;
-    private String path = "http://rest.nomadi.fr/item/5";
-    private String path1 = "http://rest.nomadi.fr/uploads/Koala.jpg";
-    private URL url;
-    private StringBuffer response;
 
-    int id;
-    String commentaire;
-    Double item_Lat;
-    Double item_Lon;
-    int idUser;
-    int idType;
-    Bitmap bitmap;
+    //ProgressDialog progressDialog;
+    private String urlPhoto = "";
+    private String urlThumbnail = "";
+    //private StringBuffer response;
 
-    int idItem;
-    String nameItem;
-    Double latItem;
-    Double lonItem;
+    //int id;
+    private String commentaire;
+    private Double item_Lat;
+    private Double item_Lon;
+    //int idUser;
+    //int idType;
+    //Bitmap bitmap;
+
+    //int idItem;
+    //String nameItem;
+    //Double latItem;
+    //Double lonItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,10 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             TextView textNom = (TextView) findViewById(R.id.textNom);
             TextView textCom = (TextView) findViewById(R.id.textCom);
 
+            commentaire = item.getComment();
+            item_Lat = item.getItemLatitude();
+            item_Lon = item.getItemLongitude();
+
             //LatLng marker = new LatLng(item.getItemLatitude(),item.getItemLongitude());
             //mMap.addMarker(new MarkerOptions().position(marker).title(item.getComment()));
             //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 20));
@@ -95,6 +100,20 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             ImageView imageView = (ImageView) findViewById(R.id.imageView);
             //imageView.setImageBitmap(bitmap);
 
+            try {
+                urlPhoto = item.getPictureListItem().get(0).getPictureUrl();
+                urlThumbnail = item.getPictureListItem().get(0).getThumbnailUrl();
+            }catch (Exception e) {
+                Log.i(TAG, "No picture for this item...");
+            }
+            // Use Picasso to load the image. Temporarily have a placeholder in case it's slow to load
+            try {
+                Log.i(TAG, "Picture url: " + urlThumbnail);
+                Picasso.with(DetailsActivity.this).load(urlThumbnail).placeholder(R.mipmap.emergency)
+                        .into(imageView);
+            }catch (Exception e) {
+                Log.i(TAG, "Can't load picture...");
+            }
 
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -130,12 +149,27 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             // activate zoom ui controls
             mMap.getUiSettings().setZoomControlsEnabled(true);
         }
+
+        LatLng marker = new LatLng(item_Lat, item_Lon);
+        mMap.addMarker(new MarkerOptions().position(marker).title(commentaire));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 20));
+
     }
 
-    protected Void getWebServiceResponseData() {
+    private void envoyerImagePourLAgrandir() {
+        //Déclaration des objets
+        Intent pictureGrowIntent = new Intent(this, PictureGrowActivity.class);
+
+        pictureGrowIntent.putExtra("url_photo", urlPhoto);
+        startActivity(pictureGrowIntent);
+    }
+
+
+    /*protected Void getWebServiceResponseData() {
 
         try {
 
+            String path = "http://rest.nomadi.fr/item/5";
             url = new URL(path);
             Log.d(TAG, "ServerData: " + path);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -163,7 +197,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
 
         String responseText = response.toString();
         //Call ServerData() method to call webservice and store result in response
-        //  response = service.ServerData(path, postDataParams);*/
+        //  response = service.ServerData(path, postDataParams);
         Log.d(TAG, "data:" + responseText);
         try {
 
@@ -191,10 +225,10 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         }
 
         return null;
-    }
+    }*/
 
 
-    private Bitmap downloadBitmap(String url) {
+    /*private Bitmap downloadBitmap(String url) {
         HttpURLConnection urlConnection = null;
         try {
             URL uri = new URL(url);
@@ -225,23 +259,9 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             }
         }
         return null;
-    }
+    }*/
 
-    private void envoyerImagePourLAgrandir(){
-        //Déclaration des objets
-        Intent pictureGrowIntent = new Intent(this, PictureGrowActivity.class);
-
-        ByteArrayOutputStream bs = new ByteArrayOutputStream(); //Tableau d'octets stocké en mémoire
-
-        //L'image est compressée puis stockée sous forme d'un tableau de données dans bs
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bs);
-
-        //On envoie le tableau de byte dans l'activité pictureGrowActivity
-        pictureGrowIntent.putExtra("byteArray", bs.toByteArray());
-        startActivity(pictureGrowIntent);
-    }
-
-    class GetServerData extends AsyncTask {
+    /*class GetServerData extends AsyncTask {
 
         @Override
         protected void onPreExecute() {
@@ -257,7 +277,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
 
         @Override
         protected Object doInBackground(Object[] objects) {
-            downloadBitmap(path1);
+            downloadBitmap("http://imageurl");
             return getWebServiceResponseData();
         }
 
@@ -279,16 +299,6 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             commentaire = detailIntent.getStringExtra("commentaire");
 
 
-
-            /*Log.e(TAG, "id: " +item.getId() );
-            Log.e(TAG, "com: " +item.getCommentaire() );
-            Log.e(TAG, "lat: " +item.getLat() );
-            Log.e(TAG, "lon: " +item.getLon() );*/
-
-            Log.e(TAG, "id: " +idItem);
-            Log.e(TAG, "com: " +nameItem );
-            Log.e(TAG, "lat: " +latItem );
-            Log.e(TAG, "lon: " +lonItem );
 
 
             TextView textNom = (TextView) findViewById(R.id.textNom);
@@ -312,5 +322,5 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
                 }
             });
         }
-    }
+    }*/
 }

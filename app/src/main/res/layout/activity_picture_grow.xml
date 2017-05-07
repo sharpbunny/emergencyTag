@@ -7,22 +7,25 @@
     tools:context="fr.sharpbunny.emergencytag.PictureGrowActivity">
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="347dp"
-        android:layout_height="348dp"
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="350dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp" />
+        android:layout_marginTop="0dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <!--app:srcCompat="@drawable/surprise"-->
     <Button
         android:id="@+id/retourWindows"
-        android:layout_width="119dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
         android:text="@string/retour"
         tools:layout_editor_absoluteY="393dp"
         tools:layout_editor_absoluteX="133dp"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/imageView2"
+        android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:onClick="backOnPreviousWindows"/>
 </RelativeLayout>
