@@ -9,23 +9,25 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <!--app:srcCompat="@drawable/surprise"-->
+        android:layout_alignParentStart="true"
+        />
     <Button
         android:id="@+id/retourWindows"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="@string/retour"
-        tools:layout_editor_absoluteY="393dp"
-        tools:layout_editor_absoluteX="133dp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:onClick="backOnPreviousWindows"/>
+        android:onClick="backOnPreviousWindows"
+        android:layout_marginBottom="14dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="14dp"
+        android:layout_marginEnd="14dp"
+        />
 </RelativeLayout>

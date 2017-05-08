@@ -90,35 +90,23 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             item_Lat = item.getItemLatitude();
             item_Lon = item.getItemLongitude();
 
-            //LatLng marker = new LatLng(item.getItemLatitude(),item.getItemLongitude());
-            //mMap.addMarker(new MarkerOptions().position(marker).title(item.getComment()));
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 20));
-
             textNom.setText(item.getComment());
             textCom.setText(item.getDescriptionType());
 
-            ImageView imageView = (ImageView) findViewById(R.id.imageView);
-            //imageView.setImageBitmap(bitmap);
+            final ArrayList<Picture> pictures = item.getPictureListItem();
 
-            try {
-                urlPhoto = item.getPictureListItem().get(0).getPictureUrl();
-                urlThumbnail = item.getPictureListItem().get(0).getThumbnailUrl();
-            }catch (Exception e) {
-                Log.i(TAG, "No picture for this item...");
-            }
-            // Use Picasso to load the image. Temporarily have a placeholder in case it's slow to load
-            try {
-                Log.i(TAG, "Picture url: " + urlThumbnail);
-                Picasso.with(DetailsActivity.this).load(urlThumbnail).placeholder(R.mipmap.emergency)
-                        .into(imageView);
-            }catch (Exception e) {
-                Log.i(TAG, "Can't load picture...");
-            }
+            GridView gridView = (GridView) findViewById(R.id.gridView);
+            gridView.setAdapter(new GridAdapter(this, pictures));
 
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    envoyerImagePourLAgrandir();
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v,
+                                        int position, long id) {
+
+                    Picture selectedPicture = pictures.get(position);
+
+                    Intent intent = new Intent(DetailsActivity.this, PictureGrowActivity.class);
+                    intent.putExtra("url_photo", selectedPicture.getPictureUrl());
+                    startActivity(intent);
                 }
             });
         }
@@ -156,13 +144,13 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
 
     }
 
-    private void envoyerImagePourLAgrandir() {
+    /*private void envoyerImagePourLAgrandir() {
         //Déclaration des objets
-        Intent pictureGrowIntent = new Intent(this, PictureGrowActivity.class);
+        Intent intent = new Intent(this, PictureGrowActivity.class);
 
-        pictureGrowIntent.putExtra("url_photo", urlPhoto);
-        startActivity(pictureGrowIntent);
-    }
+        intent.putExtra("url_photo", urlPhoto);
+        startActivity(intent);
+    }*/
 
 
     /*protected Void getWebServiceResponseData() {
