@@ -116,15 +116,14 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
 
     }
 
-    private View.OnClickListener gotoCamera = new View.OnClickListener() {
+    public void gotoCamera(View v) {
 
-        @Override
-        public void onClick(View v) {
-            Intent intent =new Intent(DetailsActivity.this,CameraActivity.class);
-            intent.putExtra("ajouterNouvellePhoto",true);
-            startActivity(intent);
-        }
-    };
+        Intent intent =new Intent(DetailsActivity.this,CameraActivity.class);
+        intent.putExtra("ajouterNouvellePhoto",true);
+        startActivity(intent);
+
+    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
