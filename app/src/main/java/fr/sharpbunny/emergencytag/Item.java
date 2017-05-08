@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Class to describe items
+ * Class to manage items
  */
 public class Item implements Parcelable {
     private static String TAG = Item.class.getSimpleName();
@@ -58,44 +58,6 @@ public class Item implements Parcelable {
 
     }
 
-    /**
-     * Class to describe picture
-     */
-    public class Picture {
-        private int idPhoto;
-        private String datePhoto;
-        private String pictureUrl;
-        private String thumbnailUrl;
-
-        public Picture (){
-
-        }
-
-        public int getidPhoto() {
-            return idPhoto;
-        }
-
-        public void setIdPhoto(int idPhoto) {
-            this.idPhoto = idPhoto;
-        }
-
-        public String getDatePhoto() {
-            return datePhoto;
-        }
-
-        public void setDatePhoto(String datePhoto) {
-            this.datePhoto = datePhoto;
-        }
-
-        public String getPictureurl() {
-            return pictureUrl;
-        }
-
-        public String getThumbnailUrl() {
-            return thumbnailUrl;
-        }
-
-    }
 
     public ArrayList<Item> getItemsList(JSONObject jsonresp) {
         final ArrayList<Item> itemList = new ArrayList<>();
@@ -132,10 +94,10 @@ public class Item implements Parcelable {
                         JSONObject row = pictures.getJSONObject(j);
                         if (row != null) {
                             Picture picture = new Picture();
-                            picture.idPhoto = row.getInt("idPhoto");
-                            picture.datePhoto = row.getString("datePhoto");
-                            picture.pictureUrl = row.getString("adressUrlPhoto");
-                            picture.thumbnailUrl = row.getString("thumbUrlPhoto");
+                            picture.setIdPhoto(row.getInt("idPhoto"));
+                            picture.setDatePhoto(row.getString("datePhoto"));
+                            picture.setPictureUrl(row.getString("adressUrlPhoto"));
+                            picture.setThumbnailUrl(row.getString("thumbUrlPhoto"));
                             item.pictureListItem.add(picture);
                         }
                     }
@@ -360,7 +322,7 @@ public class Item implements Parcelable {
         out.writeInt(idType);
         out.writeString(labelType);
         out.writeString(descriptionType);
-        //out.writeArrayList<Picture>(pictureListItem);
+        out.writeTypedList(pictureListItem);
 
     }
 
@@ -394,6 +356,13 @@ public class Item implements Parcelable {
         idType = in.readInt();
         labelType = in.readString();
         descriptionType = in.readString();
+        // read list by using Picture.CREATOR
+        this.pictureListItem = new ArrayList<Picture>();
+        in.readTypedList(pictureListItem, Picture.CREATOR);
+    }
 
+    @Override
+    public int hashCode() {
+        return (this.getIdItem());
     }
 }

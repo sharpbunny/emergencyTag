@@ -73,7 +73,7 @@ public class InfoElementAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         InfoElementViewHolder holder;
 
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = mInflater.inflate(R.layout.ligne_info, parent, false);
             // create a new "Holder" with subviews
             holder = new InfoElementViewHolder();
@@ -87,8 +87,8 @@ public class InfoElementAdapter extends BaseAdapter {
             // hang onto this holder for future recycle
             convertView.setTag(holder);
         }
-        else {
-
+        else
+        {
             // skip all the expensive inflation/findViewById and just get the holder you already made
             holder = (InfoElementViewHolder) convertView.getTag();
         }
@@ -123,7 +123,7 @@ public class InfoElementAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class InfoElementViewHolder{
+    private class InfoElementViewHolder {
         private TextView itemCommentView;
         private TextView itemLongitudeView;
         private TextView itemLatitudeView;

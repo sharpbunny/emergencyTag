@@ -8,6 +8,7 @@
     <string name="ItemUrl"><![CDATA[http://rest.nomadi.fr/item]]></string>
     <string name="TypeUrl"><![CDATA[http://rest.nomadi.fr/type]]></string>
     <string name="postingItem">Sending Item data&#8230;</string>
+    <string name="Gologin">Log in</string>
     <!-- Liste des types des items qui seront contenus dans le spinner de addElementActivity -->
     <string-array name="typeItemArray">
         <item>Alarmes</item>

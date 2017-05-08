@@ -1,9 +1,7 @@
 package fr.sharpbunny.emergencytag;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -53,10 +51,13 @@ public class InfoListActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        // Calling async task to get item list
         new GetJsonItem().execute();
     }
+
     /**
-     * Async task to check login
+     * Async task to get item list
      */
     private class GetJsonItem extends AsyncTask<Void, Void, Void> {
         @Override
@@ -68,10 +69,9 @@ public class InfoListActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            HttpHandler sh = new HttpHandler();
-            // Making a request to url and getting response
-            //String url = getResources().getString(R.string.ItemUrl);
 
+            // Making a request to url and getting response
+            HttpHandler sh = new HttpHandler();
             String json = sh.makeServiceCall(getResources().getString(R.string.ItemUrl), "GET", null);
 
             Log.i(TAG, "Response from url: " + json);
@@ -113,13 +113,13 @@ public class InfoListActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
             final Context context = InfoListActivity.this;
+
             // Get data to display
             Item item = new Item();
             final ArrayList<Item> infoElements = item.getItemsList(jsonResp);
 
             // Create adapter
             InfoElementAdapter adapter = new InfoElementAdapter(InfoListActivity.this, infoElements);
-
 
             // Create list view
             mListView = (ListView) findViewById(R.id.listView);
@@ -131,7 +131,6 @@ public class InfoListActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Item selectedInfoElement = infoElements.get(position);
-                    Log.d(TAG, "++++++++++ item selected comment" + selectedInfoElement.getComment());
                     // Calling intent with item details
                     Intent intent = new Intent(context, DetailsActivity.class);
                     // use parcelable to send item object as extra
@@ -139,10 +138,7 @@ public class InfoListActivity extends AppCompatActivity {
 
                     startActivity(intent);
                 }
-
             });
-
         }
     }
-
 }

@@ -11,8 +11,7 @@
     <LinearLayout
         android:id="@+id/firstpane"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.25"
+        android:layout_height="300dp"
         android:weightSum="1">
 
         <fragment
@@ -54,13 +53,12 @@
     <LinearLayout
         android:id="@+id/thirdpane"
         android:layout_width="fill_parent"
-        android:layout_height="165dp"
-        android:layout_weight="0"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
 
-        <ImageView
-            android:id="@+id/imageView"
+        <GridView
+            android:id="@+id/gridView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -70,6 +68,7 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:onClick="gotoCamera"
             android:text="+" />
 
     </LinearLayout>
