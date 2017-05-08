@@ -113,8 +113,6 @@ public class AddElementActivity extends Activity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.typeItemArray, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
-
-
         //Permet d'insérer les objets dans une listView
         elementSpinner.setAdapter(adapter);
     }
@@ -140,25 +138,16 @@ public class AddElementActivity extends Activity {
      */
     private View.OnClickListener clickListenerValider = new View.OnClickListener(){
         public void onClick(View v){
+
             JSONObject jsonAEnvoyer = new JSONObject();
 
             item = creationObjetJSON(jsonAEnvoyer);
             Toast.makeText(AddElementActivity.this, "Connexion au serveur REST", Toast.LENGTH_SHORT).show();
-            connexionAuServeurREST();
-
+            new postItem().execute();
 
         }
     };
 
-
-    /**
-     * Permet de se connecter au serveur REST
-     */
-    private void connexionAuServeurREST(){
-
-        new postItem().execute();
-
-    }
 
     /**
      * On créé le JSON à envoyer avec la méthode POST

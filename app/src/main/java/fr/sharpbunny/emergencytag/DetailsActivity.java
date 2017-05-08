@@ -59,6 +59,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
     private String commentaire;
     private Double item_Lat;
     private Double item_Lon;
+    private boolean coordsOk = false;
     //int idUser;
     //int idType;
     //Bitmap bitmap;
@@ -89,6 +90,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             commentaire = item.getComment();
             item_Lat = item.getItemLatitude();
             item_Lon = item.getItemLongitude();
+            coordsOk = true;
 
             textNom.setText(item.getComment());
             textCom.setText(item.getDescriptionType());
@@ -112,8 +114,6 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         }
 
 
-        Button mybuttonA = (Button) findViewById(R.id.ajout);
-        mybuttonA.setOnClickListener(gotoCamera);
     }
 
     private View.OnClickListener gotoCamera = new View.OnClickListener() {
@@ -137,11 +137,11 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             // activate zoom ui controls
             mMap.getUiSettings().setZoomControlsEnabled(true);
         }
-
-        LatLng marker = new LatLng(item_Lat, item_Lon);
-        mMap.addMarker(new MarkerOptions().position(marker).title(commentaire));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 20));
-
+        if (coordsOk) {
+            LatLng marker = new LatLng(item_Lat, item_Lon);
+            mMap.addMarker(new MarkerOptions().position(marker).title(commentaire));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 20));
+        }
     }
 
     /*private void envoyerImagePourLAgrandir() {
