@@ -4,4 +4,8 @@
     <string name="retour">Retourner à la liste</string>
     <string name="requestAccess">Demande d\'accès&#8230;</string>
     <string name="accessDenied">Accès refusé</string>
+    <string name="Gologin">Se connecter</string>
+    <string name="action_map">Aller à la carte</string>
+    <string name="action_add">Ajouter un élément</string>
+    <string name="postingItem">Envoi en cours&#8230;</string>
 </resources>

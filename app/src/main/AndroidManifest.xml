@@ -5,24 +5,21 @@
     <permission
         android:name="fr.sharpbunny.emergencytag.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
+    <!-- current location -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-permission android:name="fr.sharpbunny.emergencytag.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera2" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
 
-
-    <!-- current location -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <uses-feature
-        android:name="android.hardware.camera2" />
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -34,6 +31,7 @@
         android:roundIcon="@mipmap/emergency"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!-- api key to access google maps api -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyABKk7I0KlvyYmoYsWbTS8aKrihoxW4uA0" />
@@ -47,18 +45,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InfoListActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".InfoListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity android:name=".CameraActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".MapActivity"
-            android:screenOrientation="portrait" />
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".DetailsActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".AddElementActivity"
+        <activity
+            android:name=".AddElementActivity"
             />
         <activity android:name=".PictureGrowActivity"
             android:screenOrientation="portrait"/>

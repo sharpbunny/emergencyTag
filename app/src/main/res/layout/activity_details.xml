@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/firstpane"
         android:layout_width="fill_parent"
-        android:layout_height="300dp"
+        android:layout_height="400dp"
         android:weightSum="1">
 
         <fragment
@@ -59,15 +59,21 @@
 
         <GridView
             android:id="@+id/gridView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:columnWidth="120dp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center" />
 
         <Button
             android:id="@+id/ajout"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:onClick="gotoCamera"
             android:text="+" />
 
