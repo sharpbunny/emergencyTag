@@ -19,6 +19,22 @@ public class TypeItem implements Parcelable {
         this.idType = idType;
     }
 
+    public String getLabelType() {
+        return labelType;
+    }
+
+    public void setLabelType(String labelType) {
+        this.labelType = labelType;
+    }
+
+    public String getDescriptionType() {
+        return descriptionType;
+    }
+
+    public void setDescriptionType(String descriptionType) {
+        this.descriptionType = descriptionType;
+    }
+
     // implement for parcelable
     @Override
     public int describeContents() {
