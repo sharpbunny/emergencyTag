@@ -37,7 +37,8 @@
             android:layout_height="25dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:text="Nom" />
+            android:text="Nom"
+            />
 
         <TextView
             android:id="@+id/textCom"
@@ -46,7 +47,8 @@
             android:text="Emplacement"
             android:gravity="center"
             android:layout_below="@id/textNom"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            />
 
     </LinearLayout>
 
