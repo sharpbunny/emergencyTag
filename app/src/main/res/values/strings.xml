@@ -5,18 +5,12 @@
     <string name="accessDenied">Access denied</string>
     <string name="LoginUrl"><![CDATA[http://rest.nomadi.fr/user/login]]></string>
     <string name="UploadsUrl"><![CDATA[http://rest.nomadi.fr/uploads]]></string>
+    <string name="FileUploadUrl"><![CDATA[http://rest.nomadi.fr/upload]]></string>
     <string name="ItemUrl"><![CDATA[http://rest.nomadi.fr/item]]></string>
     <string name="TypeUrl"><![CDATA[http://rest.nomadi.fr/type]]></string>
     <string name="postingItem">Sending Item data&#8230;</string>
+    <string name="gettingListItem">Requesting List Item data&#8230;</string>
     <string name="Gologin">Log in</string>
     <string name="action_map">Go to map</string>
     <string name="action_add">Add element</string>
-    <!-- Liste des types des items qui seront contenus dans le spinner de addElementActivity -->
-    <string-array name="typeItemArray">
-        <item>Alarmes</item>
-        <item>Consignes de sécurité</item>
-        <item>Extincteur</item>
-        <item>Plan de sécurité</item>
-        <item>Sortie de secours</item>
-    </string-array>
 </resources>

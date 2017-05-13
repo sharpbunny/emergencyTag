@@ -93,52 +93,50 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data ){
         Intent addElementIntent = new Intent(CameraActivity.this, AddElementActivity.class);
-        final boolean AjouterNouvelElement =  getIntent().getExtras().getBoolean("isNewElement");
-        final boolean AjouterNouvellePhoto = getIntent().getExtras().getBoolean("ajouterNouvellePhoto");
-       Uri uri = Uri.fromFile(file);
+
+        Uri uri = Uri.fromFile(file);
 
         if(requestCode == TAKE_PICTURE){
 
-                    if( AjouterNouvelElement == true){
+            if (getIntent().getExtras().getBoolean("isNewElement")) {
 
-                        try{
-                            b = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                        }
-                        catch(IOException e){
-                            e.printStackTrace();
-                        }
+                try{
+                    b = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                }
+                catch(IOException e){
+                    e.printStackTrace();
+                }
 
-                        ByteArrayOutputStream bs = new ByteArrayOutputStream(); //Tableau d'octets stocké en mémoire
+                ByteArrayOutputStream bs = new ByteArrayOutputStream(); //Tableau d'octets stocké en mémoire
 
-                        // Convert picture into bitmap format.
-                        b.compress(Bitmap.CompressFormat.JPEG, 50, bs);
+                // Convert picture into bitmap format.
+                b.compress(Bitmap.CompressFormat.JPEG, 50, bs);
 
-                        //Sending bytearray in the AddElementActivity.
-                        addElementIntent.putExtra("byteArray", bs.toByteArray());
-                        startActivity(addElementIntent);
-                    }
-                    if(AjouterNouvellePhoto == true){
-                        try{
-                            b = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                        }
-                        catch(IOException e){
-                            e.printStackTrace();
-                        }
+                //Sending bytearray in the AddElementActivity.
+                addElementIntent.putExtra("byteArray", bs.toByteArray());
+                startActivity(addElementIntent);
+                finish();
+            }
 
-                        ByteArrayOutputStream bs = new ByteArrayOutputStream(); //Tableau d'octets stocké en mémoire
+            if (getIntent().getExtras().getBoolean("addPicture")) {
+                try{
+                    b = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                }
+                catch(IOException e){
+                    e.printStackTrace();
+                }
 
-                        // Convert picture into bitmap format.
-                        b.compress(Bitmap.CompressFormat.JPEG, 50, bs);
+                ByteArrayOutputStream bs = new ByteArrayOutputStream(); //Tableau d'octets stocké en mémoire
 
-                        //Sending bytearray in the AddElementActivity.
-                        addElementIntent.putExtra("byteArray", bs.toByteArray());
-                        startActivity(addElementIntent);
-                    }
+                // Convert picture into bitmap format.
+                b.compress(Bitmap.CompressFormat.JPEG, 50, bs);
 
-                    }
+                //Sending bytearray in the AddElementActivity.
+                addElementIntent.putExtra("byteArray", bs.toByteArray());
+                startActivity(addElementIntent);
+                finish();
+            }
+
         }
     }
-
-
-
-
+}

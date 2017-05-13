@@ -50,34 +50,7 @@ public class LoginActivity extends Activity {
             password = "inburnwetrust";
         }
 
-        // accès a l'activity INFO LIST avec login "info"
-        if (ChampLogin.getText().toString().equals("info")) {
-            Intent intent = new Intent(this, InfoListActivity.class);
-            startActivity(intent);
-        }
-
-        // accès a l'activity AddElementActivity avec login "add"
-        else if (ChampLogin.getText().toString().equals("add")){
-            Intent intent = new Intent(this, AddElementActivity.class);
-            startActivity(intent);}
-
-        // accès a l'activity CameraActivity avec login "camera"
-        else if (ChampLogin.getText().toString().equals("camera")){
-            Intent intent = new Intent(this, CameraActivity.class);
-            startActivity(intent);}
-
-        // accès a l'activity DetailsActivity avec login "detail"
-        else if (ChampLogin.getText().toString().equals("detail")){
-            Intent intent = new Intent(this, DetailsActivity.class);
-            startActivity(intent);}
-
-        // accès a l'activity DetailsActivity avec login "picture"
-        else if (ChampLogin.getText().toString().equals("picture")){
-            Intent intent = new Intent(this, PictureGrowActivity.class);
-            startActivity(intent);
-        } else {
-            new GetLogin().execute();
-        }
+        new GetLogin().execute();
     }
 
     /**
