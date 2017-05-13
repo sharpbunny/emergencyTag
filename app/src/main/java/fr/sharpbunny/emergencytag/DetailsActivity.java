@@ -48,7 +48,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
 
     private static final String TAG = DetailsActivity.class.getSimpleName();
 
-    private GoogleMap mMap;
+    //private GoogleMap mMap;
 
     //ProgressDialog progressDialog;
     private String urlPhoto = "";
@@ -56,7 +56,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
     //private StringBuffer response;
 
     //int id;
-    private String commentaire;
+    private String comment;
     private Double item_Lat;
     private Double item_Lon;
     private boolean coordsOk = false;
@@ -81,13 +81,13 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         //new GetServerData().execute();
 
         // check if intent was called with extra
-        if(getIntent().hasExtra("item_extra")) {
+        if (getIntent().hasExtra("item_extra")) {
             Log.d(TAG, "Intent called with Parcelable item extra");
             Item item = (Item) getIntent().getParcelableExtra("item_extra");
             TextView textNom = (TextView) findViewById(R.id.textNom);
             TextView textCom = (TextView) findViewById(R.id.textCom);
 
-            commentaire = item.getComment();
+            comment = item.getComment();
             item_Lat = item.getItemLatitude();
             item_Lon = item.getItemLongitude();
             coordsOk = true;
@@ -119,7 +119,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
     public void gotoCamera(View v) {
 
         Intent intent =new Intent(DetailsActivity.this,CameraActivity.class);
-        intent.putExtra("ajouterNouvellePhoto",true);
+        intent.putExtra("addPicture",true);
         startActivity(intent);
 
     }
@@ -128,18 +128,17 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        mMap = googleMap;
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // activate my location control
-            mMap.setMyLocationEnabled(true);
+            googleMap.setMyLocationEnabled(true);
             // activate zoom ui controls
-            mMap.getUiSettings().setZoomControlsEnabled(true);
+            googleMap.getUiSettings().setZoomControlsEnabled(true);
         }
         if (coordsOk) {
             LatLng marker = new LatLng(item_Lat, item_Lon);
-            mMap.addMarker(new MarkerOptions().position(marker).title(commentaire));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 20));
+            googleMap.addMarker(new MarkerOptions().position(marker).title(comment));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 20));
         }
     }
 

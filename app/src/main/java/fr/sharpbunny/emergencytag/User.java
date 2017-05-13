@@ -7,9 +7,24 @@ import android.os.Parcelable;
  * Class to manage users.
  */
 public class User implements Parcelable {
+    /**
+     * Id of user
+     */
     private int idUser;
+
+    /**
+     * Name of user
+     */
     private String nameUser;
+
+    /**
+     * Firstname of user
+     */
     private String firstnameUser;
+
+    /**
+     * Email of user
+     */
     private String emailUser;
 
     public int getIdUser() {

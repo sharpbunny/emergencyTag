@@ -16,7 +16,14 @@ import java.util.ArrayList;
 public class Item implements Parcelable {
     private static String TAG = Item.class.getSimpleName();
 
+    /**
+     * Item id
+     */
     private int idItem;
+
+    /**
+     * Item comment
+     */
     private String comment;
     private String majItem;
     private Double longitude;
