@@ -1,64 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="fr.sharpbunny.emergencytag.AddElementActivity"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum = "1"
+    >
 
-    <!-- Unique conteneur qui contient tous les éléments de l'activité addElementActivity -->
+    <fragment
+        android:id="@+id/mapView"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        tools:context=".MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        />
+
     <LinearLayout
-        android:id = "@+id/layoutAddElement"
-        android:background="#CCE5FF"
-        android:layout_width = "match_parent"
-        android:layout_height = "match_parent"
-        android:orientation = "horizontal"
-        android:weightSum = "1">
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        >
 
-        <!--Affichage de la photo -->
-        <ImageView
-            android:id="@+id/photoItem"
-            android:background="@android:color/darker_gray"
-            android:src="@drawable/surprise"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1.1"/>
+        <Spinner
+            android:id="@+id/typeSpinner"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/textViewComment"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:orientation="vertical"
-            android:layout_weight="0">
+            android:layout_marginTop="35dp"
+            android:background="@android:color/white"
+            android:hint="Insérer un commentaire..."
+            android:lines="5"
+            android:maxLines="5" />
 
-            <!-- Contient le type des items -->
-            <Spinner
-                android:id="@+id/typeSpinner"
-                android:layout_marginTop="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <!-- Commentaires sur l'item pris en photo -->
-            <EditText
-                android:id="@+id/textViewCommentaires"
-                android:background="@android:color/white"
-                android:hint = "Insérer un commentaire..."
-                android:layout_marginTop="35dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lines = "5"
-                android:maxLines = "5"/>
-
-            <!-- Bouton <Valider> -->
-            <Button
-                android:id = "@+id/validerPhotoButton"
-                android:layout_marginTop="40dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text = "Valider"/>
-
-        </LinearLayout>
-
-
-
-
+        <Button
+            android:id = "@+id/validerPhotoButton"
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text = "Valider"/>
     </LinearLayout>
-
 </LinearLayout>

@@ -31,6 +31,15 @@
         android:roundIcon="@mipmap/emergency"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="fr.sharpbunny.emergencytag.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
         <!-- api key to access google maps api -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -50,8 +59,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             />
-        <activity android:name=".CameraActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".CameraActivity" />
         <activity
             android:name=".MapActivity"
             android:theme="@style/AppTheme.NoActionBar"
@@ -60,9 +68,7 @@
             android:name=".DetailsActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".AddElementActivity"
-            />
+        <activity android:name=".AddElementActivity" />
         <activity android:name=".PictureGrowActivity"
             android:screenOrientation="portrait"/>
 

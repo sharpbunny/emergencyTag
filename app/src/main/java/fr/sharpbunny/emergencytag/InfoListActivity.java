@@ -49,7 +49,7 @@ public class InfoListActivity extends AppCompatActivity {
         addNewElementBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(InfoListActivity.this,DetailsActivity.class);
+                        Intent intent = new Intent(InfoListActivity.this,AddElementActivity.class);
                         intent.putExtra("isNewElement",true);
                         startActivity(intent);
                     }
@@ -78,6 +78,11 @@ public class InfoListActivity extends AppCompatActivity {
         if (id == R.id.action_map) {
             // go to map activity
             Intent intent = new Intent(InfoListActivity.this,MapActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_add) {
+            // go to map activity
+            Intent intent = new Intent(InfoListActivity.this,AddElementActivity.class);
             startActivity(intent);
             return true;
         }

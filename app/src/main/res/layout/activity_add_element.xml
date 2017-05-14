@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="fr.sharpbunny.emergencytag.AddElementActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.sharpbunny.emergencytag.AddElementActivity">
+    android:orientation = "vertical"
+    android:weightSum = "4"
+    >
 
-    <!-- Unique conteneur qui contient tous les éléments de l'activité addElementActivity -->
+    <fragment
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        tools:context=".MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        />
+
     <LinearLayout
-        android:id = "@+id/layoutAddElement"
-        android:background="#CCE5FF"
-        android:layout_width = "match_parent"
-        android:layout_height = "match_parent"
-        android:orientation = "vertical"
-        android:weightSum = "1">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:orientation="vertical"
+        android:layout_weight="2"
+        >
 
-        <!--Affichage de la photo -->
-        <ImageView
-            android:id="@+id/photoItem"
-            android:background="@android:color/darker_gray"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_weight=".75"/>
-
-        <!-- Contient le type des items -->
         <Spinner
             android:id="@+id/typeSpinner"
             android:layout_marginTop="15dp"
@@ -37,9 +39,8 @@
             android:layout_marginTop="15dp"
             android:text = "Commentaire"/>
 
-        <!-- Commentaires sur l'item pris en photo -->
         <EditText
-            android:id="@+id/textViewCommentaires"
+            android:id="@+id/textViewComment"
             android:background="@android:color/white"
             android:focusable="true"
             android:inputType="textMultiLine|textAutoCorrect"
@@ -52,15 +53,13 @@
             android:textColor = "#000000"
             android:visibility = "visible"/>
 
-        <!-- Bouton <Valider> -->
         <Button
-            android:id = "@+id/validerPhotoButton"
-            android:layout_marginTop="30dp"
-            android:layout_width="match_parent"
+            android:id="@+id/validerPhotoButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text = "Valider"/>
-
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:text="Valider" />
 
     </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

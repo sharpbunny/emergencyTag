@@ -1,26 +1,43 @@
 package fr.sharpbunny.emergencytag;
 
+import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -32,69 +49,135 @@ import java.util.ArrayList;
 /**
  * Permet d'ajouter un item à la base de données en inscrivant son type, sa photo et sa description
  */
-public class AddElementActivity extends AppCompatActivity {
+public class AddElementActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
 
     private static final String TAG = AddElementActivity.class.getSimpleName();
+    private static final int ACTIVITY_CAMERA = 1;
     private Spinner spinner;
     private ArrayList<TypeItem> listTypeItem;
+    private Double item_Lat;
+    private Double item_Lon;
+    private boolean coordsOk = false;
+    GoogleApiClient mGoogleApiClient;
+    LocationRequest mLocationRequest;
+    Location mLastLocation;
+    Marker mCurrLocationMarker;
+    private GoogleMap mMap;
 
-    JSONObject jsonObject = new JSONObject();
+    private JSONObject jsonObject = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_add_element);
-        initialisation();
-    }
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            checkLocationPermission();
+        }new getListItem().execute();
 
-    /**
-     * Evenement qui permet d'envoyer vers PictureGrowActivity lorsque l'utilisateur appuie sur la
-     * photo
-     */
-    private View.OnTouchListener agrandirImage = new View.OnTouchListener(){
-        public boolean onTouch(View v, MotionEvent event){
-            // Calling intent
-            Intent pictureGrowIntent = new Intent(AddElementActivity.this, PictureGrowActivity.class);
-            ImageView image = (ImageView)findViewById(R.id.photoItem);
-            BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
-            Bitmap b = drawable.getBitmap();
-
-            //Tableau d'octets stocké en mémoire
-            ByteArrayOutputStream bs = new ByteArrayOutputStream();
-
-            //L'image est compressée puis stockée sous forme d'un tableau de données dans bs
-            b.compress(Bitmap.CompressFormat.JPEG, 50, bs);
-
-            //On envoie le tableau de byte dans l'activité pictureGrowActivity
-            pictureGrowIntent.putExtra("byteArray", bs.toByteArray());
-            startActivity(pictureGrowIntent);
-
-            return true;
-        }
-    };
-
-    /**
-     * Initialise tous les éléments de la page
-     */
-    private void initialisation(){
-
-        //ArrayAdapter: Tableau contenant un item par case
-        new getListItem().execute();
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.mapView);
+        mapFragment.getMapAsync(this);
 
         Button boutonValider = (Button)findViewById(R.id.validerPhotoButton);
         boutonValider.setOnClickListener(clickListenerValider);
+    }
 
-        ImageView photo = (ImageView)findViewById(R.id.photoItem);
-        photo.setOnTouchListener(agrandirImage);
-        if(getIntent().hasExtra("byteArray")){
-            photo = (ImageView)findViewById(R.id.photoItem);
-            Bitmap imageBMP = BitmapFactory.decodeByteArray(
-                    getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("byteArray").length
-            );
-            photo.setImageBitmap(imageBMP);
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        mMap = googleMap;
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+        //Initialize Google Play Services
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                buildGoogleApiClient();
+                mMap.setMyLocationEnabled(true);
+            }
+        }
+        else {
+            buildGoogleApiClient();
+            mMap.setMyLocationEnabled(true);
         }
 
+    }
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    public boolean checkLocationPermission(){
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Asking user if explanation is needed
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+                //Prompt the user once explanation has been shown
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted. Do the
+                    // contacts-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        if (mGoogleApiClient == null) {
+                            buildGoogleApiClient();
+                        }
+                        mMap.setMyLocationEnabled(true);
+                    }
+
+                } else {
+
+                    // Permission denied, Disable the functionality that depends on this permission.
+                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other permissions this app might request.
+            // You can add here other case statements according to your requirement.
+        }
     }
 
     /**
@@ -105,9 +188,8 @@ public class AddElementActivity extends AppCompatActivity {
     private View.OnClickListener clickListenerValider = new View.OnClickListener(){
         public void onClick(View v){
 
+            TextView comment = (TextView)findViewById(R.id.textViewComment);
 
-            TextView comment = (TextView)findViewById(R.id.textViewCommentaires);
-            Log.d(TAG, "ID type: " + spinner.getSelectedItemPosition());
             try {
 
                 jsonObject.put("idUser", 1);
@@ -116,8 +198,8 @@ public class AddElementActivity extends AppCompatActivity {
                 }
 
                 jsonObject.put("majItem", "2016/10/5");
-                jsonObject.put("item_Lat", 43.564772);
-                jsonObject.put("item_Lon", 3.845787);
+                jsonObject.put("item_Lat", item_Lat);
+                jsonObject.put("item_Lon", item_Lon);
                 jsonObject.put("id_Type", listTypeItem.get(spinner.getSelectedItemPosition()).getIdType());
 
             }
@@ -127,10 +209,58 @@ public class AddElementActivity extends AppCompatActivity {
 
             Toast.makeText(AddElementActivity.this, "Connexion au serveur REST", Toast.LENGTH_SHORT).show();
             new postItem().execute();
-
         }
     };
 
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        mLastLocation = location;
+        if (mCurrLocationMarker != null) {
+            mCurrLocationMarker.remove();
+        }
+
+        //Place current location marker
+        item_Lat = location.getLatitude();
+        item_Lon = location.getLongitude();
+        LatLng latLng = new LatLng(item_Lat, item_Lon);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        markerOptions.title("Current Position");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        mCurrLocationMarker = mMap.addMarker(markerOptions);
+
+        //move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+
+        //stop location updates
+        if (mGoogleApiClient != null) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        }
+    }
 
     private class postItem extends AsyncTask<Void, Void, Void> {
 
@@ -159,15 +289,13 @@ public class AddElementActivity extends AppCompatActivity {
                     conn.connect();
 
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                    wr.write(json);  //<--- sending data.
+                    wr.write(json);
 
                     wr.flush();
                     BufferedReader serverAnswer = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     String line;
                     while ((line = serverAnswer.readLine()) != null) {
-
                         Log.i("LINE: ", line); //<--If any response from server
-                        //use it as you need, if server send something back you will get it here.
                     }
 
                     wr.close();
@@ -176,7 +304,6 @@ public class AddElementActivity extends AppCompatActivity {
                 } finally {
                     conn.disconnect();
                 }
-
             }
 
             catch(IOException e){
@@ -184,7 +311,6 @@ public class AddElementActivity extends AppCompatActivity {
             }
             return null;
         }
-
     }
 
     private class getListItem extends AsyncTask<Void, Void, Void> {
@@ -199,7 +325,6 @@ public class AddElementActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             String url = getResources().getString(R.string.TypeUrl);
             listTypeItem = TypeItem.getListFromRest(url);
-
             return null;
         }
 
@@ -209,9 +334,23 @@ public class AddElementActivity extends AppCompatActivity {
 
             TypeItemAdapter adapter = new TypeItemAdapter(AddElementActivity.this, android.R.layout.simple_spinner_item, listTypeItem);
 
-            spinner =  (Spinner) findViewById(R.id.typeSpinner);
+            spinner = (Spinner) findViewById(R.id.typeSpinner);
             spinner.setAdapter(adapter);
 
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (ACTIVITY_CAMERA) : {
+                if (resultCode == CameraActivity.RESULT_OK) {
+                    // TODO Extract the data returned from the child Activity.
+                    String returnValue = data.getStringExtra("filename");
+                }
+                break;
+            }
         }
     }
 }

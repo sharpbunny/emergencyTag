@@ -45,13 +45,9 @@ public class GridAdapter extends BaseAdapter {
             // get layout from grid_element.xml
             gridView = inflater.inflate(R.layout.grid_element, null);
 
-            // set value into textview
-            //TextView textView = (TextView) gridView
-            //        .findViewById(R.id.grid_item_label);
-            //textView.setText(mDataSource.get(position).getPictureUrl());
-            // set image based on selected text
             ImageView imageView = (ImageView) gridView
                     .findViewById(R.id.grid_item_image);
+
             // Use Picasso to load the image. Temporarily have a placeholder in case it's slow to load
             try {
                 String url = mDataSource.get(position).getThumbnailUrl();

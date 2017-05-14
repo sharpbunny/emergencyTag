@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import com.squareup.picasso.Picasso;
-import android.graphics.Typeface;
 
 
 /**

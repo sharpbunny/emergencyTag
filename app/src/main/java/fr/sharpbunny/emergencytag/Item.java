@@ -25,7 +25,15 @@ public class Item implements Parcelable {
      * Item comment
      */
     private String comment;
+
+    /**
+     * Date of update.
+     */
     private String majItem;
+
+    /**
+     * Longitude
+     */
     private Double longitude;
     private Double latitude;
     private int idUser;
