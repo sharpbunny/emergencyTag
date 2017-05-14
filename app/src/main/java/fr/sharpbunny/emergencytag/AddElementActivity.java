@@ -47,7 +47,7 @@ import java.util.ArrayList;
 
 
 /**
- * Permet d'ajouter un item à la base de données en inscrivant son type, sa photo et sa description
+ * Class to handle create item activity.
  */
 public class AddElementActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -55,7 +55,8 @@ public class AddElementActivity extends FragmentActivity implements OnMapReadyCa
         LocationListener {
 
     private static final String TAG = AddElementActivity.class.getSimpleName();
-    private static final int ACTIVITY_CAMERA = 1;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
     private Spinner spinner;
     private ArrayList<TypeItem> listTypeItem;
     private Double item_Lat;
@@ -115,7 +116,7 @@ public class AddElementActivity extends FragmentActivity implements OnMapReadyCa
                 .build();
         mGoogleApiClient.connect();
     }
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
     public boolean checkLocationPermission(){
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -181,9 +182,7 @@ public class AddElementActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     /**
-     * Evenement : click sur le bouton Valider
-     * Permet d'enregistrer la photo, le type de l'élement pris en photo et le
-     * commentaire associé dans la base de données
+     * Validate item creation
      */
     private View.OnClickListener clickListenerValider = new View.OnClickListener(){
         public void onClick(View v){
@@ -191,7 +190,6 @@ public class AddElementActivity extends FragmentActivity implements OnMapReadyCa
             TextView comment = (TextView)findViewById(R.id.textViewComment);
 
             try {
-
                 jsonObject.put("idUser", 1);
                 if (comment.getText() != null) {
                     jsonObject.put("commentaire", comment.getText().toString());
@@ -201,7 +199,6 @@ public class AddElementActivity extends FragmentActivity implements OnMapReadyCa
                 jsonObject.put("item_Lat", item_Lat);
                 jsonObject.put("item_Lon", item_Lon);
                 jsonObject.put("id_Type", listTypeItem.get(spinner.getSelectedItemPosition()).getIdType());
-
             }
             catch (JSONException e) {
                 e.printStackTrace();
@@ -313,6 +310,9 @@ public class AddElementActivity extends FragmentActivity implements OnMapReadyCa
         }
     }
 
+    /**
+     * Get list of items to fill spinner adapter.
+     */
     private class getListItem extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -337,20 +337,6 @@ public class AddElementActivity extends FragmentActivity implements OnMapReadyCa
             spinner = (Spinner) findViewById(R.id.typeSpinner);
             spinner.setAdapter(adapter);
 
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case (ACTIVITY_CAMERA) : {
-                if (resultCode == CameraActivity.RESULT_OK) {
-                    // TODO Extract the data returned from the child Activity.
-                    String returnValue = data.getStringExtra("filename");
-                }
-                break;
-            }
         }
     }
 }

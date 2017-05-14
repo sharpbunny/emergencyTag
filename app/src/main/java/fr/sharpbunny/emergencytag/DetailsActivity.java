@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class DetailsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String TAG = DetailsActivity.class.getSimpleName();
+    private static final int ACTIVITY_CAMERA = 1;
 
     private String comment;
     private Double item_Lat;
@@ -94,6 +95,20 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             LatLng marker = new LatLng(item_Lat, item_Lon);
             googleMap.addMarker(new MarkerOptions().position(marker).title(comment));
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 18));
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (ACTIVITY_CAMERA) : {
+                if (resultCode == CameraActivity.RESULT_OK) {
+                    // TODO Extract the data returned from the child Activity.
+                    String returnValue = data.getStringExtra("filename");
+                }
+                break;
+            }
         }
     }
 }
