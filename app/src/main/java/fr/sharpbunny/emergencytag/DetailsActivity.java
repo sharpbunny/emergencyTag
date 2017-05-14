@@ -24,6 +24,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
     private static final String TAG = DetailsActivity.class.getSimpleName();
     private static final int ACTIVITY_CAMERA = 1;
 
+    private int idItem;
     private String comment;
     private Double item_Lat;
     private Double item_Lon;
@@ -45,6 +46,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             TextView textNom = (TextView) findViewById(R.id.textNom);
             TextView textCom = (TextView) findViewById(R.id.textCom);
 
+            idItem = item.getIdItem();
             comment = item.getComment();
             item_Lat = item.getItemLatitude();
             item_Lon = item.getItemLongitude();
@@ -75,7 +77,8 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
     public void gotoCamera(View v) {
 
         Intent intent =new Intent(DetailsActivity.this,CameraActivity.class);
-        intent.putExtra("addPicture",true);
+        Log.d(TAG, "Call camera activity for item id: "+ idItem);
+        intent.putExtra("idItem", idItem);
         startActivity(intent);
 
     }

@@ -9,6 +9,9 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -21,6 +24,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import static android.content.ContentValues.TAG;
 
@@ -96,6 +100,20 @@ public class CameraHandler implements PictureCallback{
             try {
                 Log.i(TAG, "start upload");
                 put(context.getResources().getString(R.string.FileUploadUrl), pictureFile, null, null);
+                Log.i(TAG, "register picture in db");
+                HttpHandler sh = new HttpHandler();
+                // Making a request to url and getting response
+                // take url for photo in resource string file
+                String url = context.getResources().getString(R.string.PhotoUrl);
+                HashMap<String, String> params = new HashMap<>();
+                params.put("datePhoto", "2017/05/05");
+                params.put("adressUrlPhoto", pictureFile.getName());
+                params.put("idItem", "2");
+                params.put("idUser", "1");
+                String jsonStr = sh.makeServiceCall(url, "POST", params);
+
+                Log.i(TAG, "Response from url: " + jsonStr);
+
             } catch (Exception e) {
                 Log.e(TAG, "file error");
             }

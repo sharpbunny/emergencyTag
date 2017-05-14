@@ -6,6 +6,7 @@
     <string name="LoginUrl"><![CDATA[http://rest.nomadi.fr/user/login]]></string>
     <string name="UploadsUrl"><![CDATA[http://rest.nomadi.fr/uploads]]></string>
     <string name="FileUploadUrl"><![CDATA[http://rest.nomadi.fr/upload]]></string>
+    <string name="PhotoUrl"><![CDATA[http://rest.nomadi.fr/photo]]></string>
     <string name="ItemUrl"><![CDATA[http://rest.nomadi.fr/item]]></string>
     <string name="TypeUrl"><![CDATA[http://rest.nomadi.fr/type]]></string>
     <string name="postingItem">Sending Item data&#8230;</string>
