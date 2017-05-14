@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Class to handle Types items adapter
+ * Class to handle Types items adapter.
  */
 public class TypeItemAdapter extends ArrayAdapter<TypeItem>{
     /**
@@ -39,7 +39,6 @@ public class TypeItemAdapter extends ArrayAdapter<TypeItem>{
     }
 
     public long getItemId(int position){
-        Log.d(TAG, "item position: "+ values.get(position).getIdType());
         return values.get(position).getIdType();
     }
 

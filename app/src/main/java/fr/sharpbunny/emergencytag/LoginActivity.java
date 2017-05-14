@@ -1,9 +1,9 @@
 package fr.sharpbunny.emergencytag;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -14,8 +14,10 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-
-public class LoginActivity extends Activity {
+/**
+ * Class to handle login activity.
+ */
+public class LoginActivity extends AppCompatActivity {
     /**
      * TAG is used in log to identify origin of log
      */
@@ -23,12 +25,17 @@ public class LoginActivity extends Activity {
 
     private String login = "";
     private String password = "";
+    private EditText ChampLogin;
+    private EditText ChampPassword;
     private boolean connected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ChampLogin = (EditText) findViewById(R.id.ChampLogin);
+        ChampPassword = (EditText) findViewById(R.id.ChampPassword);
     }
 
 
@@ -38,9 +45,6 @@ public class LoginActivity extends Activity {
      */
     public void Login(View v) {
 
-        EditText ChampLogin = (EditText) findViewById(R.id.ChampLogin);
-        EditText ChampPassword = (EditText) findViewById(R.id.ChampPassword);
-
         login = ChampLogin.getText().toString();
         password = ChampPassword.getText().toString();
 
@@ -49,7 +53,6 @@ public class LoginActivity extends Activity {
             login = "sam@soung.ue";
             password = "inburnwetrust";
         }
-
         new GetLogin().execute();
     }
 
@@ -96,7 +99,6 @@ public class LoginActivity extends Activity {
                                     Toast.LENGTH_LONG).show();
                         }
                     });
-
                 }
 
             } else {
@@ -110,7 +112,6 @@ public class LoginActivity extends Activity {
                     }
                 });
             }
-
             return null;
         }
 
