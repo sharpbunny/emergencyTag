@@ -16,6 +16,7 @@ public class CameraActivity extends AppCompatActivity {
      */
     public static final String TAG = CameraActivity.class.getSimpleName();
 
+    private int idItem;
     private Camera camera;
     private CameraPreview mPreview;
 
@@ -24,6 +25,11 @@ public class CameraActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        if (getIntent().hasExtra("idItem")) {
+            idItem = getIntent().getIntExtra("idItem", -1);
+            Log.d(TAG, "IdItem: " + idItem);
+        }
+
         // Create an instance of Camera
         camera = getCameraInstance();
 
