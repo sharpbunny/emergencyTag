@@ -40,6 +40,7 @@ public class CameraActivity extends AppCompatActivity {
         camera.startPreview();
         camera.takePicture(null, null,
                 new CameraHandler(getApplicationContext()));
+        Log.d(TAG, "");
     }
 
     @Override
@@ -61,6 +62,7 @@ public class CameraActivity extends AppCompatActivity {
         }
         return c; // returns null if camera is unavailable
     }
+
     @Override
     public void onBackPressed() {
         // super.onBackPressed();
